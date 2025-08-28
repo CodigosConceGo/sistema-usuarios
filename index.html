@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sistema de Usuarios Multi-ciudad</title>
+    <meta charset="UTF-8">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group { 
+            margin: 15px 0; 
+        }
+        input, button { 
+            padding: 10px; 
+            margin: 5px; 
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 12px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #007bff; 
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .hidden {
+            display: none;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Sistema de Usuarios Multi-Ciudad</h1>
+
+        <!-- Sección de Login -->
+        <div id="loginSection">
+            <h2>🔐 Identificarse</h2>
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="Tu nombre de usuario" style="padding: 12px; width: 300px;">
+                <button onclick="login()" style="padding: 12px 20px;">Ingresar al Sistema</button>
+            </div>
+        </div>
+
+        <!-- Sección Principal -->
+        <div id="mainSection" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>👋 Hola, <span id="currentUser" style="color: #007bff;"></span></h2>
+                <button onclick="logout()" style="background: #dc3545;">🚪 Cerrar Sesión</button>
+            </div>
+
+            <!-- Formulario para agregar usuarios -->
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3>➕ Agregar Nuevo Usuario</h3>
+                <div class="form-group">
+                    <input type="text" id="nickInput" placeholder="Nick del usuario" style="width: 200px;">
+                    <input type="text" id="codeInput" placeholder="Código" style="width: 200px;">
+                    <button onclick="addUser()">✅ Agregar Usuario</button>
+                </div>
+                <div id="message" class="message"></div>
+            </div>
+
+            <!-- Tabla de usuarios -->
+            <h3>📋 Usuarios Registrados</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nick</th>
+                            <th>Código</th>
+                            <th>Creado por</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr>
+                            <td colspan="5" style="text-align: center;">Cargando usuarios...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Contador total -->
+            <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 5px;">
+                <h3>📈 Total de usuarios registrados: <span id="totalUsers">0</span></h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL de tu Apps Script - REEMPLAZA ESTO CON TU URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZnH9drqncFOerRbTnm2F1Hs35kXvXeT-2PxNYrY_Z1tc5JHsu8gbDqqzecIghAAmHUQ/exec';
+        
+        let currentUser = '';
+        let users = [];
+
+        // Inicializar la aplicación
+        function init() {
+            checkLogin();
+            loadUsers();
+        }
+
+        // Verificar si ya está logueado
+        function checkLogin() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                loginUser(savedUser);
+            }
+        }
+
+        // Función de login
+        function login() {
+            const userName = document.getElementById('userName').value.trim();
+            if (userName) {
+                loginUser(userName);
+                localStorage.setItem('currentUser', userName);
+            } else {
+                showMessage('Por favor ingresa tu nombre de usuario', 'error');
+            }
+        }
+
+        function loginUser(userName) {
+            currentUser = userName;
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('mainSection').classList.remove('hidden');
+            loadUsers();
+        }
+
+        // Función de logout
+        function logout() {
+            currentUser = '';
+            localStorage.removeItem('currentUser');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('mainSection').classList.add('hidden');
+            document.getElementById('userName').value = '';
+        }
+
+        // Cargar usuarios desde Apps Script
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    users = data.users || [];
+                    renderUsersTable();
+                }
+            } catch (error) {
+                console.error('Error al cargar usuarios:', error);
+                showMessage('Error de conexión. Verifica la URL de Apps Script.', 'error');
+            }
+        }
+
+        // Renderizar la tabla de usuarios
+        function renderUsersTable() {
+            const tableBody = document.getElementById('usersTable');
+            const totalUsers = document.getElementById('totalUsers');
+            
+            if (users.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay usuarios registrados</td></tr>';
+                totalUsers.textContent = '0';
+                return;
+            }
+
+            let tableHTML = '';
+            users.forEach(user => {
+                const canEdit = user.CreadoPor === currentUser;
+                
+                tableHTML += `
+                    <tr>
+                        <td>${user.Numero || '-'}</td>
+                        <td>${user.Nick || '-'}</td>
+                        <td>${user.Codigo || '-'}</td>
+                        <td>${user.CreadoPor || '-'}</td>
+                        <td>
+                            ${canEdit ? 
+                                `<button onclick="editUser('${user.Nick}')" style="background: #28a745; padding: 5px 10px; margin: 2px;">✏️ Editar</button>
+                                 <button onclick="deleteUser('${user.Nick}')" style="background: #dc3545; padding: 5px 10px; margin: 2px;">🗑️ Eliminar</button>` : 
+                                '<span style="color: #6c757d;">Solo lectura</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = tableHTML;
+            totalUsers.textContent = users.length;
+        }
+
+        // Agregar nuevo usuario
+        async function addUser() {
+            const nick = document.getElementById('nickInput').value.trim();
+            const code = document.getElementById('codeInput').value.trim();
+            
+            if (!nick || !code) {
+                showMessage('Por favor completa todos los campos', 'error');
+                return;
+            }
+
+            if (!currentUser) {
+                showMessage('Debes iniciar sesión primero', 'error');
+                return;
+            }
+
+            try {
+                const url = `${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(code)}&creator=${encodeURIComponent(currentUser)}`;
+                const response = await fetch(url, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('✅ Usuario agregado correctamente', 'success');
+                    document.getElementById('nickInput').value = '';
+                    document.getElementById('codeInput').value = '';
+                    loadUsers();
+                } else {
+                    showMessage('❌ Error: ' + (data.error || 'Error desconocido'), 'error');
+                }
+            } catch (error) {
+                console.error('Error al agregar usuario:', error);
+                showMessage('❌ Error de conexión', 'error');
+            }
+        }
+
+        // Editar usuario (ejemplo básico)
+        function editUser(nick) {
+            const user = users.find(u => u.Nick === nick);
+            if (user) {
+                const newCode = prompt(`Editar código para ${nick}:`, user.Codigo);
+                if (newCode !== null) {
+                    // Aquí implementarías la función de edición
+                    showMessage('Función de edición en desarrollo', 'success');
+                }
+            }
+        }
+
+        // Eliminar usuario (ejemplo básico)
+        function deleteUser(nick) {
+            if (confirm(`¿Estás seguro de que quieres eliminar a ${nick}?`)) {
+                // Aquí implementarías la función de eliminación
+                showMessage('Función de eliminación en desarrollo', 'success');
+            }
+        }
+
+        // Mostrar mensajes
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = 'message';
+            }, 3000);
+        }
+
+        // Iniciar la aplicación
+        window.onload = init;
+
+        // Actualizar automáticamente cada 30 segundos
+        setInterval(loadUsers, 30000);
+    </script>
+</body>
+</html>
