@@ -332,21 +332,71 @@
             }
         }
 
-        function editUser(nick) {
-            const user = users.find(u => u.Nick === nick);
-            if (user) {
-                const newCode = prompt(`Editar código para ${nick}:`, user.Codigo);
-                if (newCode !== null) {
-                    showMessage('Función de edición en desarrollo', 'success');
-                }
-            }
+// Función para eliminar usuario (REAL)
+async function deleteUser(nick) {
+    if (!confirm(`¿Estás seguro de que quieres eliminar a ${nick}?`)) {
+        return;
+    }
+
+    try {
+        const url = `${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(nick)}&creator=${encodeURIComponent(currentUser)}`;
+        const response = await fetch(url, { method: 'POST' });
+        const data = await response.json();
+        
+        if (data.success) {
+            showMessage('✅ Usuario eliminado correctamente', 'success');
+            loadUsers(); // Recargar la tabla
+            loadPublicUsers(); // Actualizar vista pública
+        } else {
+            showMessage('❌ Error: ' + (data.error || 'No tienes permisos para eliminar este usuario'), 'error');
+        }
+    } catch (error) {
+        console.error('Error al eliminar usuario:', error);
+        showMessage('❌ Error de conexión', 'error');
+    }
+}
+
+// Función para editar usuario (REAL)
+async function editUser(nick) {
+    const user = users.find(u => u.Nick === nick);
+    if (!user) return;
+
+    if (user.CreadoPor !== currentUser) {
+        showMessage('❌ Solo puedes editar tus propios usuarios', 'error');
+        return;
+    }
+
+    const newCode = prompt(`Editar código para ${nick}:`, user.Codigo);
+    if (newCode === null) return; // Usuario canceló
+
+    try {
+        // Primero eliminamos el usuario viejo
+        const deleteUrl = `${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(nick)}&creator=${encodeURIComponent(currentUser)}`;
+        const deleteResponse = await fetch(deleteUrl, { method: 'POST' });
+        const deleteData = await deleteResponse.json();
+
+        if (!deleteData.success) {
+            showMessage('❌ Error al editar: ' + deleteData.error, 'error');
+            return;
         }
 
-        function deleteUser(nick) {
-            if (confirm(`¿Estás seguro de que quieres eliminar a ${nick}?`)) {
-                showMessage('Función de eliminación en desarrollo', 'success');
-            }
+        // Luego agregamos el usuario con el nuevo código
+        const addUrl = `${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(newCode)}&creator=${encodeURIComponent(currentUser)}`;
+        const addResponse = await fetch(addUrl, { method: 'POST' });
+        const addData = await addResponse.json();
+
+        if (addData.success) {
+            showMessage('✅ Usuario editado correctamente', 'success');
+            loadUsers(); // Recargar la tabla
+            loadPublicUsers(); // Actualizar vista pública
+        } else {
+            showMessage('❌ Error al guardar cambios: ' + addData.error, 'error');
         }
+    } catch (error) {
+        console.error('Error al editar usuario:', error);
+        showMessage('❌ Error de conexión', 'error');
+    }
+}
 
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
