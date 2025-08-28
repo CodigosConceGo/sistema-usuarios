@@ -68,6 +68,10 @@
             background: #f8d7da;
             color: #721c24;
         }
+        .view-only {
+            opacity: 0.8;
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 <body>
@@ -76,14 +80,42 @@
 
         <!-- Sección de Login -->
         <div id="loginSection">
-            <h2>🔐 Identifíquese por favor (ej: Juan/Paula)</h2>
+            <h2>🔐 Identificarse para gestionar usuarios</h2>
             <div class="form-group">
                 <input type="text" id="userName" placeholder="Tu nombre de usuario" style="padding: 12px; width: 300px;">
                 <button onclick="login()" style="padding: 12px 20px;">Ingresar al Sistema</button>
             </div>
+
+            <!-- Tabla de usuarios visible para todos -->
+            <div style="margin-top: 30px;">
+                <h3>👥 Usuarios Registrados (Solo lectura)</h3>
+                <div style="background: #e9ecef; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <p>🔒 <strong>Para agregar o modificar usuarios, identifícate arriba</strong></p>
+                    <p>📈 <strong>Total de usuarios:</strong> <span id="publicTotalUsers">0</span></p>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table class="view-only">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nick</th>
+                                <th>Código</th>
+                                <th>Creado por</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="publicUsersTable">
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Cargando usuarios...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <!-- Sección Principal -->
+        <!-- Sección Principal (solo para usuarios logueados) -->
         <div id="mainSection" class="hidden">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h2>👋 Hola, <span id="currentUser" style="color: #007bff;"></span></h2>
@@ -101,8 +133,8 @@
                 <div id="message" class="message"></div>
             </div>
 
-            <!-- Tabla de usuarios -->
-            <h3>📋 Usuarios Registrados</h3>
+            <!-- Tabla de usuarios con acciones -->
+            <h3>📋 Gestión de Usuarios</h3>
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
@@ -130,18 +162,17 @@
     </div>
 
     <script>
-        // URL de tu Apps Script - REEMPLAZA ESTO CON TU URL
+        // ⚠️ REEMPLAZA ESTA URL CON LA DE TU APPS SCRIPT ⚠️
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9uzbACKyOTR9zL4JzsVth1EeeLFvFTKAX1-X9tyRYkRzAoFcKNWPSNr-idpJQ3LbqYQ/exec';
+        
         let currentUser = '';
         let users = [];
 
-        // Inicializar la aplicación
         function init() {
             checkLogin();
-            loadUsers();
+            loadPublicUsers(); // Cargar usuarios públicos al iniciar
         }
 
-        // Verificar si ya está logueado
         function checkLogin() {
             const savedUser = localStorage.getItem('currentUser');
             if (savedUser) {
@@ -149,7 +180,6 @@
             }
         }
 
-        // Función de login
         function login() {
             const userName = document.getElementById('userName').value.trim();
             if (userName) {
@@ -168,16 +198,60 @@
             loadUsers();
         }
 
-        // Función de logout
         function logout() {
             currentUser = '';
             localStorage.removeItem('currentUser');
             document.getElementById('loginSection').classList.remove('hidden');
             document.getElementById('mainSection').classList.add('hidden');
             document.getElementById('userName').value = '';
+            loadPublicUsers(); // Recargar vista pública al cerrar sesión
         }
 
-        // Cargar usuarios desde Apps Script
+        // Cargar usuarios para vista pública (sin login)
+        async function loadPublicUsers() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderPublicUsersTable(data.users || []);
+                }
+            } catch (error) {
+                console.error('Error al cargar usuarios públicos:', error);
+                document.getElementById('publicUsersTable').innerHTML = 
+                    '<tr><td colspan="5" style="text-align: center; color: red;">Error al cargar usuarios</td></tr>';
+            }
+        }
+
+        // Renderizar tabla pública de usuarios
+        function renderPublicUsersTable(usersData) {
+            const tableBody = document.getElementById('publicUsersTable');
+            const totalSpan = document.getElementById('publicTotalUsers');
+            
+            if (usersData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay usuarios registrados aún</td></tr>';
+                totalSpan.textContent = '0';
+                return;
+            }
+
+            let tableHTML = '';
+            usersData.forEach(user => {
+                tableHTML += `
+                    <tr>
+                        <td>${user.Numero || '-'}</td>
+                        <td>${user.Nick || '-'}</td>
+                        <td>${user.Codigo || '-'}</td>
+                        <td>${user.CreadoPor || '-'}</td>
+                        <td><span style="color: #6c757d;">🔒 Solo lectura</span></td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = tableHTML;
+            totalSpan.textContent = usersData.length;
+        }
+
+        // Cargar usuarios para usuarios logueados
         async function loadUsers() {
             try {
                 const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
@@ -189,11 +263,11 @@
                 }
             } catch (error) {
                 console.error('Error al cargar usuarios:', error);
-                showMessage('Error de conexión. Verifica la URL de Apps Script.', 'error');
+                showMessage('Error de conexión', 'error');
             }
         }
 
-        // Renderizar la tabla de usuarios
+        // Renderizar tabla para usuarios logueados
         function renderUsersTable() {
             const tableBody = document.getElementById('usersTable');
             const totalUsers = document.getElementById('totalUsers');
@@ -229,18 +303,12 @@
             totalUsers.textContent = users.length;
         }
 
-        // Agregar nuevo usuario
         async function addUser() {
             const nick = document.getElementById('nickInput').value.trim();
             const code = document.getElementById('codeInput').value.trim();
             
             if (!nick || !code) {
                 showMessage('Por favor completa todos los campos', 'error');
-                return;
-            }
-
-            if (!currentUser) {
-                showMessage('Debes iniciar sesión primero', 'error');
                 return;
             }
 
@@ -254,6 +322,7 @@
                     document.getElementById('nickInput').value = '';
                     document.getElementById('codeInput').value = '';
                     loadUsers();
+                    loadPublicUsers(); // Actualizar también la vista pública
                 } else {
                     showMessage('❌ Error: ' + (data.error || 'Error desconocido'), 'error');
                 }
@@ -263,27 +332,22 @@
             }
         }
 
-        // Editar usuario (ejemplo básico)
         function editUser(nick) {
             const user = users.find(u => u.Nick === nick);
             if (user) {
                 const newCode = prompt(`Editar código para ${nick}:`, user.Codigo);
                 if (newCode !== null) {
-                    // Aquí implementarías la función de edición
                     showMessage('Función de edición en desarrollo', 'success');
                 }
             }
         }
 
-        // Eliminar usuario (ejemplo básico)
         function deleteUser(nick) {
             if (confirm(`¿Estás seguro de que quieres eliminar a ${nick}?`)) {
-                // Aquí implementarías la función de eliminación
                 showMessage('Función de eliminación en desarrollo', 'success');
             }
         }
 
-        // Mostrar mensajes
         function showMessage(text, type) {
             const messageDiv = document.getElementById('message');
             messageDiv.textContent = text;
@@ -298,7 +362,12 @@
         window.onload = init;
 
         // Actualizar automáticamente cada 30 segundos
-        setInterval(loadUsers, 30000);
+        setInterval(() => {
+            if (currentUser) {
+                loadUsers();
+            }
+            loadPublicUsers();
+        }, 30000);
     </script>
 </body>
 </html>
