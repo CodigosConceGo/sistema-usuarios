@@ -439,3 +439,20 @@
             const a = document.createElement("a");
             a.href = url;
             a.download = "Entrenadores.txt";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // --- Mensajes ---
+        function showMessage(msg, type) {
+            const div = document.getElementById('message');
+            div.textContent = msg;
+            div.className = `message ${type}`;
+            setTimeout(() => { div.textContent = ''; div.className = 'message'; }, 3000);
+        }
+
+        window.onload = init;
+        setInterval(loadPublicUsers, 30000);
+    </script>
+</body>
+</html>
