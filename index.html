@@ -92,6 +92,12 @@
         }
         .success { background: #d4edda; color: #155724; }
         .error { background: #f8d7da; color: #721c24; }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -186,18 +192,30 @@
         </div>
     </div>
 
-    <!-- Script JS (igual al anterior con deleteUser funcionando) -->
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         let currentUser = '';
         let users = [];
         let allPublicUsers = [];
 
+        // --- Utilidades de normalización ---
+        function normalizeStr(v) {
+          return (v ?? '')
+            .toString()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase()
+            .trim();
+        }
+        function normalizeCode(v) {
+          return normalizeStr(v).replace(/[\s-]/g, '');
+        }
+
+        // --- Inicio ---
         function init() {
             checkLogin();
             loadPublicUsers();
         }
-
         function checkLogin() {
             const savedUser = localStorage.getItem('currentUser');
             if (savedUser) loginUser(savedUser);
@@ -212,7 +230,6 @@
                 showMessage('⚠️ Ingresa tu nombre de entrenador', 'error');
             }
         }
-
         function loginUser(userName) {
             currentUser = userName;
             document.getElementById('currentUser').textContent = currentUser;
@@ -220,7 +237,6 @@
             document.getElementById('mainSection').classList.remove('hidden');
             loadUsers();
         }
-
         function logout() {
             currentUser = '';
             localStorage.removeItem('currentUser');
@@ -230,6 +246,7 @@
             loadPublicUsers();
         }
 
+        // --- CRUD Usuarios ---
         async function loadUsers() {
             const res = await fetch(`${SCRIPT_URL}?action=getUsers`);
             const data = await res.json();
@@ -238,7 +255,6 @@
                 renderUsersTable();
             }
         }
-
         async function addUser() {
             const nick = document.getElementById('nickInput').value.trim();
             const code = document.getElementById('codeInput').value.trim();
@@ -259,7 +275,6 @@
                 showMessage('❌ ' + data.error, 'error');
             }
         }
-
         async function deleteUser(nick) {
             if (!confirm(`¿Eliminar a ${nick}?`)) return;
             const url = `${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(nick)}&creator=${encodeURIComponent(currentUser)}`;
@@ -273,7 +288,6 @@
                 showMessage('❌ ' + data.error, 'error');
             }
         }
-
         function renderUsersTable() {
             const tableBody = document.getElementById('usersTable');
             const totalUsers = document.getElementById('totalUsers');
@@ -297,46 +311,74 @@
             totalUsers.textContent = users.length;
         }
 
+        // --- Público ---
         async function loadPublicUsers() {
-            const res = await fetch(`${SCRIPT_URL}?action=getUsers&ts=${Date.now()}`);
-            const data = await res.json();
-            if (data.success) {
-                allPublicUsers = data.users || [];
+            try {
+              const res = await fetch(`${SCRIPT_URL}?action=getUsers&ts=${Date.now()}`);
+              const data = await res.json();
+              if (data.success) {
+                allPublicUsers = (data.users || []).map(u => ({
+                  Nick: (u.Nick ?? '').toString().trim(),
+                  Codigo: (u.Codigo ?? '').toString().trim(),
+                  CreadoPor: (u.CreadoPor ?? '').toString().trim(),
+                  Numero: u.Numero ?? '',
+                  Timestamp: u.Timestamp ?? ''
+                }));
                 renderPublicUsersTable(allPublicUsers);
+              }
+            } catch (err) {
+              document.getElementById('publicUsersTable').innerHTML =
+                `<tr><td colspan="3" style="color:red;">Error: ${err.message}</td></tr>`;
             }
         }
-
         function searchPublicUsers() {
-            const term = document.getElementById('publicSearchInput').value.toLowerCase();
-            const filtered = allPublicUsers.filter(u => 
-                (u.Nick || '').toLowerCase().includes(term) || 
-                (u.Codigo || '').toLowerCase().includes(term)
-            );
-            renderPublicUsersTable(filtered);
+            const termRaw = document.getElementById('publicSearchInput').value;
+            const termNick = normalizeStr(termRaw);
+            const termCode = normalizeCode(termRaw);
+            if (!termNick) {
+                renderPublicUsersTable(allPublicUsers);
+                return;
+            }
+            const filtered = allPublicUsers
+              .filter(u => {
+                const nNick = normalizeStr(u.Nick);
+                const nCode = normalizeCode(u.Codigo);
+                return nNick.includes(termNick) || nCode.includes(termCode);
+              })
+              .sort((a, b) => {
+                const aStarts = normalizeStr(a.Nick).startsWith(termNick) ? 0 : 1;
+                const bStarts = normalizeStr(b.Nick).startsWith(termNick) ? 0 : 1;
+                return aStarts - bStarts;
+              });
+            renderPublicUsersTable(filtered, termRaw);
         }
-
         function clearSearch() {
             document.getElementById('publicSearchInput').value = '';
             renderPublicUsersTable(allPublicUsers);
         }
-
-        function renderPublicUsersTable(data) {
+        function renderPublicUsersTable(data, highlightTerm = '') {
             const body = document.getElementById('publicUsersTable');
             document.getElementById('publicTotal').textContent = allPublicUsers.length;
             document.getElementById('publicShowing').textContent = data.length;
-            if (data.length === 0) {
-                body.innerHTML = `<tr><td colspan="3">No se encontraron</td></tr>`;
+            if (!data.length) {
+                body.innerHTML = `<tr><td colspan="3" style="text-align:center;">
+                  ${highlightTerm ? `No se encontraron resultados para "<strong>${highlightTerm}</strong>"` : 'No hay entrenador@s registrados'}
+                </td></tr>`;
                 return;
             }
+            const esc = highlightTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const re = new RegExp(`(${esc})`, 'gi');
+            const highlightText = (t) => t.replace(re, '<span class="highlight">$1</span>');
             body.innerHTML = data.map(u => `
                 <tr>
-                    <td>${u.Nick}</td>
-                    <td>${u.Codigo}</td>
+                    <td>${highlightTerm ? highlightText(u.Nick || '-') : u.Nick}</td>
+                    <td>${highlightTerm ? highlightText(u.Codigo || '-') : u.Codigo}</td>
                     <td>🔒</td>
                 </tr>
             `).join('');
         }
 
+        // --- Exportar ---
         function exportToTXT() {
             if (allPublicUsers.length === 0) return;
             let txt = "LISTA DE ENTRENADOR@S\n=================\n";
@@ -352,6 +394,7 @@
             URL.revokeObjectURL(url);
         }
 
+        // --- Mensajes ---
         function showMessage(msg, type) {
             const div = document.getElementById('message');
             div.textContent = msg;
