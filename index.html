@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Codigos Entrenador@s Pokémon ConceGo</title>
+    <title>Codigos entrenadores/as ConceGo</title>
     <meta charset="UTF-8">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        
         body { 
             font-family: 'Arial', sans-serif; 
             max-width: 1200px; 
             margin: 0 auto; 
             padding: 20px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #3b4cca 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
         .container {
@@ -31,13 +29,12 @@
             font-size: 16px;
         }
         button {
-            background: linear-gradient(135deg, #ff6b6b 0%, #cc0000 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             color: white;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 极
             box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
         }
         button:hover {
@@ -45,21 +42,19 @@
             box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
         .btn-export {
-            background: linear-gradient(135deg, #3b4cca 0%, #1d2c8d 100%);
-            box-shadow: 0 4px 15px rgba(59, 76, 202, 0.3);
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
         }
         .btn-export:hover {
-            box-shadow: 0 6px 20px rgba(59, 76, 202, 0.4);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
         }
         .btn-search {
-            background: linear-gradient(135deg, #极
-            background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             color: #333;
-            box-shadow: 0 4px 15px rgba(255, 222, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(246, 211, 101, 0.3);
         }
         .btn-search:hover {
-            box-shadow: 0 6极
-            box-shadow: 0 6px 20px rgba(255, 222, 0, 0.4);
+            box-shadow: 0 6px 20px rgba(246, 211, 101, 0.4);
         }
         table { 
             width: 100%; 
@@ -70,12 +65,10 @@
         th, td { 
             border: 1px solid #e0e0e0; 
             padding: 15px; 
-极
-            padding: 15px; 
             text-align: left; 
         }
         th { 
-            background: linear-gradient(135deg, #cc0000 0%, #ff6b6b 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             font-weight: bold;
             text-transform: uppercase;
@@ -85,7 +78,7 @@
             background-color: #f8f9fa;
         }
         tr:hover {
-            background-color: #ffe6e6;
+            background-color: #f1f3ff;
             transition: background-color 0.2s ease;
         }
         .hidden {
@@ -93,132 +86,107 @@
         }
         .message {
             padding: 15px;
-            margin: 15极
             margin: 15px 0;
             border-radius: 8px;
             font-weight: bold;
         }
-极
         .success {
-            background: linear-gradient(135deg, #4caf50 0%, #2极
-            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 极
-            background: linear-gradient(135deg, #4caf50 极
-            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
-            color: white;
-            border: 2px solid #2e7d32;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            border: 2px solid #c3e6cb;
         }
         .error {
-            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
-            color: white;
-            border: 2px solid #c62828;
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            border: 2px solid #f5c6cb;
         }
         .view-only {
             opacity: 0.9;
             background-color: #fafafa;
         }
         
-        /* Sección de Login Pokémon */
-        .login-section-pokemon {
-            background: linear-gradient(135deg, #ff6b6b 0%, #cc0000 100%);
+        /* Sección de Login Destacada */
+        .login-section-premium {
+            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(204, 0, 0, 0.3);
-            border: 4px solid #ffde00;
+            box-shadow: 0 10px 30px rgba(255, 126, 95, 0.3);
+            border: 3px solid #ff6b6b;
             position: relative;
             overflow: hidden;
         }
-        .login-section-pokemon::before {
+        .login-section-premium::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,222,0,0.1) 1px, transparent 1px);
-            background-size: 30极
-            background-size: 30px 30px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
             animation: float 3s infinite linear;
-            pointer-events: none;
         }
         @keyframes float {
-            0% { transform: translateY(0极
             0% { transform: translateY(0px) rotate(0deg); }
             100% { transform: translateY(-20px) rotate(360deg); }
         }
         .login-title {
-            color: #ffde00;
-            text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3极
-            text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1px 0 #3b4cca, -1px 1px 0 #3b4cca;
-            font-size: 32px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 28px;
             margin-bottom: 20px;
             text-align: center;
             position: relative;
             z-index: 2;
-            font-family: 'Press Start 2极
-            font-family: 'Press Start 2P', cursive;
         }
         .login-input {
             width: 350px;
             padding: 15px;
             font-size: 18px;
-            border: 3px solid #ffde00;
-            border-radius: 25px;
+            border: 3px solid #ff9f80;
+            border-radius: 10px;
             background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 5px 15px rgba(255, 222, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 159, 128, 0.3);
             transition: all 0.3s ease;
-            text-align: center;
         }
         .login-input:focus {
             outline: none;
-            border-color: #3b4cca;
-            box-shadow: 0 5px 20px rgba(59, 76, 202, 0.4);
+            border-color: #ff6b6b;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
             transform: scale(1.02);
         }
         .login-btn {
-            background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
+            background: linear-gradient(135deg, #ffd93d 0%, #ff9f40 100%);
             padding: 16px 35px;
             font-size: 18px;
-            border-radius: 25px;
-            box-shadow: 0 6px 20px rgba(极
-            box-shadow: 0 6px 20px rgba(255, 222, 0, 0.4);
-            border: 3px solid #3b4cca;
-            color: #3b4极
-            color: #3b4cca;
-            font-weight: bold;
-            text-transform: uppercase;
+            border-radius: 50px;
+            box-shadow: 0 6px 20px rgba(255, 217, 61, 0.4);
+            border: 2px solid #ffd93d;
         }
         .login-btn:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 222, 0, 0.5);
+            box-shadow: 0 8px 25px rgba(255, 217, 61, 0.5);
         }
         
         .search-section {
-            background: linear-gradient(135deg, #3b4cca 0%, #1d2c8d 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             border-radius: 12px;
             margin: 25px 0;
-            box-shadow: 0 5px 20px rgba(59, 76, 202, 0.2);
-            border: 2px solid #ffde00;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
         }
-        
-        .export-section-pokemon {
-            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 30px 0;
-            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
-极
-            border: 3px solid #极
-            border: 3px solid #ffde00;
-            text-align: center;
+        .export-section {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 5px 20px rgba(78, 205, 196, 0.2);
         }
-        
         .highlight {
             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
-            border: 2px solid #ffde00;
+            border: 2px solid #ffc107;
             font-weight: bold;
-            color: #cc0000;
         }
         .stats {
             display: flex;
@@ -230,7 +198,7 @@
             background: rgba(255, 255, 255, 0.9);
             padding: 15px;
             border-radius: 10px;
-            border-left: 5px solid #cc0000;
+            border-left: 5px solid #667eea;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             flex: 1;
         }
@@ -238,161 +206,88 @@
             width: 450px;
             padding: 15px;
             font-size: 16px;
-            border: 2px solid #3b4cca;
+            border: 2px solid #667eea;
             border-radius: 8px;
-            background: rgba极
             background: rgba(255, 255, 255, 0.95);
         }
         h1 {
             text-align: center;
-            background: linear-gradient(135deg, #cc0000 极
-            background: linear-gradient(135deg, #cc0000 0%, #3b4cca 100%);
-            -webkit-background-cl极
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 36px;
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            font-family: 'Press Start 2P', cursive;
         }
         h2, h3 {
             color: #333;
             margin-bottom: 20px;
         }
         .search-section h3,
-        .export-section-pokemon h3 {
+        .export-section h3 {
             color: white;
-            text-shadow: 2px 2px 0 #000;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 18px;
-        }
-        
-        .pokeball {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(#ff0000 0%, #ff0000 48%, #000 49%, #000 51%, #fff 52%, #fff 100%);
-            border-radius: 50%;
-            border: 2px solid #000;
-            margin: 0 5px;
-            position: relative;
-        }
-        .pokeball::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 6px;
-            height: 6px;
-            background: #fff;
-            border: 2px solid #000;
-            border-radius: 50%;
-        }
-        
-        .pokemon-table {
-            background: linear-gradient(135deg, #f8极
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 3px solid #cc0000;
-            border-radius: 10px;
-        }
-        .pokemon-table th {
-            background: linear-gradient(135deg极
-            background: linear-gradient(135deg, #cc0000 0%, #ff6b极
-            background: linear-gradient(135deg, #cc000极
-            background: linear-gradient(135deg极
-            background: linear-gradient(135deg, #cc0000 0%, #ff6b6b 100%);
-            color: #ffde00;
-            text-shadow: 1px 1px 0 #000;
-        }
-        
-        .export-btn-pokemon {
-            background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
-            color: #3b4cca;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 25px;
-            border: 3px solid #3b4cca;
-            font-weight: bold;
-            margin: 10px;
-            box-shadow: 0 5px 15px rgba(255, 222, 0, 0.3);
-        }
-        .export-btn-pokemon:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(255, 222, 0, 0.4);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>⚡ Codigos de Entrenador@s ConceGo ⚡</h1>
+        <h1>📊 Codigos entrenadores/as ConceGo</h1>
 
-        <!-- Sección de Login Pokémon -->
+        <!-- Sección de Login SUPER DESTACADA -->
         <div id="loginSection">
-            <div class极
-            <div class="login-section-pokemon">
-                <h2 class="login-title">🎮 ¡IDENTIFÍCATE PARA AGREGAR CÓDIGOS! 🎮</h2>
+            <div class="login-section-premium">
+                <h2 class="login-title">🌟 ¡IDENTIFÍCATE PARA AGREGAR CÓDIGOS! 🌟</h2>
                 <div class="form-group" style="text-align: center;">
-                    <input type="text" id="userName" placeholder="🎯 Tu nombre de Entrenador/a Pokémon" class="login-input">
-                    <button onclick="login()" class="login-btn">⚡ Ingresar al Sistema</button>
+                    <input type="text" id="userName" placeholder="🔐 Tu nombre de Entrenador/a" class="login-input">
+                    <button onclick="login()" class="login-btn">🚀 Ingresar al Sistema</button>
                 </div>
-                <div style="text-align: center; color: #ffde00; margin-top: 15px; font-weight: bold; text-shadow: 1px 1极
-                <div style="text-align: center; color: #ffde00; margin-top: 15极
-                <div style="text-align: center; color: #ffde00; margin-top: 15px; font-weight: bold; text-shadow: 1px 1px 0 #3b4cca;">
-                    🚀 Solo Entrenador@s registrados pueden agregar nuevos códigos
+                <div style="text-align: center; color: white; margin-top: 15px; font-weight: bold;">
+                    ⚡ Solo usuarios registrados pueden agregar nuevos códigos
                 </div>
             </div>
 
             <!-- Buscador Público -->
             <div class="search-section">
-                <h3>🔍 Buscar Entrenador@s Pokémon</h3>
+                <h3>🔍 Buscar entrenador@s</h3>
                 <div class="form-group">
-                    <input type="text" id="publicSearchInput" placeholder="🔎 Escribe para buscar por nombre o código..." 
+                    <input type="text" id="publicSearchInput" placeholder="🔎 Escribe para buscar por nick o código..." 
                            style="padding: 15px; width: 450px;" oninput="searchPublicUsers()">
                     <button onclick="clearSearch()" class="btn-search">🔄 Limpiar Búsqueda</button>
                 </div>
                 <div class="stats">
                     <div class="stat-item">
-                        <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> Entrenador@s
+                        <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s
                     </div>
                 </div>
             </div>
 
+            <!-- Exportar Datos -->
+            <div class="export-section">
+                <h3>📤 Exportar Base de Datos</h3>
+                <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT (Solo nick y código)</button>
+                <span style="margin-left: 15px; color: white; font-weight: bold;">📝 Solo exporta nick y código</span>
+            </div>
+
             <!-- Tabla de Entrenador@s visible para todos -->
             <div style="margin-top: 30px;">
-                <h3>👥 Entrenador@s Pokémon Registrad@s <span class="pokeball"></span><span class="pokeball"></span></h3>
+                <h3>👥 Entrenador@s Registrados (Solo lectura)</h3>
                 
                 <div style="overflow-x: auto;">
-                    <table class="view-only pokemon-table">
+                    <table class="view-only">
                         <thead>
                             <tr>
-                                <th>🎯 Nombre de Entrenador/a</th>
-                                <th>🔢 Código Pokémon</th>
+                                <th>🎯 Nick</th>
+                                <th>🔢 Código</th>
                                 <th>🔐 Estado</th>
                             </tr>
                         </thead>
                         <tbody id="publicUsersTable">
                             <tr>
-                                <td colspan="3" style="text-align: center;">📥 Cargando Entrenador@s Pokémon...</td>
+                                <td colspan="3" style="text-align: center;">📥 Cargando Entrenador@s...</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-            </div>
-
-            <!-- Sección de Exportar Datos Pokémon (AL FINAL) -->
-            <极
-            <div class="export-section-pokemon">
-                <h3>📤 Exportar Códigos de Entrenador@s</h3>
-                <div style="margin: 20px 0;">
-                    <button onclick="exportToTXT()" class="export-btn-pokemon">
-                        💾 Descargar TXT Pokémon
-                    </button>
-                </div>
-                <div style="color: #极
-                <div style="color: #ffde00; font-weight: bold; text-shadow: 1px 1px 0 #000;">
-                    <span class="pokeball"></span> Exporta nombres y códigos de Entrenador@s 
-                    <span class="pokeball"></span>
                 </div>
             </div>
         </div>
@@ -404,9 +299,6 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t极
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69极
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSee极
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         
         let currentUser = '';
@@ -432,7 +324,7 @@
                 loginUser(userName);
                 localStorage.setItem('currentUser', userName);
             } else {
-                showMessage('Por favor ingresa tu nombre de Entrenador/a Pokémon', 'error');
+                showMessage('Por favor ingresa tu nombre de Entrenador/a', 'error');
             }
         }
 
@@ -453,7 +345,7 @@
             loadPublicUsers();
         }
 
-        // Función de búsqueda en tiempo real
+        // Función de búsqueda en tiempo real CON VALIDACIÓN
         function searchPublicUsers() {
             const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase().trim();
             
@@ -476,31 +368,29 @@
 
         // Limpiar búsqueda
         function clearSearch() {
-            document.getElementById('publicSearch极
             document.getElementById('publicSearchInput').value = '';
             renderPublicUsersTable(allPublicUsers);
         }
 
-        // Exportar a TXT
+        // Exportar a TXT (solo nick y código)
         function exportToTXT() {
             if (allPublicUsers.length === 0) {
-                alert('¡No hay datos para exportar!');
+                alert('No hay datos para exportar');
                 return;
             }
 
-            let txtContent = 'CÓDIGOS DE ENTRENADOR@S POKEMÓN\n';
-            txtContent += '================================\n\n';
+            let txtContent = 'LISTA DE ENTRENADOR@S\n';
+            txtContent += '=================\n\n';
             txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
             txtContent += `Total de Entrenador@s: ${allPublicUsers.length}\n\n`;
 
-            allPublicUsers.forEach((user, index) => {
-                txtContent += `Entrenador/a #${index + 1}:\n`;
-                txtContent += `Nombre: ${user.Nick || 'Desconocido'}\n`;
-                txtContent += `Código: ${user.Codigo || 'Sin código'}\n`;
-                txtContent += '─'.repeat(40) + '\n';
+            allPublicUsers.forEach(user => {
+                txtContent += `Nick: ${user.Nick || 'N/A'}\n`;
+                txtContent += `Código: ${user.Codigo || 'N/A'}\n`;
+                txtContent += '─'.repeat(30) + '\n';
             });
 
-            downloadFile(txtContent, 'Pokecodigos_Entrenador@s.txt', 'text/plain');
+            downloadFile(txtContent, 'Entrenador@s.txt', 'text/plain');
         }
 
         function downloadFile(content, fileName, contentType) {
@@ -518,9 +408,9 @@
         function cleanUserData(users) {
             return users.map(user => {
                 return {
-                    Nick: user.Nick ? user.Nick.toString().trim() : 'Entrenador/a Mysterious',
-                    Codigo: user.Codigo ? user.Codigo.toString().trim() : 'Código Secreto',
-                    CreadoPor: user.CreadoPor || 'Profesor Oak',
+                    Nick: user.Nick ? user.Nick.toString().trim() : 'Sin nombre',
+                    Codigo: user.Codigo ? user.Codigo.toString().trim() : 'Sin código',
+                    CreadoPor: user.CreadoPor || 'Desconocido',
                     Numero: user.Numero || 0,
                     Timestamp: user.Timestamp || ''
                 };
@@ -547,14 +437,13 @@
             } catch (error) {
                 console.error('❌ Error al cargar Entrenador@s:', error);
                 document.getElementById('publicUsersTable').innerHTML = 
-                    '<tr><td colspan="3" style="text-align: center; color: red;">¡Error cargando Pokecódigo! ' + error.message + '</td></tr>';
+                    '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar: ' + error.message + '</td></tr>';
             }
         }
 
         function renderPublicUsersTable(usersData) {
             const tableBody = document.getElementById('publicUsersTable');
             const totalSpan = document.getElementById('publicTotal');
-            const showingSpan = document.getElementById极
             const showingSpan = document.getElementById('publicShowing');
             const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
             
@@ -563,18 +452,17 @@
 
             if (usersData.length === 0) {
                 if (searchTerm) {
-                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No se encontraron Entrenador@s con "' + searchTerm + '"!</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No se encontraron Entrenador@s con "' + searchTerm + '"</td></tr>';
                 } else {
-                    tableBody.innerHTML = '<tr极
-                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No hay códigos! Sé el primero en registrarse.</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No hay Entrenador@s registrados</td></tr>';
                 }
                 return;
             }
 
             let tableHTML = '';
             usersData.forEach(user => {
-                let nickDisplay = user.Nick ? user.Nick.toString() : 'Mysterious Trainer';
-                let codeDisplay = user.Codigo ? user.Codigo.toString() : 'Secret Code';
+                let nickDisplay = user.Nick ? user.Nick.toString() : '-';
+                let codeDisplay = user.Codigo ? user.Codigo.toString() : '-';
                 
                 if (searchTerm) {
                     const nickLower = nickDisplay.toLowerCase();
@@ -592,7 +480,6 @@
                     <tr>
                         <td>${nickDisplay}</td>
                         <td>${codeDisplay}</td>
-                        <td><span style="极
                         <td><span style="color: #6c757d;">🔒 Solo lectura</span></td>
                     </tr>
                 `;
@@ -602,7 +489,6 @@
         }
 
         function highlightText(text, searchTerm) {
-            if (!text || !search极
             if (!text || !searchTerm) return text;
             
             const textStr = text.toString();
