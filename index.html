@@ -177,9 +177,48 @@
             </div>
         </div>
 
-        <!-- Sección Principal (solo para Entrenador@s logueados) -->
+        <!-- Sección Principal (solo para usuarios logueados) -->
         <div id="mainSection" class="hidden">
-            <!-- ... (el resto de tu código existente para la sección logueada) ... -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>👋 Hola, <span id="currentUser" style="color: #007bff;"></span></h2>
+                <button onclick="logout()" style="background: #dc3545;">🚪 Cerrar Sesión</button>
+            </div>
+
+            <!-- Formulario para agregar usuarios -->
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3>➕ Agregar Nuevo Entrenador/a</h3>
+                <div class="form-group">
+                    <input type="text" id="nickInput" placeholder="Nick del entrenador/a" style="width: 200px;">
+                    <input type="text" id="codeInput" placeholder="Código" style="width: 200px;">
+                    <button onclick="addUser()">✅ Agregar Entrenador/a</button>
+                </div>
+                <div id="message" class="message"></div>
+            </div>
+
+            <!-- Tabla de usuarios con acciones -->
+            <h3>📋 Gestión de Entrenador@s</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nick</th>
+                            <th>Código</th>
+                            <th>Creado por</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr>
+                            <td colspan="4" style="text-align: center;">Cargando entrenador@s...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Contador total -->
+            <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 5px;">
+                <h3>📈 Total de entrenador@s registrados: <span id="totalUsers">0</span></h3>
+            </div>
         </div>
     </div>
 
@@ -215,7 +254,10 @@
 
         function loginUser(userName) {
             currentUser = userName;
-            document.getElementById('currentUser').textContent = currentUser;
+            const currentUserElement = document.getElementById('currentUser');
+            if (currentUserElement) {
+                currentUserElement.textContent = currentUser;
+            }
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('mainSection').classList.remove('hidden');
             loadUsers();
@@ -224,7 +266,7 @@
         function logout() {
             currentUser = '';
             localStorage.removeItem('currentUser');
-            document.getElementById('loginSection').classlection.remove('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
             document.getElementById('mainSection').classList.add('hidden');
             document.getElementById('userName').value = '';
             loadPublicUsers();
@@ -306,10 +348,9 @@
             });
         }
 
-        // Cargar Entrenador@s para vista pública CON MANEJO DE ERRORES
+        // Cargar Entrenador@s para vista pública
         async function loadPublicUsers() {
             try {
-                console.log('🔄 Intentando cargar datos desde:', SCRIPT_URL);
                 const response = await fetch(`${SCRIPT_URL}?action=getUsers&timestamp=${Date.now()}`);
                 
                 if (!response.ok) {
@@ -317,7 +358,6 @@
                 }
                 
                 const data = await response.json();
-                console.log('✅ Datos recibidos:', data);
                 
                 if (data.success) {
                     // LIMPIAR Y NORMALIZAR LOS DATOS
@@ -329,9 +369,64 @@
                 }
             } catch (error) {
                 console.error('❌ Error al cargar Entrenador@s:', error);
-                document.getElementById('publicUsersTable').innerHTML = 
-                    '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar: ' + error.message + '</td></tr>';
+                const tableBody = document.getElementById('publicUsersTable');
+                if (tableBody) {
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar: ' + error.message + '</td></tr>';
+                }
             }
+        }
+
+        // Cargar usuarios para usuarios logueados
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    users = data.users || [];
+                    renderUsersTable();
+                }
+            } catch (error) {
+                console.error('Error al cargar usuarios:', error);
+                showMessage('Error de conexión', 'error');
+            }
+        }
+
+        // Renderizar tabla para usuarios logueados
+        function renderUsersTable() {
+            const tableBody = document.getElementById('usersTable');
+            const totalUsers = document.getElementById('totalUsers');
+            
+            if (!tableBody || !totalUsers) return;
+            
+            if (users.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No hay entrenador@s registrados</td></tr>';
+                totalUsers.textContent = '0';
+                return;
+            }
+
+            let tableHTML = '';
+            users.forEach(user => {
+                const canEdit = user.CreadoPor === currentUser;
+                
+                tableHTML += `
+                    <tr>
+                        <td>${user.Nick || '-'}</td>
+                        <td>${user.Codigo || '-'}</td>
+                        <td>${user.CreadoPor || '-'}</td>
+                        <td>
+                            ${canEdit ? 
+                                `<button onclick="editUser('${user.Nick}')" style="background: #28a745; padding: 5px 10px; margin: 2px;">✏️ Editar</button>
+                                 <button onclick="deleteUser('${user.Nick}')" style="background: #dc3545; padding: 5px 10px; margin: 2px;">🗑️ Eliminar</button>` : 
+                                '<span style="color: #6c757d;">Solo lectura</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = tableHTML;
+            totalUsers.textContent = users.length;
         }
 
         // Renderizar tabla pública de Entrenador@s CON VALIDACIÓN
@@ -340,6 +435,8 @@
             const totalSpan = document.getElementById('publicTotal');
             const showingSpan = document.getElementById('publicShowing');
             const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
+            
+            if (!tableBody || !totalSpan || !showingSpan) return;
             
             totalSpan.textContent = allPublicUsers.length;
             showingSpan.textContent = usersData.length;
@@ -396,26 +493,66 @@
             return textStr.replace(regex, '<span class="highlight">$1</span>');
         }
 
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type}`;
-            setTimeout(() => {
-                messageDiv.textContent = '';
-                messageDiv.className = 'message';
-            }, 3000);
+        async function addUser() {
+            const nick = document.getElementById('nickInput').value.trim();
+            const code = document.getElementById('codeInput').value.trim();
+            
+            if (!nick || !code) {
+                showMessage('Por favor completa todos los campos', 'error');
+                return;
+            }
+
+            if (!currentUser) {
+                showMessage('Debes iniciar sesión primero', 'error');
+                return;
+            }
+
+            try {
+                const url = `${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(code)}&creator=${encodeURIComponent(currentUser)}`;
+                const response = await fetch(url, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('✅ Entrenador/a agregado correctamente', 'success');
+                    document.getElementById('nickInput').value = '';
+                    document.getElementById('codeInput').value = '';
+                    loadUsers();
+                    loadPublicUsers();
+                } else {
+                    showMessage('❌ Error: ' + (data.error || 'Error desconocido'), 'error');
+                }
+            } catch (error) {
+                console.error('Error al agregar entrenador/a:', error);
+                showMessage('❌ Error de conexión', 'error');
+            }
         }
 
-        // Función para probar la conexión manualmente
-        function testConnection() {
-            console.log('🧪 Probando conexión...');
-            fetch(`${SCRIPT_URL}?action=getUsers&timestamp=${Date.now()}`)
-                .then(response => {
-                    console.log('Status:', response.status, response.statusText);
-                    return response.json();
-                })
-                .then(data => console.log('Datos:', data))
-                .catch(error => console.error('Error:', error));
+        function editUser(nick) {
+            const user = users.find(u => u.Nick === nick);
+            if (user) {
+                const newCode = prompt(`Editar código para ${nick}:`, user.Codigo);
+                if (newCode !== null) {
+                    showMessage('Función de edición en desarrollo', 'success');
+                }
+            }
+        }
+
+        function deleteUser(nick) {
+            if (confirm(`¿Estás seguro de que quieres eliminar a ${nick}?`)) {
+                showMessage('Función de eliminación en desarrollo', 'success');
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            if (messageDiv) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+                setTimeout(() => {
+                    messageDiv.textContent = '';
+                    messageDiv.className = 'message';
+                }, 3000);
+            }
         }
 
         // Iniciar la aplicación
@@ -423,9 +560,6 @@
 
         // Actualizar automáticamente cada 30 segundos
         setInterval(loadPublicUsers, 30000);
-
-        // Ejecutar prueba de conexión al cargar
-        setTimeout(testConnection, 2000);
     </script>
 </body>
 </html>
