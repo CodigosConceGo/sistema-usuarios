@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>⚡ Pokédex Entrenador@s ConceGo ⚡</title>
+    <title>⚡ Pokédex Entrenadores ConceGo ⚡</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
     <style>
-        body { 
-            font-family: 'Press Start 2P', cursive; 
-            max-width: 1200px; 
-            margin: 0 auto; 
+        body {
+            font-family: 'Press Start 2P', cursive;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
             background: linear-gradient(180deg, #ff0000 0%, #ffffff 50%, #000000 100%);
             color: #333;
@@ -25,135 +24,136 @@
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        h1, h2, h3 {
-            text-align: center;
-            color: #ffcb05;
-            text-shadow: 2px 2px #3b4cca;
-        }
+        h1,h2,h3 { text-align:center; color: #ffcb05; text-shadow:2px 2px #3b4cca; }
         .form-group { margin: 15px 0; }
-        input, button { 
-            padding: 12px; 
-            margin: 5px; 
+        input, button {
+            padding: 12px;
+            margin: 5px;
             border: 2px solid #3b4cca;
             border-radius: 8px;
             font-family: inherit;
         }
         button {
             background: #ff0000;
-            color: white;
+            color: #fff;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.15s ease;
         }
-        button:hover {
-            transform: scale(1.08);
-            background: #cc0000;
-        }
+        button:hover { transform: scale(1.06); background: #cc0000; }
         .btn-export { background: #ffcb05; color: #000; }
-        .btn-export:hover { background: #e0b000; }
-        .btn-search { background: #3b4cca; color: white; }
-        .btn-search:hover { background: #2a3799; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #3b4cca; color: white; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-        .hidden { display: none; }
+        .btn-search { background: #3b4cca; color: #fff; }
+        table { width:100%; border-collapse: collapse; font-size:14px; }
+        th,td { border:1px solid #ddd; padding:12px; text-align:left; }
+        th { background:#3b4cca; color:#fff; }
+        tr:nth-child(even) { background:#f9f9f9; }
+        .hidden { display:none; }
         .highlight-card {
             background: #ffcb05;
             border: 3px solid #ff0000;
             border-radius: 12px;
             padding: 25px;
             margin: 20px 0;
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
-            text-align: center;
+            box-shadow: 0 0 25px rgba(255,0,0,0.35);
+            text-align:center;
         }
-        .highlight-card h3 {
-            color: #3b4cca;
-            text-shadow: 2px 2px white;
-        }
-        .message { padding: 10px; margin: 10px 0; border-radius: 5px; font-size: 12px; }
-        .success { background: #d4edda; color: #155724; }
-        .error { background: #f8d7da; color: #721c24; }
-        .highlight { background: #fff3cd; padding: 0 2px; border-radius: 2px; }
+        .message { padding:10px; margin:10px 0; border-radius:6px; font-size:12px; }
+        .success { background:#d4edda; color:#155724; }
+        .error { background:#f8d7da; color:#721c24; }
+        .highlight { background:#fff3cd; padding:0 2px; border-radius:2px; }
         #autocompleteList {
             border: 2px solid #3b4cca;
             border-top: none;
-            max-height: 200px;
-            overflow-y: auto;
-            position: absolute;
-            width: 300px;
-            background: white;
-            z-index: 10;
-            font-size: 12px;
+            max-height:200px;
+            overflow-y:auto;
+            position:absolute;
+            width:300px;
+            background:#fff;
+            z-index: 2000;
+            font-size:12px;
         }
-        #autocompleteList div { padding: 8px; cursor: pointer; }
-        #autocompleteList div:hover { background: #ffcb05; }
-        /* Scroll limitado para tablas */
-        .table-wrapper {
-            max-height: 280px; /* ~7 filas */
-            overflow-y: auto;
+        #autocompleteList div { padding:8px; cursor:pointer; }
+        #autocompleteList div:hover { background:#ffcb05; }
+        .table-wrapper { max-height: 280px; overflow-y: auto; margin-bottom: 12px; }
+        footer {
+            margin-top:20px;
+            text-align:center;
+            padding:16px;
+            background:#3b4cca;
+            color:white;
+            border-radius:12px;
         }
+        footer a { color: #ffcb05; text-decoration:none; font-weight:600; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎮 Pokédex de Entrenador@s ConceGo 🎮</h1>
+        <h1>🎮 Pokédex de Entrenadores ConceGo 🎮</h1>
 
-        <!-- Login -->
+        <!-- LOGIN + BÚSQUEDA -->
         <div id="loginSection">
             <h2>🔐 Ingresa tu nombre de Entrenador/a</h2>
             <div class="form-group" style="text-align:center;">
-                <input type="text" id="userName" placeholder="Ej: Ash Ketchum" style="width: 300px;">
-                <button onclick="login()">⚡ Ingresar</button>
+                <input id="userName" type="text" placeholder="Ej: Ash Ketchum" style="width:300px;">
+                <button id="loginBtn">⚡ Ingresar</button>
             </div>
 
-            <!-- Búsqueda -->
             <div class="search-section" style="position:relative; text-align:center;">
                 <h3>🔍 Buscar entrenador@s</h3>
                 <div class="form-group">
-                    <input type="text" id="publicSearchInput" placeholder="Busca por nick o código..." oninput="searchPublicUsers(true)" style="width: 300px;">
-                    <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
+                    <input id="publicSearchInput" type="text" placeholder="Busca por nick o código..." style="width:300px;">
+                    <button id="clearSearchBtn" class="btn-search">🔄 Limpiar</button>
                 </div>
-                <div id="autocompleteList" class="hidden"></div>
+                <div id="autocompleteList" class="hidden" aria-hidden="true"></div>
                 <p><strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s</p>
             </div>
 
-            <!-- Tabla Pública con scroll -->
-            <h3>👥 Entrenador@s Registrad@s</h3>
+            <h3>👥 Entrenador@s Registrados</h3>
             <div class="table-wrapper">
-                <table class="view-only">
+                <table class="view-only" aria-live="polite">
                     <thead>
-                        <tr><th>Nick</th><th>Código</th><th>Estado</th></tr>
+                        <tr><th>Nick</th><th>Código</th><th>Nº de contacto</th><th>Regalos</th></tr>
                     </thead>
                     <tbody id="publicUsersTable">
-                        <tr><td colspan="3" style="text-align: center;">Cargando...</td></tr>
+                        <tr><td colspan="4" style="text-align:center;">Cargando...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- Principal -->
+        <!-- MAIN -->
         <div id="mainSection" class="hidden">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2>👋 Hola, <span id="currentUser" style="color: #ff0000;"></span></h2>
-                <button onclick="logout()" style="background:#000;">🚪 Cerrar Sesión</button>
+                <h2>👋 Hola, <span id="currentUser" style="color:#ff0000"></span></h2>
+                <button id="logoutBtn" style="background:#000">🚪 Cerrar Sesión</button>
             </div>
 
             <div class="highlight-card">
                 <h3>✨➕ Agregar Nuevo Entrenador/a ✨</h3>
                 <div class="form-group">
-                    <input type="text" id="nickInput" placeholder="Nick" style="width:200px;">
-                    <input type="text" id="codeInput" placeholder="Código" style="width:200px;">
-                    <button onclick="addUser()">✅ Agregar</button>
+                    <input id="nickInput" type="text" placeholder="Nick" style="width:200px;">
+                    <input id="codeInput" type="text" placeholder="Código (ej: 0123 4567 8901)" style="width:220px;">
                 </div>
-                <div id="message" class="message"></div>
+                <div class="form-group">
+                    <input id="contactInput" type="text" placeholder="Nº de contacto (opcional)" style="width:220px;">
+                </div>
+                <div class="form-group">
+                    <label style="font-size:12px;">
+                        <input type="checkbox" id="giftsCheckbox">
+                        🎁 Envío regalos frecuentemente
+                    </label>
+                </div>
+                <button id="addUserBtn">✅ Agregar</button>
+                <div id="message" class="message" role="status"></div>
             </div>
 
             <h3>📋 Gestión de Entrenador@s</h3>
             <div class="table-wrapper">
                 <table>
-                    <thead><tr><th>Nick</th><th>Código</th><th>Creado por</th><th>Acciones</th></tr></thead>
+                    <thead>
+                        <tr><th>Nick</th><th>Código</th><th>Contacto</th><th>Regalos</th><th>Creado por</th><th>Acciones</th></tr>
+                    </thead>
                     <tbody id="usersTable">
-                        <tr><td colspan="4" style="text-align:center;">Cargando...</td></tr>
+                        <tr><td colspan="6" style="text-align:center;">Cargando...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -161,43 +161,104 @@
             <h3>📈 Total de entrenador@s: <span id="totalUsers">0</span></h3>
         </div>
 
-        <!-- Exportar abajo -->
-        <div class="export-section" style="text-align:center; margin-top:20px;">
+        <!-- Exportar -->
+        <div class="export-section" style="text-align:center; margin-top:14px;">
             <h3>📤 Exportar Base de Datos</h3>
-            <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT</button>
+            <button id="exportBtn" class="btn-export">💾 Descargar TXT</button>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <p>📧 <a href="mailto:telesseoo@gmail.com">telesseoo@gmail.com</a></p>
+        <p>💬 <a href="https://chat.whatsapp.com/BPnP83aYcnw6ys3HXepTbr?mode=ems_copy_t" target="_blank" rel="noopener">WhatsApp Group</a></p>
+        <p style="margin-top:8px; font-size:12px;">Creado por <strong>Teleseo Trainer</strong> ⚡</p>
+    </footer>
+
     <script>
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
-      let currentUser='', users=[], allPublicUsers=[];
+    (function(){
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwNL_hz9oUWG7lsqz9PVTusDzTdEPI1CpV3p7gVgiMgj7Rk7jjQjSjZ0yLlGHxob508fg/exec';
+        let currentUser = '';
+        let users = [];
+        let allPublicUsers = [];
 
-      function normalizeStr(v){return (v??'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();}
-      function normalizeCode(v){return normalizeStr(v).replace(/[\s-]/g,'');}
+        const el = {
+            loginSection: document.getElementById('loginSection'),
+            mainSection: document.getElementById('mainSection'),
+            userName: document.getElementById('userName'),
+            loginBtn: document.getElementById('loginBtn'),
+            logoutBtn: document.getElementById('logoutBtn'),
+            currentUserSpan: document.getElementById('currentUser'),
+            publicSearchInput: document.getElementById('publicSearchInput'),
+            clearSearchBtn: document.getElementById('clearSearchBtn'),
+            autocompleteList: document.getElementById('autocompleteList'),
+            publicUsersTable: document.getElementById('publicUsersTable'),
+            publicShowing: document.getElementById('publicShowing'),
+            publicTotal: document.getElementById('publicTotal'),
+            nickInput: document.getElementById('nickInput'),
+            codeInput: document.getElementById('codeInput'),
+            contactInput: document.getElementById('contactInput'),
+            giftsCheckbox: document.getElementById('giftsCheckbox'),
+            addUserBtn: document.getElementById('addUserBtn'),
+            message: document.getElementById('message'),
+            usersTable: document.getElementById('usersTable'),
+            totalUsers: document.getElementById('totalUsers'),
+            exportBtn: document.getElementById('exportBtn')
+        };
 
-      function init(){checkLogin();loadPublicUsers();}
-      function checkLogin(){const u=localStorage.getItem('currentUser');if(u)loginUser(u);}
-      function login(){const n=document.getElementById('userName').value.trim();if(n){loginUser(n);localStorage.setItem('currentUser',n);}else showMessage('⚠️ Ingresa tu nombre','error');}
-      function loginUser(u){currentUser=u;document.getElementById('currentUser').textContent=u;document.getElementById('loginSection').classList.add('hidden');document.getElementById('mainSection').classList.remove('hidden');loadUsers();}
-      function logout(){currentUser='';localStorage.removeItem('currentUser');document.getElementById('loginSection').classList.remove('hidden');document.getElementById('mainSection').classList.add('hidden');document.getElementById('userName').value='';loadPublicUsers();}
+        function escapeHtml(str){return (str??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+        function normalizeStr(v){return (v??'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();}
+        function normalizeCode(v){return normalizeStr(v).replace(/[\s-]/g,'');}
 
-      async function loadUsers(){const r=await fetch(`${SCRIPT_URL}?action=getUsers`);const d=await r.json();if(d.success){users=d.users||[];renderUsersTable();}}
-      async function addUser(){const n=document.getElementById('nickInput').value.trim(),c=document.getElementById('codeInput').value.trim();if(!n||!c){showMessage('❌ Completa todos','error');return;}const url=`${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(n)}&code=${encodeURIComponent(c)}&creator=${encodeURIComponent(currentUser)}`;const r=await fetch(url,{method:'POST'});const d=await r.json();if(d.success){showMessage('✅ Agregado','success');document.getElementById('nickInput').value='';document.getElementById('codeInput').value='';loadUsers();loadPublicUsers();}else showMessage('❌ '+d.error,'error');}
-      async function deleteUser(n){if(!confirm(`¿Eliminar a ${n}?`))return;const url=`${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(n)}&creator=${encodeURIComponent(currentUser)}`;const r=await fetch(url,{method:'POST'});const d=await r.json();if(d.success){showMessage('🗑️ Eliminado','success');loadUsers();loadPublicUsers();}else showMessage('❌ '+d.error,'error');}
-      function renderUsersTable(){const b=document.getElementById('usersTable'),t=document.getElementById('totalUsers');if(!users.length){b.innerHTML='<tr><td colspan="4">No hay registros</td></tr>';t.textContent='0';return;}b.innerHTML=users.map(u=>`<tr><td>${u.Nick}</td><td>${u.Codigo}</td><td>${u.CreadoPor}</td><td>${u.CreadoPor===currentUser?`<button onclick="deleteUser('${u.Nick}')">🗑️</button>`:'🔒'}</td></tr>`).join('');t.textContent=users.length;}
+        el.loginBtn.addEventListener('click', login);
+        el.logoutBtn.addEventListener('click', logout);
+        el.addUserBtn.addEventListener('click', addUser);
+        el.clearSearchBtn.addEventListener('click', clearSearch);
+        el.exportBtn.addEventListener('click', exportToTXT);
+        el.publicSearchInput.addEventListener('input', () => searchPublicUsers(true));
+        document.addEventListener('click', (ev)=>{ if(!ev.target.closest('#publicSearchInput')&&!ev.target.closest('#autocompleteList')) el.autocompleteList.classList.add('hidden'); });
 
-      async function loadPublicUsers(){const r=await fetch(`${SCRIPT_URL}?action=getUsers&ts=${Date.now()}`);const d=await r.json();if(d.success){allPublicUsers=(d.users||[]).map(u=>({Nick:(u.Nick??'').toString().trim(),Codigo:(u.Codigo??'').toString().trim(),CreadoPor:(u.CreadoPor??'').toString().trim()}));renderPublicUsersTable(allPublicUsers);}}
+        function init(){ const saved=localStorage.getItem('currentUser'); if(saved) loginUser(saved); loadPublicUsers(); }
+        function login(){ const name=el.userName.value.trim(); if(!name){showMessage('⚠️ Ingresa tu nombre','error');return;} loginUser(name); localStorage.setItem('currentUser',name);}
+        function loginUser(name){ currentUser=name; el.currentUserSpan.textContent=currentUser; el.loginSection.classList.add('hidden'); el.mainSection.classList.remove('hidden'); loadUsers();}
+        function logout(){currentUser='';localStorage.removeItem('currentUser');el.loginSection.classList.remove('hidden');el.mainSection.classList.add('hidden');el.userName.value='';loadPublicUsers();}
 
-      function searchPublicUsers(showAuto=false){const raw=document.getElementById('publicSearchInput').value,termN=normalizeStr(raw),termC=normalizeCode(raw);if(!termN){renderPublicUsersTable(allPublicUsers);document.getElementById('autocompleteList').classList.add('hidden');return;}const f=allPublicUsers.filter(u=>normalizeStr(u.Nick).includes(termN)||normalizeCode(u.Codigo).includes(termC));renderPublicUsersTable(f,raw);if(showAuto){const list=document.getElementById('autocompleteList');if(!f.length){list.classList.add('hidden');return;}list.innerHTML=f.slice(0,6).map(u=>`<div onclick="selectSuggestion('${u.Nick}')">${u.Nick} (${u.Codigo})</div>`).join('');list.classList.remove('hidden');}}
-      function selectSuggestion(v){document.getElementById('publicSearchInput').value=v;document.getElementById('autocompleteList').classList.add('hidden');searchPublicUsers(false);}
-      function clearSearch(){document.getElementById('publicSearchInput').value='';renderPublicUsersTable(allPublicUsers);document.getElementById('autocompleteList').classList.add('hidden');}
+        async function loadUsers(){ try{const res=await fetch(`${SCRIPT_URL}?action=getUsers`);const data=await res.json(); if(data.success){users=data.users||[]; renderUsersTable();}}catch(e){showMessage('Error al cargar','error');}}
+        async function addUser(){
+            const nick=el.nickInput.value.trim();
+            const code=el.codeInput.value.trim();
+            const contact=el.contactInput.value.trim();
+            const gifts=el.giftsCheckbox.checked?"✅":"";
+            if(!nick||!code){showMessage('❌ Completa Nick y Código','error');return;}
+            try{
+                const url=`${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(code)}&contact=${encodeURIComponent(contact)}&gifts=${encodeURIComponent(gifts)}&creator=${encodeURIComponent(currentUser)}`;
+                const res=await fetch(url,{method:'POST'}); const data=await res.json();
+                if(data.success){showMessage('✅ Agregado','success'); el.nickInput.value='';el.codeInput.value='';el.contactInput.value='';el.giftsCheckbox.checked=false; loadUsers();loadPublicUsers();}
+                else{showMessage('❌ '+(data.error||'error'),'error');}
+            }catch(e){showMessage('❌ Error de conexión','error');}
+        }
+        async function deleteUser(nick){if(!confirm(`¿Eliminar a ${nick}?`))return; const url=`${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(nick)}&creator=${encodeURIComponent(currentUser)}`; const res=await fetch(url,{method:'POST'}); const data=await res.json(); if(data.success){showMessage('🗑️ Eliminado','success'); loadUsers();loadPublicUsers();}}
 
-      function renderPublicUsersTable(data,h=''){const b=document.getElementById('publicUsersTable');document.getElementById('publicTotal').textContent=allPublicUsers.length;document.getElementById('publicShowing').textContent=data.length;if(!data.length){b.innerHTML=`<tr><td colspan="3">${h?`No resultados para <b>${h}</b>`:'Sin registros'}</td></tr>`;return;}const re=new RegExp(`(${h})`,'gi');b.innerHTML=data.map(u=>`<tr><td>${h?u.Nick.replace(re,'<span class="highlight">$1</span>'):u.Nick}</td><td>${h?u.Codigo.replace(re,'<span class="highlight">$1</span>'):u.Codigo}</td><td>🔒</td></tr>`).join('');}
+        function renderUsersTable(){
+            el.usersTable.innerHTML='';
+            if(!users.length){el.usersTable.innerHTML='<tr><td colspan="6">No hay registros</td></tr>';el.totalUsers.textContent='0';return;}
+            users.forEach(u=>{
+                const tr=document.createElement('tr');
+                tr.innerHTML=`<td>${escapeHtml(u.Nick)}</td><td>${escapeHtml(u.Codigo)}</td><td>${escapeHtml(u.Contacto||'-')}</td><td>${escapeHtml(u.Regalos||'-')}</td><td>${escapeHtml(u.CreadoPor||'-')}</td><td>${u.CreadoPor===currentUser?'<button onclick="deleteUser(\\''+u.Nick+'\\')">🗑️ Eliminar</button>':'🔒'}</td>`;
+                el.usersTable.appendChild(tr);
+            });
+            el.totalUsers.textContent=users.length;
+        }
 
-      function exportToTXT(){let txt="LISTA DE ENTRENADOR@S\n=================\n";allPublicUsers.forEach(u=>{txt+=`Nick: ${u.Nick}\nCódigo: ${u.Codigo}\n-----------------\n`;});const blob=new Blob([txt],{type:"text/plain"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="Entrenadores.txt";a.click();URL.revokeObjectURL(url);}
-      function showMessage(m,t){const d=document.getElementById('message');d.textContent=m;d.className=`message ${t}`;setTimeout(()=>{d.textContent='';d.className='message';},3000);}
-      window.onload=init;
-      setInterval(loadPublicUsers,30000);
+        async function loadPublicUsers(){ try{const res=await fetch(`${SCRIPT_URL}?action=getUsers&ts=${Date.now()}`);const data=await res.json(); if(data.success){allPublicUsers=(data.users||[]).map(u=>({Nick:u.Nick||'',Codigo:u.Codigo||'',Contacto:u.Contacto||'',Regalos:u.Regalos||''})); renderPublicUsersTable(allPublicUsers);}}catch(e){el.publicUsersTable.innerHTML='<tr><td colspan="4">Error</td></tr>';}}
+        function searchPublicUsers(){const raw=el.publicSearchInput.value||'';const tn=normalizeStr(raw),tc=normalizeCode(raw);if(!tn){renderPublicUsersTable(allPublicUsers);return;}const filtered=allPublicUsers.filter(u=>normalizeStr(u.Nick).includes(tn)||normalizeCode(u.Codigo).includes(tc));renderPublicUsersTable(filtered,raw);}
+        function clearSearch(){el.publicSearchInput.value='';renderPublicUsersTable(allPublicUsers);}
+
+        function renderPublicUsersTable(data,term=''){el.publicUsersTable.innerHTML='';el.publicTotal.textContent=allPublicUsers.length;el.publicShowing.textContent=data.length; if(!data.length){el.publicUsersTable.innerHTML='<tr><td colspan="4">No hay resultados</td></tr>';return;} data.forEach(u=>{el.publicUsersTable.innerHTML+=`<tr><td>${escapeHtml(u.Nick)}</td><td>${escapeHtml(u.Codigo)}</td><td>${escapeHtml(u.Contacto||'-')}</td><td>${u.Regalos||'-'}</td></tr>`});}
+        function exportToTXT(){if(!allPublicUsers.length){alert('No hay datos');return;}let txt='LISTA DE ENTRENADOR@S\n\n';allPublicUsers.forEach(u=>{txt+=`Nick: ${u.Nick}\nCódigo: ${u.Codigo}\nContacto: ${u.Contacto||'-'}\nRegalos: ${u.Regalos||'-'}\n---\n`;});const blob=new Blob([txt],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Entrenadores.txt';a.click();}
+        function showMessage(m,t){el.message.textContent=m;el.message.className=`message ${t}`;setTimeout(()=>{el.message.textContent='';el.message.className='message';},3000);}
+        window.addEventListener('load',init); setInterval(loadPublicUsers,30000);
+    })();
     </script>
 </body>
 </html>
