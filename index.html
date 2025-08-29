@@ -98,6 +98,26 @@
             padding: 0 2px;
             border-radius: 2px;
         }
+
+        /* Estilo autocompletado */
+        #autocompleteList {
+            border: 2px solid #3b4cca;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            width: 300px;
+            background: white;
+            z-index: 10;
+            font-size: 12px;
+        }
+        #autocompleteList div {
+            padding: 8px;
+            cursor: pointer;
+        }
+        #autocompleteList div:hover {
+            background: #ffcb05;
+        }
     </style>
 </head>
 <body>
@@ -113,13 +133,15 @@
             </div>
 
             <!-- Buscador Público -->
-            <div class="search-section">
+            <div class="search-section" style="position:relative; text-align:center;">
                 <h3>🔍 Buscar entrenador@s</h3>
-                <div class="form-group" style="text-align:center;">
-                    <input type="text" id="publicSearchInput" placeholder="Busca por nick o código..." oninput="searchPublicUsers()" style="width: 300px;">
+                <div class="form-group">
+                    <input type="text" id="publicSearchInput" placeholder="Busca por nick o código..." oninput="searchPublicUsers(true)" style="width: 300px;">
                     <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
                 </div>
-                <p style="text-align:center;"><strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s</p>
+                <!-- Lista autocompletado -->
+                <div id="autocompleteList" class="hidden"></div>
+                <p><strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s</p>
             </div>
 
             <!-- Exportar Datos -->
@@ -198,7 +220,7 @@
         let users = [];
         let allPublicUsers = [];
 
-        // --- Utilidades de normalización ---
+        // --- Utilidades ---
         function normalizeStr(v) {
           return (v ?? '')
             .toString()
@@ -311,7 +333,7 @@
             totalUsers.textContent = users.length;
         }
 
-        // --- Público ---
+        // --- Público + Autocompletado ---
         async function loadPublicUsers() {
             try {
               const res = await fetch(`${SCRIPT_URL}?action=getUsers&ts=${Date.now()}`);
@@ -331,14 +353,18 @@
                 `<tr><td colspan="3" style="color:red;">Error: ${err.message}</td></tr>`;
             }
         }
-        function searchPublicUsers() {
+
+        function searchPublicUsers(showAutocomplete = false) {
             const termRaw = document.getElementById('publicSearchInput').value;
             const termNick = normalizeStr(termRaw);
             const termCode = normalizeCode(termRaw);
+
             if (!termNick) {
                 renderPublicUsersTable(allPublicUsers);
+                document.getElementById('autocompleteList').classList.add('hidden');
                 return;
             }
+
             const filtered = allPublicUsers
               .filter(u => {
                 const nNick = normalizeStr(u.Nick);
@@ -350,12 +376,35 @@
                 const bStarts = normalizeStr(b.Nick).startsWith(termNick) ? 0 : 1;
                 return aStarts - bStarts;
               });
+
             renderPublicUsersTable(filtered, termRaw);
+
+            // Mostrar sugerencias
+            if (showAutocomplete) {
+                const list = document.getElementById('autocompleteList');
+                if (filtered.length === 0) {
+                    list.classList.add('hidden');
+                    return;
+                }
+                list.innerHTML = filtered.slice(0, 6).map(u => `
+                    <div onclick="selectSuggestion('${u.Nick}')">${u.Nick} (${u.Codigo})</div>
+                `).join('');
+                list.classList.remove('hidden');
+            }
         }
+
+        function selectSuggestion(value) {
+            document.getElementById('publicSearchInput').value = value;
+            document.getElementById('autocompleteList').classList.add('hidden');
+            searchPublicUsers(false);
+        }
+
         function clearSearch() {
             document.getElementById('publicSearchInput').value = '';
             renderPublicUsersTable(allPublicUsers);
+            document.getElementById('autocompleteList').classList.add('hidden');
         }
+
         function renderPublicUsersTable(data, highlightTerm = '') {
             const body = document.getElementById('publicUsersTable');
             document.getElementById('publicTotal').textContent = allPublicUsers.length;
@@ -390,20 +439,3 @@
             const a = document.createElement("a");
             a.href = url;
             a.download = "Entrenadores.txt";
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        // --- Mensajes ---
-        function showMessage(msg, type) {
-            const div = document.getElementById('message');
-            div.textContent = msg;
-            div.className = `message ${type}`;
-            setTimeout(() => { div.textContent = ''; div.className = 'message'; }, 3000);
-        }
-
-        window.onload = init;
-        setInterval(loadPublicUsers, 30000);
-    </script>
-</body>
-</html>
