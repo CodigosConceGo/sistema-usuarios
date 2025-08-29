@@ -412,7 +412,7 @@
         function logout() {
             currentUser = '';
             localStorage.removeItem('currentUser');
-            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('loginSection').classList.remove('hidden'); // ✅ CORREGIDO: classList en lugar de classlection
             document.getElementById('mainSection').classList.add('hidden');
             document.getElementById('userName').value = '';
             loadPublicUsers();
@@ -456,7 +456,7 @@
             txtContent += '================================\n\n';
             txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
             txtContent += `Total de Entrenador@s: ${allPublicUsers.length}\n\n`;
-            txtContent += '🎯 LISTA DE ENTTRNADOR@s:\n';
+            txtContent += '🎯 LISTA DE ENTRENADOR@S:\n';
             txtContent += '='.repeat(40) + '\n\n';
 
             allPublicUsers.forEach((user, index) => {
