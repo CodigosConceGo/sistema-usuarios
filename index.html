@@ -117,6 +117,7 @@
             border: 4px solid #ffde00;
             position: relative;
             overflow: hidden;
+            z-index: 10; /* Añadido para asegurar que esté arriba */
         }
         .login-section-pokemon::before {
             content: '';
@@ -128,6 +129,7 @@
             background: radial-gradient(circle, rgba(255,222,0,0.1) 1px, transparent 1px);
             background-size: 30px 30px;
             animation: float 3s infinite linear;
+            pointer-events: none; /* Añadido para que no interfiera con los clicks */
         }
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
@@ -153,6 +155,8 @@
             box-shadow: 0 5px 15px rgba(255, 222, 0, 0.3);
             transition: all 0.3s ease;
             text-align: center;
+            position: relative;
+            z-index: 20; /* Asegurar que el input esté arriba de todo */
         }
         .login-input:focus {
             outline: none;
@@ -170,6 +174,8 @@
             color: #3b4cca;
             font-weight: bold;
             text-transform: uppercase;
+            position: relative;
+            z-index: 20; /* Asegurar que el botón esté arriba de todo */
         }
         .login-btn:hover {
             transform: translateY(-3px) scale(1.05);
@@ -294,6 +300,12 @@
             transform: translateY(-2px);
             box-shadow: 0 7px 20px rgba(255, 222, 0, 0.4);
         }
+
+        /* Fix para el problema de focus */
+        .login-input-fix {
+            position: relative;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -305,7 +317,9 @@
             <div class="login-section-pokemon">
                 <h2 class="login-title">🎮 ¡IDENTIFÍCATE PARA AGREGAR CÓDIGOS! 🎮</h2>
                 <div class="form-group" style="text-align: center;">
-                    <input type="text" id="userName" placeholder="🎯 Tu nombre de Entrenador/a Pokémon" class="login-input">
+                    <div class="login-input-fix">
+                        <input type="text" id="userName" placeholder="🎯 Tu nombre de Entrenador/a Pokémon" class="login-input">
+                    </div>
                     <button onclick="login()" class="login-btn">⚡ Ingresar al Sistema</button>
                 </div>
                 <div style="text-align: center; color: #ffde00; margin-top: 15px; font-weight: bold; text-shadow: 1px 1px 0 #3b4cca;">
@@ -313,6 +327,7 @@
                 </div>
             </div>
 
+            <!-- Resto del código permanece igual -->
             <!-- Buscador Público -->
             <div class="search-section">
                 <h3>🔍 Buscar Entrenador@s Pokémon</h3>
@@ -382,6 +397,32 @@
         function init() {
             checkLogin();
             loadPublicUsers();
+            fixInputFocus(); // Añadido para solucionar el problema de focus
+        }
+
+        // NUEVA FUNCIÓN para solucionar el problema de focus
+        function fixInputFocus() {
+            const userNameInput = document.getElementById('userName');
+            
+            // Forzar el focus al hacer clic en cualquier parte del contenedor
+            document.getElementById('loginSection').addEventListener('click', function(e) {
+                if (e.target !== userNameInput) {
+                    userNameInput.focus();
+                }
+            });
+
+            // Prevenir que el input pierda el focus
+            userNameInput.addEventListener('blur', function(e) {
+                e.preventDefault();
+                setTimeout(() => {
+                    userNameInput.focus();
+                }, 10);
+            });
+
+            // Enfocar automáticamente al cargar la página
+            setTimeout(() => {
+                userNameInput.focus();
+            }, 1000);
         }
 
         function checkLogin() {
@@ -412,11 +453,18 @@
         function logout() {
             currentUser = '';
             localStorage.removeItem('currentUser');
-            document.getElementById('loginSection').classList.remove('hidden'); // ✅ CORREGIDO: classList en lugar de classlection
+            document.getElementById('loginSection').classList.remove('hidden');
             document.getElementById('mainSection').classList.add('hidden');
             document.getElementById('userName').value = '';
             loadPublicUsers();
+            
+            // Re-enfocar el input después de logout
+            setTimeout(() => {
+                document.getElementById('userName').focus();
+            }, 100);
         }
+
+        // ... (el resto de las funciones se mantienen igual) ...
 
         // Función de búsqueda en tiempo real CON VALIDACIÓN
         function searchPublicUsers() {
