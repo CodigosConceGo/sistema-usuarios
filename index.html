@@ -3,8 +3,6 @@
 <head>
     <title>⚡ Pokédex Entrenadores ConceGo ⚡</title>
     <meta charset="UTF-8">
-
-    <!-- Fuente estilo retro Pokémon -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <style>
@@ -29,8 +27,8 @@
         }
         h1, h2, h3 {
             text-align: center;
-            color: #ffcb05; /* Amarillo Pikachu */
-            text-shadow: 2px 2px #3b4cca; /* Azul Pokémon */
+            color: #ffcb05;
+            text-shadow: 2px 2px #3b4cca;
         }
         .form-group { margin: 15px 0; }
         input, button { 
@@ -54,22 +52,11 @@
         .btn-export:hover { background: #e0b000; }
         .btn-search { background: #3b4cca; color: white; }
         .btn-search:hover { background: #2a3799; }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin: 20px 0; 
-            font-size: 14px;
-        }
-        th, td { 
-            border: 1px solid #ddd; 
-            padding: 12px; 
-            text-align: left; 
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #3b4cca; color: white; }
         tr:nth-child(even) { background-color: #f9f9f9; }
         .hidden { display: none; }
-
-        /* BLOQUE DESTACADO - como carta Pokémon */
         .highlight-card {
             background: #ffcb05;
             border: 3px solid #ff0000;
@@ -83,23 +70,10 @@
             color: #3b4cca;
             text-shadow: 2px 2px white;
         }
-
-        .message {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-size: 12px;
-        }
+        .message { padding: 10px; margin: 10px 0; border-radius: 5px; font-size: 12px; }
         .success { background: #d4edda; color: #155724; }
         .error { background: #f8d7da; color: #721c24; }
-
-        .highlight {
-            background: #fff3cd;
-            padding: 0 2px;
-            border-radius: 2px;
-        }
-
-        /* Estilo autocompletado */
+        .highlight { background: #fff3cd; padding: 0 2px; border-radius: 2px; }
         #autocompleteList {
             border: 2px solid #3b4cca;
             border-top: none;
@@ -111,12 +85,12 @@
             z-index: 10;
             font-size: 12px;
         }
-        #autocompleteList div {
-            padding: 8px;
-            cursor: pointer;
-        }
-        #autocompleteList div:hover {
-            background: #ffcb05;
+        #autocompleteList div { padding: 8px; cursor: pointer; }
+        #autocompleteList div:hover { background: #ffcb05; }
+        /* Scroll limitado para tablas */
+        .table-wrapper {
+            max-height: 280px; /* ~7 filas */
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -124,7 +98,7 @@
     <div class="container">
         <h1>🎮 Pokédex de Entrenadores ConceGo 🎮</h1>
 
-        <!-- Sección de Login -->
+        <!-- Login -->
         <div id="loginSection">
             <h2>🔐 Ingresa tu nombre de Entrenador/a</h2>
             <div class="form-group" style="text-align:center;">
@@ -132,74 +106,54 @@
                 <button onclick="login()">⚡ Ingresar</button>
             </div>
 
-            <!-- Buscador Público -->
+            <!-- Búsqueda -->
             <div class="search-section" style="position:relative; text-align:center;">
                 <h3>🔍 Buscar entrenador@s</h3>
                 <div class="form-group">
                     <input type="text" id="publicSearchInput" placeholder="Busca por nick o código..." oninput="searchPublicUsers(true)" style="width: 300px;">
                     <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
                 </div>
-                <!-- Lista autocompletado -->
                 <div id="autocompleteList" class="hidden"></div>
                 <p><strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s</p>
             </div>
 
-            <!-- Tabla Pública -->
-            <div style="margin-top: 30px;">
-                <h3>👥 Entrenador@s Registrados</h3>
-                <div style="overflow-x: auto;">
-                    <table class="view-only">
-                        <thead>
-                            <tr>
-                                <th>Nick</th>
-                                <th>Código</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="publicUsersTable">
-                            <tr>
-                                <td colspan="3" style="text-align: center;">Cargando...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <!-- Tabla Pública con scroll -->
+            <h3>👥 Entrenador@s Registrados</h3>
+            <div class="table-wrapper">
+                <table class="view-only">
+                    <thead>
+                        <tr><th>Nick</th><th>Código</th><th>Estado</th></tr>
+                    </thead>
+                    <tbody id="publicUsersTable">
+                        <tr><td colspan="3" style="text-align: center;">Cargando...</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Sección Principal -->
+        <!-- Principal -->
         <div id="mainSection" class="hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h2>👋 Hola, <span id="currentUser" style="color: #ff0000;"></span></h2>
-                <button onclick="logout()" style="background: #000;">🚪 Cerrar Sesión</button>
+                <button onclick="logout()" style="background:#000;">🚪 Cerrar Sesión</button>
             </div>
 
-            <!-- FORMULARIO DESTACADO -->
             <div class="highlight-card">
                 <h3>✨➕ Agregar Nuevo Entrenador/a ✨</h3>
                 <div class="form-group">
-                    <input type="text" id="nickInput" placeholder="Nick" style="width: 200px;">
-                    <input type="text" id="codeInput" placeholder="Código" style="width: 200px;">
+                    <input type="text" id="nickInput" placeholder="Nick" style="width:200px;">
+                    <input type="text" id="codeInput" placeholder="Código" style="width:200px;">
                     <button onclick="addUser()">✅ Agregar</button>
                 </div>
                 <div id="message" class="message"></div>
             </div>
 
-            <!-- Tabla -->
             <h3>📋 Gestión de Entrenador@s</h3>
-            <div style="overflow-x: auto;">
+            <div class="table-wrapper">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Nick</th>
-                            <th>Código</th>
-                            <th>Creado por</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Nick</th><th>Código</th><th>Creado por</th><th>Acciones</th></tr></thead>
                     <tbody id="usersTable">
-                        <tr>
-                            <td colspan="4" style="text-align: center;">Cargando...</td>
-                        </tr>
+                        <tr><td colspan="4" style="text-align:center;">Cargando...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -207,16 +161,43 @@
             <h3>📈 Total de entrenador@s: <span id="totalUsers">0</span></h3>
         </div>
 
-        <!-- Exportar Datos (MOVIDO ABAJO) -->
-        <div class="export-section" style="text-align:center; margin-top:40px;">
+        <!-- Exportar abajo -->
+        <div class="export-section" style="text-align:center; margin-top:20px;">
             <h3>📤 Exportar Base de Datos</h3>
             <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT</button>
         </div>
     </div>
 
-    <!-- SCRIPT (igual que antes con autocompletado) -->
     <script>
-      // ... (el mismo script JS que ya incluía login, addUser, deleteUser, búsqueda con autocompletado y exportToTXT)
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
+      let currentUser='', users=[], allPublicUsers=[];
+
+      function normalizeStr(v){return (v??'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();}
+      function normalizeCode(v){return normalizeStr(v).replace(/[\s-]/g,'');}
+
+      function init(){checkLogin();loadPublicUsers();}
+      function checkLogin(){const u=localStorage.getItem('currentUser');if(u)loginUser(u);}
+      function login(){const n=document.getElementById('userName').value.trim();if(n){loginUser(n);localStorage.setItem('currentUser',n);}else showMessage('⚠️ Ingresa tu nombre','error');}
+      function loginUser(u){currentUser=u;document.getElementById('currentUser').textContent=u;document.getElementById('loginSection').classList.add('hidden');document.getElementById('mainSection').classList.remove('hidden');loadUsers();}
+      function logout(){currentUser='';localStorage.removeItem('currentUser');document.getElementById('loginSection').classList.remove('hidden');document.getElementById('mainSection').classList.add('hidden');document.getElementById('userName').value='';loadPublicUsers();}
+
+      async function loadUsers(){const r=await fetch(`${SCRIPT_URL}?action=getUsers`);const d=await r.json();if(d.success){users=d.users||[];renderUsersTable();}}
+      async function addUser(){const n=document.getElementById('nickInput').value.trim(),c=document.getElementById('codeInput').value.trim();if(!n||!c){showMessage('❌ Completa todos','error');return;}const url=`${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(n)}&code=${encodeURIComponent(c)}&creator=${encodeURIComponent(currentUser)}`;const r=await fetch(url,{method:'POST'});const d=await r.json();if(d.success){showMessage('✅ Agregado','success');document.getElementById('nickInput').value='';document.getElementById('codeInput').value='';loadUsers();loadPublicUsers();}else showMessage('❌ '+d.error,'error');}
+      async function deleteUser(n){if(!confirm(`¿Eliminar a ${n}?`))return;const url=`${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(n)}&creator=${encodeURIComponent(currentUser)}`;const r=await fetch(url,{method:'POST'});const d=await r.json();if(d.success){showMessage('🗑️ Eliminado','success');loadUsers();loadPublicUsers();}else showMessage('❌ '+d.error,'error');}
+      function renderUsersTable(){const b=document.getElementById('usersTable'),t=document.getElementById('totalUsers');if(!users.length){b.innerHTML='<tr><td colspan="4">No hay registros</td></tr>';t.textContent='0';return;}b.innerHTML=users.map(u=>`<tr><td>${u.Nick}</td><td>${u.Codigo}</td><td>${u.CreadoPor}</td><td>${u.CreadoPor===currentUser?`<button onclick="deleteUser('${u.Nick}')">🗑️</button>`:'🔒'}</td></tr>`).join('');t.textContent=users.length;}
+
+      async function loadPublicUsers(){const r=await fetch(`${SCRIPT_URL}?action=getUsers&ts=${Date.now()}`);const d=await r.json();if(d.success){allPublicUsers=(d.users||[]).map(u=>({Nick:(u.Nick??'').toString().trim(),Codigo:(u.Codigo??'').toString().trim(),CreadoPor:(u.CreadoPor??'').toString().trim()}));renderPublicUsersTable(allPublicUsers);}}
+
+      function searchPublicUsers(showAuto=false){const raw=document.getElementById('publicSearchInput').value,termN=normalizeStr(raw),termC=normalizeCode(raw);if(!termN){renderPublicUsersTable(allPublicUsers);document.getElementById('autocompleteList').classList.add('hidden');return;}const f=allPublicUsers.filter(u=>normalizeStr(u.Nick).includes(termN)||normalizeCode(u.Codigo).includes(termC));renderPublicUsersTable(f,raw);if(showAuto){const list=document.getElementById('autocompleteList');if(!f.length){list.classList.add('hidden');return;}list.innerHTML=f.slice(0,6).map(u=>`<div onclick="selectSuggestion('${u.Nick}')">${u.Nick} (${u.Codigo})</div>`).join('');list.classList.remove('hidden');}}
+      function selectSuggestion(v){document.getElementById('publicSearchInput').value=v;document.getElementById('autocompleteList').classList.add('hidden');searchPublicUsers(false);}
+      function clearSearch(){document.getElementById('publicSearchInput').value='';renderPublicUsersTable(allPublicUsers);document.getElementById('autocompleteList').classList.add('hidden');}
+
+      function renderPublicUsersTable(data,h=''){const b=document.getElementById('publicUsersTable');document.getElementById('publicTotal').textContent=allPublicUsers.length;document.getElementById('publicShowing').textContent=data.length;if(!data.length){b.innerHTML=`<tr><td colspan="3">${h?`No resultados para <b>${h}</b>`:'Sin registros'}</td></tr>`;return;}const re=new RegExp(`(${h})`,'gi');b.innerHTML=data.map(u=>`<tr><td>${h?u.Nick.replace(re,'<span class="highlight">$1</span>'):u.Nick}</td><td>${h?u.Codigo.replace(re,'<span class="highlight">$1</span>'):u.Codigo}</td><td>🔒</td></tr>`).join('');}
+
+      function exportToTXT(){let txt="LISTA DE ENTRENADOR@S\n=================\n";allPublicUsers.forEach(u=>{txt+=`Nick: ${u.Nick}\nCódigo: ${u.Codigo}\n-----------------\n`;});const blob=new Blob([txt],{type:"text/plain"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="Entrenadores.txt";a.click();URL.revokeObjectURL(url);}
+      function showMessage(m,t){const d=document.getElementById('message');d.textContent=m;d.className=`message ${t}`;setTimeout(()=>{d.textContent='';d.className='message';},3000);}
+      window.onload=init;
+      setInterval(loadPublicUsers,30000);
     </script>
 </body>
 </html>
