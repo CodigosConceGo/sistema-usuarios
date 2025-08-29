@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Codigos entrenadores/as Pokémon ConceGo</title>
+    <title>Codigos Entrenador@s Pokémon ConceGo</title>
     <meta charset="UTF-8">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -298,24 +298,24 @@
 </head>
 <body>
     <div class="container">
-        <h1>⚡ Codigos de Entrenadores ConceGo ⚡</h1>
+        <h1>⚡ Codigos de Entrenador@s ConceGo ⚡</h1>
 
         <!-- Sección de Login Pokémon -->
         <div id="loginSection">
             <div class="login-section-pokemon">
                 <h2 class="login-title">🎮 ¡IDENTIFÍCATE PARA AGREGAR CÓDIGOS! 🎮</h2>
                 <div class="form-group" style="text-align: center;">
-                    <input type="text" id="userName" placeholder="🎯 Tu nombre de Entrenador Pokémon" class="login-input">
+                    <input type="text" id="userName" placeholder="🎯 Tu nombre de Entrenador/a Pokémon" class="login-input">
                     <button onclick="login()" class="login-btn">⚡ Ingresar al Sistema</button>
                 </div>
                 <div style="text-align: center; color: #ffde00; margin-top: 15px; font-weight: bold; text-shadow: 1px 1px 0 #3b4cca;">
-                    🚀 Solo entrenadores registrados pueden agregar nuevos códigos
+                    🚀 Solo Entrenador@s registrados pueden agregar nuevos códigos
                 </div>
             </div>
 
             <!-- Buscador Público -->
             <div class="search-section">
-                <h3>🔍 Buscar Entrenadores Pokémon</h3>
+                <h3>🔍 Buscar Entrenador@s Pokémon</h3>
                 <div class="form-group">
                     <input type="text" id="publicSearchInput" placeholder="🔎 Escribe para buscar por nombre o código..." 
                            style="padding: 15px; width: 450px;" oninput="searchPublicUsers()">
@@ -323,27 +323,27 @@
                 </div>
                 <div class="stats">
                     <div class="stat-item">
-                        <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenadores
+                        <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> Entrenador@s
                     </div>
                 </div>
             </div>
 
-            <!-- Tabla de Entrenadores visible para todos -->
+            <!-- Tabla de Entrenador@s visible para todos -->
             <div style="margin-top: 30px;">
-                <h3>👥 Entrenadores Pokémon Registrados <span class="pokeball"></span><span class="pokeball"></span></h3>
+                <h3>👥 Entrenador@s Pokémon Registrados <span class="pokeball"></span><span class="pokeball"></span></h3>
                 
                 <div style="overflow-x: auto;">
                     <table class="view-only pokemon-table">
                         <thead>
                             <tr>
-                                <th>🎯 Nombre de Entrenador</th>
+                                <th>🎯 Nombre de Entrenador/a</th>
                                 <th>🔢 Código Pokémon</th>
                                 <th>🔐 Estado</th>
                             </tr>
                         </thead>
                         <tbody id="publicUsersTable">
                             <tr>
-                                <td colspan="3" style="text-align: center;">📥 Cargando Entrenadores Pokémon...</td>
+                                <td colspan="3" style="text-align: center;">📥 Cargando Entrenador@s Pokémon...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -352,20 +352,20 @@
 
             <!-- Sección de Exportar Datos Pokémon (AL FINAL) -->
             <div class="export-section-pokemon">
-                <h3>📤 Exportar Códigos de Entrenadores</h3>
+                <h3>📤 Exportar Códigos de Entrenador@s</h3>
                 <div style="margin: 20px 0;">
                     <button onclick="exportToTXT()" class="export-btn-pokemon">
                         💾 Descargar TXT Pokémon
                     </button>
                 </div>
                 <div style="color: #ffde00; font-weight: bold; text-shadow: 1px 1px 0 #000;">
-                    <span class="pokeball"></span> Exporta nombres y códigos de entrenadores 
+                    <span class="pokeball"></span> Exporta nombres y códigos de Entrenador@s 
                     <span class="pokeball"></span>
                 </div>
             </div>
         </div>
 
-        <!-- Sección Principal (solo para entrenadores logueados) -->
+        <!-- Sección Principal (solo para Entrenador@s logueados) -->
         <div id="mainSection" class="hidden">
             <!-- ... (el resto de tu código existente para la sección logueada) ... -->
         </div>
@@ -397,7 +397,7 @@
                 loginUser(userName);
                 localStorage.setItem('currentUser', userName);
             } else {
-                showMessage('Por favor ingresa tu nombre de Entrenador Pokémon', 'error');
+                showMessage('Por favor ingresa tu nombre de Entrenador/a Pokémon', 'error');
             }
         }
 
@@ -452,21 +452,21 @@
                 return;
             }
 
-            let txtContent = 'CÓDIGOS DE ENTRENADORES Pokémon\n';
+            let txtContent = 'CÓDIGOS DE ENTRENADOR@S POKEMÓN\n';
             txtContent += '================================\n\n';
             txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
-            txtContent += `Total de Entrenadores: ${allPublicUsers.length}\n\n`;
-            txtContent += '🎯 LISTA DE ENTRENADORES:\n';
+            txtContent += `Total de Entrenador@s: ${allPublicUsers.length}\n\n`;
+            txtContent += '🎯 LISTA DE ENTTRNADOR@s:\n';
             txtContent += '='.repeat(40) + '\n\n';
 
             allPublicUsers.forEach((user, index) => {
-                txtContent += `ENTRENADOR #${index + 1}:\n`;
+                txtContent += `Entrenador/a #${index + 1}:\n`;
                 txtContent += `Nombre: ${user.Nick || 'Desconocido'}\n`;
                 txtContent += `Código: ${user.Codigo || 'Sin código'}\n`;
                 txtContent += '─'.repeat(40) + '\n';
             });
 
-            downloadFile(txtContent, 'Pokecodigos_Entrenadores.txt', 'text/plain');
+            downloadFile(txtContent, 'Pokecodigos_Entrenador@s.txt', 'text/plain');
         }
 
         function downloadFile(content, fileName, contentType) {
@@ -484,7 +484,7 @@
         function cleanUserData(users) {
             return users.map(user => {
                 return {
-                    Nick: user.Nick ? user.Nick.toString().trim() : 'Entrenador Mysterious',
+                    Nick: user.Nick ? user.Nick.toString().trim() : 'Entrenador/a Mysterious',
                     Codigo: user.Codigo ? user.Codigo.toString().trim() : 'Código Secreto',
                     CreadoPor: user.CreadoPor || 'Profesor Oak',
                     Numero: user.Numero || 0,
@@ -511,7 +511,7 @@
                     throw new Error('Error en la respuesta: ' + (data.error || 'Desconocido'));
                 }
             } catch (error) {
-                console.error('❌ Error al cargar Entrenadores:', error);
+                console.error('❌ Error al cargar Entrenador@s:', error);
                 document.getElementById('publicUsersTable').innerHTML = 
                     '<tr><td colspan="3" style="text-align: center; color: red;">¡Error cargando Pokecódigo! ' + error.message + '</td></tr>';
             }
@@ -528,7 +528,7 @@
 
             if (usersData.length === 0) {
                 if (searchTerm) {
-                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No se encontraron entrenadores con "' + searchTerm + '"!</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No se encontraron Entrenador@s con "' + searchTerm + '"!</td></tr>';
                 } else {
                     tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No hay códigos! Sé el primero en registrarse.</td></tr>';
                 }
