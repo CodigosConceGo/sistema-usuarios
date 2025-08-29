@@ -62,10 +62,6 @@
         th { 
             background-color: #007bff; 
             color: white;
-            cursor: pointer;
-        }
-        th:hover {
-            background-color: #0056b3;
         }
         tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -117,6 +113,11 @@
             border-radius: 5px;
             border-left: 4px solid #007bff;
         }
+        #publicSearchInput {
+            width: 400px;
+            padding: 12px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -127,30 +128,21 @@
         <div id="loginSection">
             <h2>🔐 Identifícate para agregar código</h2>
             <div class="form-group">
-                <input type="text" id="userName" placeholder="Tu nombre de usuario" style="padding: 12px; width: 300px;">
+                <input type="text" id="userName" placeholder="Tu nombre de Entrenador/a" style="padding: 12px; width: 300px;">
                 <button onclick="login()" style="padding: 12px 20px;">Ingresar al Sistema</button>
             </div>
 
             <!-- Buscador Público -->
             <div class="search-section">
-                <h3>🔍 Buscar Entrenador/a</h3>
+                <h3>🔍 Buscar entrenador@s</h3>
                 <div class="form-group">
-                    <input type="text" id="publicSearchInput" placeholder="Buscar por nick, código o creador..." 
-                           style="padding: 12px; width: 400px;" onkeyup="searchPublicUsers()">
-                    <select id="publicSearchType" onchange="searchPublicUsers()">
-                        <option value="all">Todo</option>
-                        <option value="nick">Nick</option>
-                        <option value="code">Código</option>
-                        <option value="creator">Creador</option>
-                    </select>
+                    <input type="text" id="publicSearchInput" placeholder="Escribe para buscar por nick o código..." 
+                           style="padding: 12px; width: 400px;" oninput="searchPublicUsers()">
                     <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
                 </div>
                 <div class="stats">
                     <div class="stat-item">
-                        <strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> Entrenador/a
-                    </div>
-                    <div class="stat-item">
-                        <strong>Búsqueda:</strong> <span id="publicSearchTerm">-</span>
+                        <strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s
                     </div>
                 </div>
             </div>
@@ -158,29 +150,26 @@
             <!-- Exportar Datos -->
             <div class="export-section">
                 <h3>📤 Exportar Base de Datos</h3>
-                <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT</button>
-                <button onclick="exportToCSV()" class="btn-export">📊 Descargar CSV</button>
-                <span style="margin-left: 10px; color: #6c757d;">Descarga completa de todos los usuarios</span>
+                <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT (Solo nick y código)</button>
+                <span style="margin-left: 10px; color: #6c757d;">Solo exporta nick y código</span>
             </div>
 
-            <!-- Tabla de usuarios visible para todos -->
+            <!-- Tabla de Entrenador@s visible para todos -->
             <div style="margin-top: 30px;">
-                <h3>👥 Entrenador@s Registrad@s (Solo lectura)</h3>
+                <h3>👥 Entrenador@s Registrados (Solo lectura)</h3>
                 
                 <div style="overflow-x: auto;">
                     <table class="view-only">
                         <thead>
                             <tr>
-                                <th onclick="sortPublicTable(0)"># ↗</th>
-                                <th onclick="sortPublicTable(1)">Nick ↗</th>
-                                <th onclick="sortPublicTable(2)">Código ↗</th>
-                                <th onclick="sortPublicTable(3)">Creador ↗</th>
+                                <th>Nick</th>
+                                <th>Código</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody id="publicUsersTable">
                             <tr>
-                                <td colspan="5" style="text-align: center;">Cargando usuarios...</td>
+                                <td colspan="3" style="text-align: center;">Cargando Entrenador@s...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -188,7 +177,7 @@
             </div>
         </div>
 
-        <!-- Sección Principal (solo para usuarios logueados) -->
+        <!-- Sección Principal (solo para Entrenador@s logueados) -->
         <div id="mainSection" class="hidden">
             <!-- ... (el resto de tu código existente para la sección logueada) ... -->
         </div>
@@ -200,38 +189,62 @@
         let currentUser = '';
         let users = [];
         let publicUsers = [];
-        let currentSort = { column: 0, direction: 'asc' };
+        let allPublicUsers = [];
 
         function init() {
             checkLogin();
             loadPublicUsers();
         }
 
-        // ... (tus funciones existentes de login, logout, etc.) ...
+        function checkLogin() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                loginUser(savedUser);
+            }
+        }
 
-        // Función de búsqueda para usuarios públicos
+        function login() {
+            const userName = document.getElementById('userName').value.trim();
+            if (userName) {
+                loginUser(userName);
+                localStorage.setItem('currentUser', userName);
+            } else {
+                showMessage('Por favor ingresa tu nombre de Entrenador/a', 'error');
+            }
+        }
+
+        function loginUser(userName) {
+            currentUser = userName;
+            document.getElementById('currentUser').textContent = currentUser;
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('mainSection').classList.remove('hidden');
+            loadUsers();
+        }
+
+        function logout() {
+            currentUser = '';
+            localStorage.removeItem('currentUser');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('mainSection').classList.add('hidden');
+            document.getElementById('userName').value = '';
+            loadPublicUsers();
+        }
+
+        // Función de búsqueda en tiempo real
         function searchPublicUsers() {
-            const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
-            const searchType = document.getElementById('publicSearchType').value;
-            
-            document.getElementById('publicSearchTerm').textContent = searchTerm || '-';
+            const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase().trim();
             
             if (!searchTerm) {
-                renderPublicUsersTable(publicUsers);
+                // Si no hay término de búsqueda, mostrar todos los Entrenador@s
+                renderPublicUsersTable(allPublicUsers);
                 return;
             }
 
-            const filteredUsers = publicUsers.filter(user => {
-                if (searchType === 'all') {
-                    return (
-                        (user.Nick && user.Nick.toLowerCase().includes(searchTerm)) ||
-                        (user.Codigo && user.Codigo.toLowerCase().includes(searchTerm)) ||
-                        (user.CreadoPor && user.CreadoPor.toLowerCase().includes(searchTerm))
-                    );
-                } else {
-                    const value = user[searchType] || '';
-                    return value.toLowerCase().includes(searchTerm);
-                }
+            // Buscar en nick y código
+            const filteredUsers = allPublicUsers.filter(user => {
+                const nickMatch = user.Nick && user.Nick.toLowerCase().includes(searchTerm);
+                const codeMatch = user.Codigo && user.Codigo.toLowerCase().includes(searchTerm);
+                return nickMatch || codeMatch;
             });
 
             renderPublicUsersTable(filteredUsers);
@@ -240,82 +253,29 @@
         // Limpiar búsqueda
         function clearSearch() {
             document.getElementById('publicSearchInput').value = '';
-            document.getElementById('publicSearchType').value = 'all';
-            document.getElementById('publicSearchTerm').textContent = '-';
-            renderPublicUsersTable(publicUsers);
+            renderPublicUsersTable(allPublicUsers);
         }
 
-        // Ordenar tabla pública
-        function sortPublicTable(columnIndex) {
-            if (currentSort.column === columnIndex) {
-                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                currentSort.column = columnIndex;
-                currentSort.direction = 'asc';
-            }
-
-            publicUsers.sort((a, b) => {
-                let valueA, valueB;
-                
-                switch(columnIndex) {
-                    case 0: valueA = a.Numero; valueB = b.Numero; break;
-                    case 1: valueA = a.Nick; valueB = b.Nick; break;
-                    case 2: valueA = a.Codigo; valueB = b.Codigo; break;
-                    case 3: valueA = a.CreadoPor; valueB = b.CreadoPor; break;
-                    default: return 0;
-                }
-
-                valueA = valueA || '';
-                valueB = valueB || '';
-
-                if (currentSort.direction === 'asc') {
-                    return valueA.toString().localeCompare(valueB.toString());
-                } else {
-                    return valueB.toString().localeCompare(valueA.toString());
-                }
-            });
-
-            renderPublicUsersTable(publicUsers);
-        }
-
-        // Exportar a TXT
+        // Exportar a TXT (solo nick y código)
         function exportToTXT() {
-            if (publicUsers.length === 0) {
+            if (allPublicUsers.length === 0) {
                 alert('No hay datos para exportar');
                 return;
             }
 
-            let txtContent = 'BASE DE DATOS DE EBTREBADOR@S\n';
-            txtContent += '=========================\n\n';
+            let txtContent = 'LISTA DE ENTRENADOR@S\n';
+            txtContent += '=================\n\n';
             txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
-            txtContent += `Total de usuarios: ${publicUsers.length}\n\n`;
+            txtContent += `Total de Entrenador@s: ${allPublicUsers.length}\n\n`;
 
-            publicUsers.forEach(user => {
-                txtContent += `Número: ${user.Numero || 'N/A'}\n`;
+            // Solo nick y código
+            allPublicUsers.forEach(user => {
                 txtContent += `Nick: ${user.Nick || 'N/A'}\n`;
                 txtContent += `Código: ${user.Codigo || 'N/A'}\n`;
-                txtContent += `Creado por: ${user.CreadoPor || 'N/A'}\n`;
-                txtContent += `Timestamp: ${user.Timestamp || 'N/A'}\n`;
-                txtContent += '─'.repeat(40) + '\n';
+                txtContent += '─'.repeat(30) + '\n';
             });
 
-            downloadFile(txtContent, 'usuarios.txt', 'text/plain');
-        }
-
-        // Exportar a CSV
-        function exportToCSV() {
-            if (publicUsers.length === 0) {
-                alert('No hay datos para exportar');
-                return;
-            }
-
-            let csvContent = 'Número,Nick,Código,Creado Por,Timestamp\n';
-            
-            publicUsers.forEach(user => {
-                csvContent += `"${user.Numero || ''}","${user.Nick || ''}","${user.Codigo || ''}","${user.CreadoPor || ''}","${user.Timestamp || ''}"\n`;
-            });
-
-            downloadFile(csvContent, 'usuarios.csv', 'text/csv');
+            downloadFile(txtContent, 'Entrenador@s.txt', 'text/plain');
         }
 
         // Función para descargar archivo
@@ -331,54 +291,62 @@
             URL.revokeObjectURL(url);
         }
 
-        // Cargar usuarios para vista pública
+        // Cargar Entrenador@s para vista pública
         async function loadPublicUsers() {
             try {
                 const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
                 const data = await response.json();
                 
                 if (data.success) {
-                    publicUsers = data.users || [];
-                    renderPublicUsersTable(publicUsers);
+                    allPublicUsers = data.users || [];
+                    publicUsers = allPublicUsers;
+                    renderPublicUsersTable(allPublicUsers);
                 }
             } catch (error) {
-                console.error('Error al cargar usuarios públicos:', error);
+                console.error('Error al cargar Entrenador@s públicos:', error);
                 document.getElementById('publicUsersTable').innerHTML = 
-                    '<tr><td colspan="5" style="text-align: center; color: red;">Error al cargar usuarios</td></tr>';
+                    '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar Entrenador@s</td></tr>';
             }
         }
 
-        // Renderizar tabla pública de usuarios
+        // Renderizar tabla pública de Entrenador@s
         function renderPublicUsersTable(usersData) {
             const tableBody = document.getElementById('publicUsersTable');
             const totalSpan = document.getElementById('publicTotal');
             const showingSpan = document.getElementById('publicShowing');
             const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
             
-            totalSpan.textContent = publicUsers.length;
+            totalSpan.textContent = allPublicUsers.length;
             showingSpan.textContent = usersData.length;
 
             if (usersData.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No se encontraron usuarios</td></tr>';
+                if (searchTerm) {
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No se encontraron Entrenador@s con "' + searchTerm + '"</td></tr>';
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No hay Entrenador@s registrados</td></tr>';
+                }
                 return;
             }
 
             let tableHTML = '';
             usersData.forEach(user => {
-                // Resaltar coincidencias de búsqueda
-                const nick = searchTerm && user.Nick ? 
-                    highlightText(user.Nick, searchTerm) : user.Nick;
-                const code = searchTerm && user.Codigo ? 
-                    highlightText(user.Codigo, searchTerm) : user.Codigo;
-                const creator = searchTerm && user.CreadoPor ? 
-                    highlightText(user.CreadoPor, searchTerm) : user.CreadoPor;
+                let nickDisplay = user.Nick || '-';
+                let codeDisplay = user.Codigo || '-';
+                
+                // Resaltar coincidencias de búsqueda si hay término
+                if (searchTerm) {
+                    if (user.Nick && user.Nick.toLowerCase().includes(searchTerm)) {
+                        nickDisplay = highlightText(user.Nick, searchTerm);
+                    }
+                    if (user.Codigo && user.Codigo.toLowerCase().includes(searchTerm)) {
+                        codeDisplay = highlightText(user.Codigo, searchTerm);
+                    }
+                }
 
                 tableHTML += `
                     <tr>
-                        <td>${user.Numero || '-'}</td>
-                        <td>${nick || '-'}</td>
-                        <td>${code || '-'}</td>
-                        <td>${creator || '-'}</td>
+                        <td>${nickDisplay}</td>
+                        <td>${codeDisplay}</td>
                         <td><span style="color: #6c757d;">🔒 Solo lectura</span></td>
                     </tr>
                 `;
@@ -389,10 +357,18 @@
 
         // Resaltar texto en búsquedas
         function highlightText(text, searchTerm) {
-            if (!text || !searchTerm) return text;
-            
             const regex = new RegExp(`(${searchTerm})`, 'gi');
             return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = 'message';
+            }, 3000);
         }
 
         // Iniciar la aplicación
