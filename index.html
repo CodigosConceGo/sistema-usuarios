@@ -5,228 +5,118 @@
     <meta charset="UTF-8">
     <style>
         body { 
-            font-family: 'Arial', sans-serif; 
+            font-family: Arial, sans-serif; 
             max-width: 1200px; 
             margin: 0 auto; 
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            background-color: #f5f5f5;
         }
         .container {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         .form-group { 
-            margin: 20px 0; 
+            margin: 15px 0; 
         }
         input, button, select { 
-            padding: 12px; 
-            margin: 8px; 
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 10px; 
+            margin: 5px; 
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
         button {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            background: #007bff;
             color: white;
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: background 0.3s;
         }
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            background: #0056b3;
         }
         .btn-export {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+            background: #28a745;
         }
         .btn-export:hover {
-            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+            background: #218838;
         }
         .btn-search {
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: #333;
-            box-shadow: 0 4px 15px rgba(246, 211, 101, 0.3);
+            background: #ffc107;
+            color: black;
         }
         .btn-search:hover {
-            box-shadow: 0 6px 20px rgba(246, 211, 101, 0.4);
+            background: #e0a800;
         }
         table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin: 25px 0; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0; 
         }
         th, td { 
-            border: 1px solid #e0e0e0; 
-            padding: 15px; 
+            border: 1px solid #ddd; 
+            padding: 12px; 
             text-align: left; 
         }
         th { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #007bff; 
             color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-        tr:hover {
-            background-color: #f1f3ff;
-            transition: background-color 0.2s ease;
+            background-color: #f9f9f9;
         }
         .hidden {
             display: none;
         }
         .message {
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
-            font-weight: bold;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
         }
         .success {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            background: #d4edda;
             color: #155724;
-            border: 2px solid #c3e6cb;
         }
         .error {
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            background: #f8d7da;
             color: #721c24;
-            border: 2px solid #f5c6cb;
         }
         .view-only {
-            opacity: 0.9;
-            background-color: #fafafa;
+            opacity: 0.8;
+            background-color: #f8f9fa;
         }
-        
-        /* Sección de Login Destacada */
-        .login-section-premium {
-            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
-            padding: 30px;
-            border-radius: 15px;
-            margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(255, 126, 95, 0.3);
-            border: 3px solid #ff6b6b;
-            position: relative;
-            overflow: hidden;
-        }
-        .login-section-premium::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            animation: float 3s infinite linear;
-        }
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-20px) rotate(360deg); }
-        }
-        .login-title {
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            font-size: 28px;
-            margin-bottom: 20px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-        .login-input {
-            width: 350px;
-            padding: 15px;
-            font-size: 18px;
-            border: 3px solid #ff9f80;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 5px 15px rgba(255, 159, 128, 0.3);
-            transition: all 0.3s ease;
-        }
-        .login-input:focus {
-            outline: none;
-            border-color: #ff6b6b;
-            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
-            transform: scale(1.02);
-        }
-        .login-btn {
-            background: linear-gradient(135deg, #ffd93d 0%, #ff9f40 100%);
-            padding: 16px 35px;
-            font-size: 18px;
-            border-radius: 50px;
-            box-shadow: 0 6px 20px rgba(255, 217, 61, 0.4);
-            border: 2px solid #ffd93d;
-        }
-        .login-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 217, 61, 0.5);
-        }
-        
         .search-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 25px 0;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
         }
         .export-section {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 25px 0;
-            box-shadow: 0 5px 20px rgba(78, 205, 196, 0.2);
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
         }
         .highlight {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+            background-color: #fff3cd !important;
             border: 2px solid #ffc107;
-            font-weight: bold;
         }
         .stats {
             display: flex;
             justify-content: space-between;
-            margin: 15px 0;
-            gap: 15px;
+            margin: 10px 0;
         }
         .stat-item {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 5px solid #667eea;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            flex: 1;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
         }
         #publicSearchInput {
-            width: 450px;
-            padding: 15px;
+            width: 400px;
+            padding: 12px;
             font-size: 16px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.95);
-        }
-        h1 {
-            text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 36px;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        h2, h3 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .search-section h3,
-        .export-section h3 {
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
     </style>
 </head>
@@ -234,30 +124,25 @@
     <div class="container">
         <h1>📊 Codigos entrenadores/as ConceGo</h1>
 
-        <!-- Sección de Login SUPER DESTACADA -->
+        <!-- Sección de Login -->
         <div id="loginSection">
-            <div class="login-section-premium">
-                <h2 class="login-title">🌟 ¡IDENTIFÍCATE PARA AGREGAR CÓDIGOS! 🌟</h2>
-                <div class="form-group" style="text-align: center;">
-                    <input type="text" id="userName" placeholder="🔐 Tu nombre de Entrenador/a" class="login-input">
-                    <button onclick="login()" class="login-btn">🚀 Ingresar al Sistema</button>
-                </div>
-                <div style="text-align: center; color: white; margin-top: 15px; font-weight: bold;">
-                    ⚡ Solo usuarios registrados pueden agregar nuevos códigos
-                </div>
+            <h2>🔐 Identifícate para agregar código</h2>
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="Tu nombre de Entrenador/a" style="padding: 12px; width: 300px;">
+                <button onclick="login()" style="padding: 12px 20px;">Ingresar al Sistema</button>
             </div>
 
             <!-- Buscador Público -->
             <div class="search-section">
                 <h3>🔍 Buscar entrenador@s</h3>
                 <div class="form-group">
-                    <input type="text" id="publicSearchInput" placeholder="🔎 Escribe para buscar por nick o código..." 
-                           style="padding: 15px; width: 450px;" oninput="searchPublicUsers()">
-                    <button onclick="clearSearch()" class="btn-search">🔄 Limpiar Búsqueda</button>
+                    <input type="text" id="publicSearchInput" placeholder="Escribe para buscar por nick o código..." 
+                           style="padding: 12px; width: 400px;" oninput="searchPublicUsers()">
+                    <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
                 </div>
                 <div class="stats">
                     <div class="stat-item">
-                        <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s
+                        <strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s
                     </div>
                 </div>
             </div>
@@ -266,7 +151,7 @@
             <div class="export-section">
                 <h3>📤 Exportar Base de Datos</h3>
                 <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT (Solo nick y código)</button>
-                <span style="margin-left: 15px; color: white; font-weight: bold;">📝 Solo exporta nick y código</span>
+                <span style="margin-left: 10px; color: #6c757d;">Solo exporta nick y código</span>
             </div>
 
             <!-- Tabla de Entrenador@s visible para todos -->
@@ -277,14 +162,14 @@
                     <table class="view-only">
                         <thead>
                             <tr>
-                                <th>🎯 Nick</th>
-                                <th>🔢 Código</th>
-                                <th>🔐 Estado</th>
+                                <th>Nick</th>
+                                <th>Código</th>
+                                <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody id="publicUsersTable">
                             <tr>
-                                <td colspan="3" style="text-align: center;">📥 Cargando Entrenador@s...</td>
+                                <td colspan="3" style="text-align: center;">Cargando Entrenador@s...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -292,9 +177,48 @@
             </div>
         </div>
 
-        <!-- Sección Principal (solo para Entrenador@s logueados) -->
+        <!-- Sección Principal (solo para usuarios logueados) -->
         <div id="mainSection" class="hidden">
-            <!-- ... (el resto de tu código existente para la sección logueada) ... -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>👋 Hola, <span id="currentUser" style="color: #007bff;"></span></h2>
+                <button onclick="logout()" style="background: #dc3545;">🚪 Cerrar Sesión</button>
+            </div>
+
+            <!-- Formulario para agregar usuarios -->
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3>➕ Agregar Nuevo Entrenador/a</h3>
+                <div class="form-group">
+                    <input type="text" id="nickInput" placeholder="Nick del entrenador/a" style="width: 200px;">
+                    <input type="text" id="codeInput" placeholder="Código" style="width: 200px;">
+                    <button onclick="addUser()">✅ Agregar Entrenador/a</button>
+                </div>
+                <div id="message" class="message"></div>
+            </div>
+
+            <!-- Tabla de usuarios con acciones -->
+            <h3>📋 Gestión de Entrenador@s</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nick</th>
+                            <th>Código</th>
+                            <th>Creado por</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr>
+                            <td colspan="4" style="text-align: center;">Cargando entrenador@s...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Contador total -->
+            <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 5px;">
+                <h3>📈 Total de entrenador@s registrados: <span id="totalUsers">0</span></h3>
+            </div>
         </div>
     </div>
 
@@ -330,7 +254,10 @@
 
         function loginUser(userName) {
             currentUser = userName;
-            document.getElementById('currentUser').textContent = currentUser;
+            const currentUserElement = document.getElementById('currentUser');
+            if (currentUserElement) {
+                currentUserElement.textContent = currentUser;
+            }
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('mainSection').classList.remove('hidden');
             loadUsers();
@@ -354,6 +281,7 @@
                 return;
             }
 
+            // Buscar en nick y código - CON VALIDACIÓN
             const filteredUsers = allPublicUsers.filter(user => {
                 const nick = user.Nick ? user.Nick.toString().toLowerCase() : '';
                 const code = user.Codigo ? user.Codigo.toString().toLowerCase() : '';
@@ -384,6 +312,7 @@
             txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
             txtContent += `Total de Entrenador@s: ${allPublicUsers.length}\n\n`;
 
+            // Solo nick y código
             allPublicUsers.forEach(user => {
                 txtContent += `Nick: ${user.Nick || 'N/A'}\n`;
                 txtContent += `Código: ${user.Codigo || 'N/A'}\n`;
@@ -393,6 +322,7 @@
             downloadFile(txtContent, 'Entrenador@s.txt', 'text/plain');
         }
 
+        // Función para descargar archivo
         function downloadFile(content, fileName, contentType) {
             const blob = new Blob([content], { type: contentType });
             const url = URL.createObjectURL(blob);
@@ -405,6 +335,7 @@
             URL.revokeObjectURL(url);
         }
 
+        // Función para limpiar y normalizar datos
         function cleanUserData(users) {
             return users.map(user => {
                 return {
@@ -417,6 +348,7 @@
             });
         }
 
+        // Cargar Entrenador@s para vista pública
         async function loadPublicUsers() {
             try {
                 const response = await fetch(`${SCRIPT_URL}?action=getUsers&timestamp=${Date.now()}`);
@@ -428,6 +360,7 @@
                 const data = await response.json();
                 
                 if (data.success) {
+                    // LIMPIAR Y NORMALIZAR LOS DATOS
                     allPublicUsers = cleanUserData(data.users || []);
                     publicUsers = allPublicUsers;
                     renderPublicUsersTable(allPublicUsers);
@@ -436,16 +369,74 @@
                 }
             } catch (error) {
                 console.error('❌ Error al cargar Entrenador@s:', error);
-                document.getElementById('publicUsersTable').innerHTML = 
-                    '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar: ' + error.message + '</td></tr>';
+                const tableBody = document.getElementById('publicUsersTable');
+                if (tableBody) {
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar: ' + error.message + '</td></tr>';
+                }
             }
         }
 
+        // Cargar usuarios para usuarios logueados
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    users = data.users || [];
+                    renderUsersTable();
+                }
+            } catch (error) {
+                console.error('Error al cargar usuarios:', error);
+                showMessage('Error de conexión', 'error');
+            }
+        }
+
+        // Renderizar tabla para usuarios logueados
+        function renderUsersTable() {
+            const tableBody = document.getElementById('usersTable');
+            const totalUsers = document.getElementById('totalUsers');
+            
+            if (!tableBody || !totalUsers) return;
+            
+            if (users.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No hay entrenador@s registrados</td></tr>';
+                totalUsers.textContent = '0';
+                return;
+            }
+
+            let tableHTML = '';
+            users.forEach(user => {
+                const canEdit = user.CreadoPor === currentUser;
+                
+                tableHTML += `
+                    <tr>
+                        <td>${user.Nick || '-'}</td>
+                        <td>${user.Codigo || '-'}</td>
+                        <td>${user.CreadoPor || '-'}</td>
+                        <td>
+                            ${canEdit ? 
+                                `<button onclick="editUser('${user.Nick}')" style="background: #28a745; padding: 5px 10px; margin: 2px;">✏️ Editar</button>
+                                 <button onclick="deleteUser('${user.Nick}')" style="background: #dc3545; padding: 5px 10px; margin: 2px;">🗑️ Eliminar</button>` : 
+                                '<span style="color: #6c757d;">Solo lectura</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = tableHTML;
+            totalUsers.textContent = users.length;
+        }
+
+        // Renderizar tabla pública de Entrenador@s CON VALIDACIÓN
         function renderPublicUsersTable(usersData) {
             const tableBody = document.getElementById('publicUsersTable');
             const totalSpan = document.getElementById('publicTotal');
             const showingSpan = document.getElementById('publicShowing');
             const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
+            
+            if (!tableBody || !totalSpan || !showingSpan) return;
             
             totalSpan.textContent = allPublicUsers.length;
             showingSpan.textContent = usersData.length;
@@ -461,9 +452,11 @@
 
             let tableHTML = '';
             usersData.forEach(user => {
+                // CONVERTIR A STRING Y MANEJAR VALORES NULOS
                 let nickDisplay = user.Nick ? user.Nick.toString() : '-';
                 let codeDisplay = user.Codigo ? user.Codigo.toString() : '-';
                 
+                // Resaltar coincidencias de búsqueda si hay término
                 if (searchTerm) {
                     const nickLower = nickDisplay.toLowerCase();
                     const codeLower = codeDisplay.toLowerCase();
@@ -488,9 +481,11 @@
             tableBody.innerHTML = tableHTML;
         }
 
+        // Resaltar texto en búsquedas CON VALIDACIÓN
         function highlightText(text, searchTerm) {
             if (!text || !searchTerm) return text;
             
+            // Asegurar que sean strings
             const textStr = text.toString();
             const searchStr = searchTerm.toString();
             
@@ -498,17 +493,72 @@
             return textStr.replace(regex, '<span class="highlight">$1</span>');
         }
 
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type}`;
-            setTimeout(() => {
-                messageDiv.textContent = '';
-                messageDiv.className = 'message';
-            }, 3000);
+        async function addUser() {
+            const nick = document.getElementById('nickInput').value.trim();
+            const code = document.getElementById('codeInput').value.trim();
+            
+            if (!nick || !code) {
+                showMessage('Por favor completa todos los campos', 'error');
+                return;
+            }
+
+            if (!currentUser) {
+                showMessage('Debes iniciar sesión primero', 'error');
+                return;
+            }
+
+            try {
+                const url = `${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(code)}&creator=${encodeURIComponent(currentUser)}`;
+                const response = await fetch(url, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('✅ Entrenador/a agregado correctamente', 'success');
+                    document.getElementById('nickInput').value = '';
+                    document.getElementById('codeInput').value = '';
+                    loadUsers();
+                    loadPublicUsers();
+                } else {
+                    showMessage('❌ Error: ' + (data.error || 'Error desconocido'), 'error');
+                }
+            } catch (error) {
+                console.error('Error al agregar entrenador/a:', error);
+                showMessage('❌ Error de conexión', 'error');
+            }
         }
 
+        function editUser(nick) {
+            const user = users.find(u => u.Nick === nick);
+            if (user) {
+                const newCode = prompt(`Editar código para ${nick}:`, user.Codigo);
+                if (newCode !== null) {
+                    showMessage('Función de edición en desarrollo', 'success');
+                }
+            }
+        }
+
+        function deleteUser(nick) {
+            if (confirm(`¿Estás seguro de que quieres eliminar a ${nick}?`)) {
+                showMessage('Función de eliminación en desarrollo', 'success');
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            if (messageDiv) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+                setTimeout(() => {
+                    messageDiv.textContent = '';
+                    messageDiv.className = 'message';
+                }, 3000);
+            }
+        }
+
+        // Iniciar la aplicación
         window.onload = init;
+
+        // Actualizar automáticamente cada 30 segundos
         setInterval(loadPublicUsers, 30000);
     </script>
 </body>
