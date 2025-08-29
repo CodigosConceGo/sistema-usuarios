@@ -15,9 +15,14 @@
             padding: 20px;
             background: linear-gradient(180deg, #ff0000 0%, #ffffff 50%, #000000 100%);
             color: #333;
+            background-image: url("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png");
+            background-repeat: repeat;
+            background-size: 80px;
+            background-attachment: fixed;
+            background-blend-mode: soft-light;
         }
         .container {
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.92);
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -28,7 +33,7 @@
             text-shadow: 2px 2px #3b4cca; /* Azul Pokémon */
         }
         .form-group { margin: 15px 0; }
-        input, button, select { 
+        input, button { 
             padding: 12px; 
             margin: 5px; 
             border: 2px solid #3b4cca;
@@ -42,23 +47,13 @@
             transition: transform 0.2s;
         }
         button:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
             background: #cc0000;
         }
-        .btn-export {
-            background: #ffcb05;
-            color: #000;
-        }
-        .btn-export:hover {
-            background: #e0b000;
-        }
-        .btn-search {
-            background: #3b4cca;
-            color: white;
-        }
-        .btn-search:hover {
-            background: #2a3799;
-        }
+        .btn-export { background: #ffcb05; color: #000; }
+        .btn-export:hover { background: #e0b000; }
+        .btn-search { background: #3b4cca; color: white; }
+        .btn-search:hover { background: #2a3799; }
         table { 
             width: 100%; 
             border-collapse: collapse; 
@@ -70,14 +65,25 @@
             padding: 12px; 
             text-align: left; 
         }
-        th { 
-            background-color: #3b4cca; 
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+        th { background-color: #3b4cca; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
         .hidden { display: none; }
+
+        /* BLOQUE DESTACADO - como carta Pokémon */
+        .highlight-card {
+            background: #ffcb05;
+            border: 3px solid #ff0000;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+            text-align: center;
+        }
+        .highlight-card h3 {
+            color: #3b4cca;
+            text-shadow: 2px 2px white;
+        }
+
         .message {
             padding: 10px;
             margin: 10px 0;
@@ -86,10 +92,6 @@
         }
         .success { background: #d4edda; color: #155724; }
         .error { background: #f8d7da; color: #721c24; }
-        .highlight {
-            background-color: #fff3cd !important;
-            border: 2px solid #ffc107;
-        }
     </style>
 </head>
 <body>
@@ -99,7 +101,7 @@
         <!-- Sección de Login -->
         <div id="loginSection">
             <h2>🔐 Ingresa tu nombre de Entrenador/a</h2>
-            <div class="form-group">
+            <div class="form-group" style="text-align:center;">
                 <input type="text" id="userName" placeholder="Ej: Ash Ketchum" style="width: 300px;">
                 <button onclick="login()">⚡ Ingresar</button>
             </div>
@@ -107,15 +109,15 @@
             <!-- Buscador Público -->
             <div class="search-section">
                 <h3>🔍 Buscar entrenador@s</h3>
-                <div class="form-group">
-                    <input type="text" id="publicSearchInput" placeholder="Busca por nick o código..." oninput="searchPublicUsers()">
+                <div class="form-group" style="text-align:center;">
+                    <input type="text" id="publicSearchInput" placeholder="Busca por nick o código..." oninput="searchPublicUsers()" style="width: 300px;">
                     <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
                 </div>
-                <p><strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s</p>
+                <p style="text-align:center;"><strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s</p>
             </div>
 
             <!-- Exportar Datos -->
-            <div class="export-section">
+            <div class="export-section" style="text-align:center;">
                 <h3>📤 Exportar Base de Datos</h3>
                 <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT</button>
             </div>
@@ -149,9 +151,9 @@
                 <button onclick="logout()" style="background: #000;">🚪 Cerrar Sesión</button>
             </div>
 
-            <!-- Formulario agregar -->
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3>➕ Agregar Nuevo Entrenador/a</h3>
+            <!-- FORMULARIO DESTACADO -->
+            <div class="highlight-card">
+                <h3>✨➕ Agregar Nuevo Entrenador/a ✨</h3>
                 <div class="form-group">
                     <input type="text" id="nickInput" placeholder="Nick" style="width: 200px;">
                     <input type="text" id="codeInput" placeholder="Código" style="width: 200px;">
@@ -184,6 +186,7 @@
         </div>
     </div>
 
+    <!-- Script JS (igual al anterior con deleteUser funcionando) -->
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         let currentUser = '';
@@ -227,7 +230,6 @@
             loadPublicUsers();
         }
 
-        // --- FUNCIONES DE USUARIOS ---
         async function loadUsers() {
             const res = await fetch(`${SCRIPT_URL}?action=getUsers`);
             const data = await res.json();
@@ -295,7 +297,6 @@
             totalUsers.textContent = users.length;
         }
 
-        // --- PÚBLICO ---
         async function loadPublicUsers() {
             const res = await fetch(`${SCRIPT_URL}?action=getUsers&ts=${Date.now()}`);
             const data = await res.json();
@@ -336,7 +337,6 @@
             `).join('');
         }
 
-        // --- UTILIDAD ---
         function exportToTXT() {
             if (allPublicUsers.length === 0) return;
             let txt = "LISTA DE ENTRENADOR@S\n=================\n";
