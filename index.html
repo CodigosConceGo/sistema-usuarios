@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Codigos entrenadores/as ConceGo</title>
+    <title>Codigos entrenadores/as Pokémon ConceGo</title>
     <meta charset="UTF-8">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
         body { 
             font-family: 'Arial', sans-serif; 
             max-width: 1200px; 
             margin: 0 auto; 
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #3b4cca 100%);
             min-height: 100vh;
         }
         .container {
@@ -29,7 +31,7 @@
             font-size: 16px;
         }
         button {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #cc0000 100%);
             color: white;
             border: none;
             cursor: pointer;
@@ -42,19 +44,19 @@
             box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
         .btn-export {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+            background: linear-gradient(135deg, #3b4cca 0%, #1d2c8d 100%);
+            box-shadow: 0 4px 15px rgba(59, 76, 202, 0.3);
         }
         .btn-export:hover {
-            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+            box-shadow: 0 6px 20px rgba(59, 76, 202, 0.4);
         }
         .btn-search {
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
             color: #333;
-            box-shadow: 0 4px 15px rgba(246, 211, 101, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 222, 0, 0.3);
         }
         .btn-search:hover {
-            box-shadow: 0 6px 20px rgba(246, 211, 101, 0.4);
+            box-shadow: 0 6px 20px rgba(255, 222, 0, 0.4);
         }
         table { 
             width: 100%; 
@@ -68,7 +70,7 @@
             text-align: left; 
         }
         th { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #cc0000 0%, #ff6b6b 100%);
             color: white;
             font-weight: bold;
             text-transform: uppercase;
@@ -78,7 +80,7 @@
             background-color: #f8f9fa;
         }
         tr:hover {
-            background-color: #f1f3ff;
+            background-color: #ffe6e6;
             transition: background-color 0.2s ease;
         }
         .hidden {
@@ -91,40 +93,40 @@
             font-weight: bold;
         }
         .success {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-            color: #155724;
-            border: 2px solid #c3e6cb;
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            border: 2px solid #2e7d32;
         }
         .error {
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-            color: #721c24;
-            border: 2px solid #f5c6cb;
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+            border: 2px solid #c62828;
         }
         .view-only {
             opacity: 0.9;
             background-color: #fafafa;
         }
         
-        /* Sección de Login Destacada */
-        .login-section-premium {
-            background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        /* Sección de Login Pokémon */
+        .login-section-pokemon {
+            background: linear-gradient(135deg, #ff6b6b 0%, #cc0000 100%);
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(255, 126, 95, 0.3);
-            border: 3px solid #ff6b6b;
+            box-shadow: 0 10px 30px rgba(204, 0, 0, 0.3);
+            border: 4px solid #ffde00;
             position: relative;
             overflow: hidden;
         }
-        .login-section-premium::before {
+        .login-section-pokemon::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background: radial-gradient(circle, rgba(255,222,0,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
             animation: float 3s infinite linear;
         }
         @keyframes float {
@@ -132,61 +134,72 @@
             100% { transform: translateY(-20px) rotate(360deg); }
         }
         .login-title {
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            font-size: 28px;
+            color: #ffde00;
+            text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1px 0 #3b4cca, -1px 1px 0 #3b4cca;
+            font-size: 32px;
             margin-bottom: 20px;
             text-align: center;
             position: relative;
             z-index: 2;
+            font-family: 'Press Start 2P', cursive;
         }
         .login-input {
             width: 350px;
             padding: 15px;
             font-size: 18px;
-            border: 3px solid #ff9f80;
-            border-radius: 10px;
+            border: 3px solid #ffde00;
+            border-radius: 25px;
             background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 5px 15px rgba(255, 159, 128, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 222, 0, 0.3);
             transition: all 0.3s ease;
+            text-align: center;
         }
         .login-input:focus {
             outline: none;
-            border-color: #ff6b6b;
-            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            border-color: #3b4cca;
+            box-shadow: 0 5px 20px rgba(59, 76, 202, 0.4);
             transform: scale(1.02);
         }
         .login-btn {
-            background: linear-gradient(135deg, #ffd93d 0%, #ff9f40 100%);
+            background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
             padding: 16px 35px;
             font-size: 18px;
-            border-radius: 50px;
-            box-shadow: 0 6px 20px rgba(255, 217, 61, 0.4);
-            border: 2px solid #ffd93d;
+            border-radius: 25px;
+            box-shadow: 0 6px 20px rgba(255, 222, 0, 0.4);
+            border: 3px solid #3b4cca;
+            color: #3b4cca;
+            font-weight: bold;
+            text-transform: uppercase;
         }
         .login-btn:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(255, 217, 61, 0.5);
+            box-shadow: 0 8px 25px rgba(255, 222, 0, 0.5);
         }
         
         .search-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3b4cca 0%, #1d2c8d 100%);
             padding: 20px;
             border-radius: 12px;
             margin: 25px 0;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 5px 20px rgba(59, 76, 202, 0.2);
+            border: 2px solid #ffde00;
         }
-        .export-section {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 25px 0;
-            box-shadow: 0 5px 20px rgba(78, 205, 196, 0.2);
+        
+        .export-section-pokemon {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+            border: 3px solid #ffde00;
+            text-align: center;
         }
+        
         .highlight {
             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
-            border: 2px solid #ffc107;
+            border: 2px solid #ffde00;
             font-weight: bold;
+            color: #cc0000;
         }
         .stats {
             display: flex;
@@ -198,7 +211,7 @@
             background: rgba(255, 255, 255, 0.9);
             padding: 15px;
             border-radius: 10px;
-            border-left: 5px solid #667eea;
+            border-left: 5px solid #cc0000;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             flex: 1;
         }
@@ -206,93 +219,153 @@
             width: 450px;
             padding: 15px;
             font-size: 16px;
-            border: 2px solid #667eea;
+            border: 2px solid #3b4cca;
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.95);
         }
         h1 {
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #cc0000 0%, #3b4cca 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 36px;
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Press Start 2P', cursive;
         }
         h2, h3 {
             color: #333;
             margin-bottom: 20px;
         }
         .search-section h3,
-        .export-section h3 {
+        .export-section-pokemon h3 {
             color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 0 #000;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 18px;
+        }
+        
+        .pokeball {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(#ff0000 0%, #ff0000 48%, #000 49%, #000 51%, #fff 52%, #fff 100%);
+            border-radius: 50%;
+            border: 2px solid #000;
+            margin: 0 5px;
+            position: relative;
+        }
+        .pokeball::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 50%;
+        }
+        
+        .pokemon-table {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 3px solid #cc0000;
+            border-radius: 10px;
+        }
+        .pokemon-table th {
+            background: linear-gradient(135deg, #cc0000 0%, #ff6b6b 100%);
+            color: #ffde00;
+            text-shadow: 1px 1px 0 #000;
+        }
+        
+        .export-btn-pokemon {
+            background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
+            color: #3b4cca;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            border: 3px solid #3b4cca;
+            font-weight: bold;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(255, 222, 0, 0.3);
+        }
+        .export-btn-pokemon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 222, 0, 0.4);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📊 Codigos entrenadores/as ConceGo</h1>
+        <h1>⚡ PokéDex de Entrenadores ConceGo ⚡</h1>
 
-        <!-- Sección de Login SUPER DESTACADA -->
+        <!-- Sección de Login Pokémon -->
         <div id="loginSection">
-            <div class="login-section-premium">
-                <h2 class="login-title">🌟 ¡IDENTIFÍCATE PARA AGREGAR CÓDIGOS! 🌟</h2>
+            <div class="login-section-pokemon">
+                <h2 class="login-title">🎮 ¡IDENTIFÍCATE PARA AGREGAR CÓDIGOS! 🎮</h2>
                 <div class="form-group" style="text-align: center;">
-                    <input type="text" id="userName" placeholder="🔐 Tu nombre de Entrenador/a" class="login-input">
-                    <button onclick="login()" class="login-btn">🚀 Ingresar al Sistema</button>
+                    <input type="text" id="userName" placeholder="🎯 Tu nombre de Entrenador Pokémon" class="login-input">
+                    <button onclick="login()" class="login-btn">⚡ Ingresar al Sistema</button>
                 </div>
-                <div style="text-align: center; color: white; margin-top: 15px; font-weight: bold;">
-                    ⚡ Solo usuarios registrados pueden agregar nuevos códigos
+                <div style="text-align: center; color: #ffde00; margin-top: 15px; font-weight: bold; text-shadow: 1px 1px 0 #3b4cca;">
+                    🚀 Solo entrenadores registrados pueden agregar nuevos códigos
                 </div>
             </div>
 
             <!-- Buscador Público -->
             <div class="search-section">
-                <h3>🔍 Buscar entrenador@s</h3>
+                <h3>🔍 Buscar Entrenadores Pokémon</h3>
                 <div class="form-group">
-                    <input type="text" id="publicSearchInput" placeholder="🔎 Escribe para buscar por nick o código..." 
+                    <input type="text" id="publicSearchInput" placeholder="🔎 Escribe para buscar por nombre o código..." 
                            style="padding: 15px; width: 450px;" oninput="searchPublicUsers()">
                     <button onclick="clearSearch()" class="btn-search">🔄 Limpiar Búsqueda</button>
                 </div>
                 <div class="stats">
                     <div class="stat-item">
-                        <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s
+                        <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenadores
                     </div>
                 </div>
             </div>
 
-            <!-- Exportar Datos -->
-            <div class="export-section">
-                <h3>📤 Exportar Base de Datos</h3>
-                <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT (Solo nick y código)</button>
-                <span style="margin-left: 15px; color: white; font-weight: bold;">📝 Solo exporta nick y código</span>
-            </div>
-
-            <!-- Tabla de Entrenador@s visible para todos -->
+            <!-- Tabla de Entrenadores visible para todos -->
             <div style="margin-top: 30px;">
-                <h3>👥 Entrenador@s Registrados (Solo lectura)</h3>
+                <h3>👥 Entrenadores Pokémon Registrados <span class="pokeball"></span><span class="pokeball"></span></h3>
                 
                 <div style="overflow-x: auto;">
-                    <table class="view-only">
+                    <table class="view-only pokemon-table">
                         <thead>
                             <tr>
-                                <th>🎯 Nick</th>
-                                <th>🔢 Código</th>
+                                <th>🎯 Nombre de Entrenador</th>
+                                <th>🔢 Código Pokémon</th>
                                 <th>🔐 Estado</th>
                             </tr>
                         </thead>
                         <tbody id="publicUsersTable">
                             <tr>
-                                <td colspan="3" style="text-align: center;">📥 Cargando Entrenador@s...</td>
+                                <td colspan="3" style="text-align: center;">📥 Cargando Entrenadores Pokémon...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <!-- Sección de Exportar Datos Pokémon (AL FINAL) -->
+            <div class="export-section-pokemon">
+                <h3>📤 Exportar PokéDex de Entrenadores</h3>
+                <div style="margin: 20px 0;">
+                    <button onclick="exportToTXT()" class="export-btn-pokemon">
+                        💾 Descargar TXT Pokémon
+                    </button>
+                </div>
+                <div style="color: #ffde00; font-weight: bold; text-shadow: 1px 1px 0 #000;">
+                    <span class="pokeball"></span> Exporta nombres y códigos de entrenadores 
+                    <span class="pokeball"></span>
+                </div>
+            </div>
         </div>
 
-        <!-- Sección Principal (solo para Entrenador@s logueados) -->
+        <!-- Sección Principal (solo para entrenadores logueados) -->
         <div id="mainSection" class="hidden">
             <!-- ... (el resto de tu código existente para la sección logueada) ... -->
         </div>
@@ -324,7 +397,7 @@
                 loginUser(userName);
                 localStorage.setItem('currentUser', userName);
             } else {
-                showMessage('Por favor ingresa tu nombre de Entrenador/a', 'error');
+                showMessage('Por favor ingresa tu nombre de Entrenador Pokémon', 'error');
             }
         }
 
@@ -375,22 +448,25 @@
         // Exportar a TXT (solo nick y código)
         function exportToTXT() {
             if (allPublicUsers.length === 0) {
-                alert('No hay datos para exportar');
+                alert('¡No hay datos para exportar! La PokéDex está vacía.');
                 return;
             }
 
-            let txtContent = 'LISTA DE ENTRENADOR@S\n';
-            txtContent += '=================\n\n';
+            let txtContent = 'POKÉDEX DE ENTRENADORES Pokémon\n';
+            txtContent += '================================\n\n';
             txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
-            txtContent += `Total de Entrenador@s: ${allPublicUsers.length}\n\n`;
+            txtContent += `Total de Entrenadores: ${allPublicUsers.length}\n\n`;
+            txtContent += '🎯 LISTA DE ENTRENADORES:\n';
+            txtContent += '='.repeat(40) + '\n\n';
 
-            allPublicUsers.forEach(user => {
-                txtContent += `Nick: ${user.Nick || 'N/A'}\n`;
-                txtContent += `Código: ${user.Codigo || 'N/A'}\n`;
-                txtContent += '─'.repeat(30) + '\n';
+            allPublicUsers.forEach((user, index) => {
+                txtContent += `ENTRENADOR #${index + 1}:\n`;
+                txtContent += `Nombre: ${user.Nick || 'Desconocido'}\n`;
+                txtContent += `Código: ${user.Codigo || 'Sin código'}\n`;
+                txtContent += '─'.repeat(40) + '\n';
             });
 
-            downloadFile(txtContent, 'Entrenador@s.txt', 'text/plain');
+            downloadFile(txtContent, 'Pokedex_Entrenadores.txt', 'text/plain');
         }
 
         function downloadFile(content, fileName, contentType) {
@@ -408,9 +484,9 @@
         function cleanUserData(users) {
             return users.map(user => {
                 return {
-                    Nick: user.Nick ? user.Nick.toString().trim() : 'Sin nombre',
-                    Codigo: user.Codigo ? user.Codigo.toString().trim() : 'Sin código',
-                    CreadoPor: user.CreadoPor || 'Desconocido',
+                    Nick: user.Nick ? user.Nick.toString().trim() : 'Entrenador Mysterious',
+                    Codigo: user.Codigo ? user.Codigo.toString().trim() : 'Código Secreto',
+                    CreadoPor: user.CreadoPor || 'Profesor Oak',
                     Numero: user.Numero || 0,
                     Timestamp: user.Timestamp || ''
                 };
@@ -435,9 +511,9 @@
                     throw new Error('Error en la respuesta: ' + (data.error || 'Desconocido'));
                 }
             } catch (error) {
-                console.error('❌ Error al cargar Entrenador@s:', error);
+                console.error('❌ Error al cargar Entrenadores:', error);
                 document.getElementById('publicUsersTable').innerHTML = 
-                    '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar: ' + error.message + '</td></tr>';
+                    '<tr><td colspan="3" style="text-align: center; color: red;">¡Error cargando la PokéDex! ' + error.message + '</td></tr>';
             }
         }
 
@@ -452,17 +528,17 @@
 
             if (usersData.length === 0) {
                 if (searchTerm) {
-                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No se encontraron Entrenador@s con "' + searchTerm + '"</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No se encontraron entrenadores con "' + searchTerm + '"!</td></tr>';
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No hay Entrenador@s registrados</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡La PokéDex está vacía! Sé el primero en registrarse.</td></tr>';
                 }
                 return;
             }
 
             let tableHTML = '';
             usersData.forEach(user => {
-                let nickDisplay = user.Nick ? user.Nick.toString() : '-';
-                let codeDisplay = user.Codigo ? user.Codigo.toString() : '-';
+                let nickDisplay = user.Nick ? user.Nick.toString() : 'Mysterious Trainer';
+                let codeDisplay = user.Codigo ? user.Codigo.toString() : 'Secret Code';
                 
                 if (searchTerm) {
                     const nickLower = nickDisplay.toLowerCase();
