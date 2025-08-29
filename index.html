@@ -298,7 +298,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>⚡ PokéDex de Entrenadores ConceGo ⚡</h1>
+        <h1>⚡ Codigos de Entrenadores ConceGo ⚡</h1>
 
         <!-- Sección de Login Pokémon -->
         <div id="loginSection">
@@ -352,7 +352,7 @@
 
             <!-- Sección de Exportar Datos Pokémon (AL FINAL) -->
             <div class="export-section-pokemon">
-                <h3>📤 Exportar PokéDex de Entrenadores</h3>
+                <h3>📤 Exportar Códigos de Entrenadores</h3>
                 <div style="margin: 20px 0;">
                     <button onclick="exportToTXT()" class="export-btn-pokemon">
                         💾 Descargar TXT Pokémon
@@ -448,11 +448,11 @@
         // Exportar a TXT (solo nick y código)
         function exportToTXT() {
             if (allPublicUsers.length === 0) {
-                alert('¡No hay datos para exportar! La PokéDex está vacía.');
+                alert('¡No hay datos para exportar!');
                 return;
             }
 
-            let txtContent = 'POKÉDEX DE ENTRENADORES Pokémon\n';
+            let txtContent = 'CÓDIGOS DE ENTRENADORES Pokémon\n';
             txtContent += '================================\n\n';
             txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
             txtContent += `Total de Entrenadores: ${allPublicUsers.length}\n\n`;
@@ -466,7 +466,7 @@
                 txtContent += '─'.repeat(40) + '\n';
             });
 
-            downloadFile(txtContent, 'Pokedex_Entrenadores.txt', 'text/plain');
+            downloadFile(txtContent, 'Pokecodigos_Entrenadores.txt', 'text/plain');
         }
 
         function downloadFile(content, fileName, contentType) {
@@ -513,7 +513,7 @@
             } catch (error) {
                 console.error('❌ Error al cargar Entrenadores:', error);
                 document.getElementById('publicUsersTable').innerHTML = 
-                    '<tr><td colspan="3" style="text-align: center; color: red;">¡Error cargando la PokéDex! ' + error.message + '</td></tr>';
+                    '<tr><td colspan="3" style="text-align: center; color: red;">¡Error cargando Pokecódigo! ' + error.message + '</td></tr>';
             }
         }
 
@@ -530,7 +530,7 @@
                 if (searchTerm) {
                     tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No se encontraron entrenadores con "' + searchTerm + '"!</td></tr>';
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡La PokéDex está vacía! Sé el primero en registrarse.</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No hay códigos! Sé el primero en registrarse.</td></tr>';
                 }
                 return;
             }
