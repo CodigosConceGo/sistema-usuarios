@@ -6,7 +6,7 @@
     <style>
         body { 
             font-family: Arial, sans-serif; 
-            max-width: 1000px; 
+            max-width: 1200px; 
             margin: 0 auto; 
             padding: 20px;
             background-color: #f5f5f5;
@@ -20,7 +20,7 @@
         .form-group { 
             margin: 15px 0; 
         }
-        input, button { 
+        input, button, select { 
             padding: 10px; 
             margin: 5px; 
             border: 1px solid #ddd;
@@ -31,9 +31,23 @@
             color: white;
             border: none;
             cursor: pointer;
+            transition: background 0.3s;
         }
         button:hover {
             background: #0056b3;
+        }
+        .btn-export {
+            background: #28a745;
+        }
+        .btn-export:hover {
+            background: #218838;
+        }
+        .btn-search {
+            background: #ffc107;
+            color: black;
+        }
+        .btn-search:hover {
+            background: #e0a800;
         }
         table { 
             width: 100%; 
@@ -48,6 +62,10 @@
         th { 
             background-color: #007bff; 
             color: white;
+            cursor: pointer;
+        }
+        th:hover {
+            background-color: #0056b3;
         }
         tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -72,6 +90,33 @@
             opacity: 0.8;
             background-color: #f8f9fa;
         }
+        .search-section {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .export-section {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .highlight {
+            background-color: #fff3cd !important;
+            border: 2px solid #ffc107;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .stat-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
     </style>
 </head>
 <body>
@@ -83,31 +128,59 @@
             <h2>🔐 Identifícate para agregar código</h2>
             <div class="form-group">
                 <input type="text" id="userName" placeholder="Tu nombre de usuario" style="padding: 12px; width: 300px;">
-                <button onclick="login()" style="padding: 12px 20px;">Ingresar</button>
+                <button onclick="login()" style="padding: 12px 20px;">Ingresar al Sistema</button>
+            </div>
+
+            <!-- Buscador Público -->
+            <div class="search-section">
+                <h3>🔍 Buscar Entrenador/a</h3>
+                <div class="form-group">
+                    <input type="text" id="publicSearchInput" placeholder="Buscar por nick, código o creador..." 
+                           style="padding: 12px; width: 400px;" onkeyup="searchPublicUsers()">
+                    <select id="publicSearchType" onchange="searchPublicUsers()">
+                        <option value="all">Todo</option>
+                        <option value="nick">Nick</option>
+                        <option value="code">Código</option>
+                        <option value="creator">Creador</option>
+                    </select>
+                    <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> Entrenador/a
+                    </div>
+                    <div class="stat-item">
+                        <strong>Búsqueda:</strong> <span id="publicSearchTerm">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exportar Datos -->
+            <div class="export-section">
+                <h3>📤 Exportar Base de Datos</h3>
+                <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT</button>
+                <button onclick="exportToCSV()" class="btn-export">📊 Descargar CSV</button>
+                <span style="margin-left: 10px; color: #6c757d;">Descarga completa de todos los usuarios</span>
             </div>
 
             <!-- Tabla de usuarios visible para todos -->
             <div style="margin-top: 30px;">
                 <h3>👥 Entrenador@s Registrad@s (Solo lectura)</h3>
-                <div style="background: #e9ecef; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <p>🔒 <strong>Para agregar o modificar entrenador/a, identifícate arriba</strong></p>
-                    <p>📈 <strong>Total de Entrenador@s:</strong> <span id="publicTotalUsers">0</span></p>
-                </div>
                 
                 <div style="overflow-x: auto;">
                     <table class="view-only">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Nick</th>
-                                <th>Código</th>
-                                <th>Creado por</th>
+                                <th onclick="sortPublicTable(0)"># ↗</th>
+                                <th onclick="sortPublicTable(1)">Nick ↗</th>
+                                <th onclick="sortPublicTable(2)">Código ↗</th>
+                                <th onclick="sortPublicTable(3)">Creador ↗</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody id="publicUsersTable">
                             <tr>
-                                <td colspan="5" style="text-align: center;">Cargando entrenador@s...</td>
+                                <td colspan="5" style="text-align: center;">Cargando usuarios...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -115,106 +188,158 @@
             </div>
         </div>
 
-        <!-- Sección Principal (solo para entrenador@s logueados) -->
+        <!-- Sección Principal (solo para usuarios logueados) -->
         <div id="mainSection" class="hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2>👋 Hola, <span id="currentUser" style="color: #007bff;"></span></h2>
-                <button onclick="logout()" style="background: #dc3545;">🚪 Cerrar Sesión</button>
-            </div>
-
-            <!-- Formulario para agregar entrenador/a -->
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3>➕ Agregar Nuevo Entrenador/a</h3>
-                <div class="form-group">
-                    <input type="text" id="nickInput" placeholder="Nick del usuario" style="width: 200px;">
-                    <input type="text" id="codeInput" placeholder="Código" style="width: 200px;">
-                    <button onclick="addUser()">✅ Agregar Entrenador/a</button>
-                </div>
-                <div id="message" class="message"></div>
-            </div>
-
-            <!-- Tabla de entrenador@s con acciones -->
-            <h3>📋 Gestión de entrenador@s</h3>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nick</th>
-                            <th>Código</th>
-                            <th>Creado por</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTable">
-                        <tr>
-                            <td colspan="5" style="text-align: center;">Cargando entrenador@s...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Contador total -->
-            <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 5px;">
-                <h3>📈 Total de entrenador@s registrad@s: <span id="totalUsers">0</span></h3>
-            </div>
+            <!-- ... (el resto de tu código existente para la sección logueada) ... -->
         </div>
     </div>
 
     <script>
-        // ⚠️ REEMPLAZA ESTA URL CON LA DE TU APPS SCRIPT ⚠️
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         
         let currentUser = '';
         let users = [];
+        let publicUsers = [];
+        let currentSort = { column: 0, direction: 'asc' };
 
         function init() {
             checkLogin();
-            loadPublicUsers(); // Cargar usuarios públicos al iniciar
+            loadPublicUsers();
         }
 
-        function checkLogin() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                loginUser(savedUser);
+        // ... (tus funciones existentes de login, logout, etc.) ...
+
+        // Función de búsqueda para usuarios públicos
+        function searchPublicUsers() {
+            const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
+            const searchType = document.getElementById('publicSearchType').value;
+            
+            document.getElementById('publicSearchTerm').textContent = searchTerm || '-';
+            
+            if (!searchTerm) {
+                renderPublicUsersTable(publicUsers);
+                return;
             }
+
+            const filteredUsers = publicUsers.filter(user => {
+                if (searchType === 'all') {
+                    return (
+                        (user.Nick && user.Nick.toLowerCase().includes(searchTerm)) ||
+                        (user.Codigo && user.Codigo.toLowerCase().includes(searchTerm)) ||
+                        (user.CreadoPor && user.CreadoPor.toLowerCase().includes(searchTerm))
+                    );
+                } else {
+                    const value = user[searchType] || '';
+                    return value.toLowerCase().includes(searchTerm);
+                }
+            });
+
+            renderPublicUsersTable(filteredUsers);
         }
 
-        function login() {
-            const userName = document.getElementById('userName').value.trim();
-            if (userName) {
-                loginUser(userName);
-                localStorage.setItem('currentUser', userName);
+        // Limpiar búsqueda
+        function clearSearch() {
+            document.getElementById('publicSearchInput').value = '';
+            document.getElementById('publicSearchType').value = 'all';
+            document.getElementById('publicSearchTerm').textContent = '-';
+            renderPublicUsersTable(publicUsers);
+        }
+
+        // Ordenar tabla pública
+        function sortPublicTable(columnIndex) {
+            if (currentSort.column === columnIndex) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
             } else {
-                showMessage('Por favor ingresa tu nombre de entrenador/a', 'error');
+                currentSort.column = columnIndex;
+                currentSort.direction = 'asc';
             }
+
+            publicUsers.sort((a, b) => {
+                let valueA, valueB;
+                
+                switch(columnIndex) {
+                    case 0: valueA = a.Numero; valueB = b.Numero; break;
+                    case 1: valueA = a.Nick; valueB = b.Nick; break;
+                    case 2: valueA = a.Codigo; valueB = b.Codigo; break;
+                    case 3: valueA = a.CreadoPor; valueB = b.CreadoPor; break;
+                    default: return 0;
+                }
+
+                valueA = valueA || '';
+                valueB = valueB || '';
+
+                if (currentSort.direction === 'asc') {
+                    return valueA.toString().localeCompare(valueB.toString());
+                } else {
+                    return valueB.toString().localeCompare(valueA.toString());
+                }
+            });
+
+            renderPublicUsersTable(publicUsers);
         }
 
-        function loginUser(userName) {
-            currentUser = userName;
-            document.getElementById('currentUser').textContent = currentUser;
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById('mainSection').classList.remove('hidden');
-            loadUsers();
+        // Exportar a TXT
+        function exportToTXT() {
+            if (publicUsers.length === 0) {
+                alert('No hay datos para exportar');
+                return;
+            }
+
+            let txtContent = 'BASE DE DATOS DE EBTREBADOR@S\n';
+            txtContent += '=========================\n\n';
+            txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
+            txtContent += `Total de usuarios: ${publicUsers.length}\n\n`;
+
+            publicUsers.forEach(user => {
+                txtContent += `Número: ${user.Numero || 'N/A'}\n`;
+                txtContent += `Nick: ${user.Nick || 'N/A'}\n`;
+                txtContent += `Código: ${user.Codigo || 'N/A'}\n`;
+                txtContent += `Creado por: ${user.CreadoPor || 'N/A'}\n`;
+                txtContent += `Timestamp: ${user.Timestamp || 'N/A'}\n`;
+                txtContent += '─'.repeat(40) + '\n';
+            });
+
+            downloadFile(txtContent, 'usuarios.txt', 'text/plain');
         }
 
-        function logout() {
-            currentUser = '';
-            localStorage.removeItem('currentUser');
-            document.getElementById('loginSection').classList.remove('hidden');
-            document.getElementById('mainSection').classList.add('hidden');
-            document.getElementById('userName').value = '';
-            loadPublicUsers(); // Recargar vista pública al cerrar sesión
+        // Exportar a CSV
+        function exportToCSV() {
+            if (publicUsers.length === 0) {
+                alert('No hay datos para exportar');
+                return;
+            }
+
+            let csvContent = 'Número,Nick,Código,Creado Por,Timestamp\n';
+            
+            publicUsers.forEach(user => {
+                csvContent += `"${user.Numero || ''}","${user.Nick || ''}","${user.Codigo || ''}","${user.CreadoPor || ''}","${user.Timestamp || ''}"\n`;
+            });
+
+            downloadFile(csvContent, 'usuarios.csv', 'text/csv');
         }
 
-        // Cargar usuarios para vista pública (sin login)
+        // Función para descargar archivo
+        function downloadFile(content, fileName, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Cargar usuarios para vista pública
         async function loadPublicUsers() {
             try {
                 const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
                 const data = await response.json();
                 
                 if (data.success) {
-                    renderPublicUsersTable(data.users || []);
+                    publicUsers = data.users || [];
+                    renderPublicUsersTable(publicUsers);
                 }
             } catch (error) {
                 console.error('Error al cargar usuarios públicos:', error);
@@ -226,198 +351,55 @@
         // Renderizar tabla pública de usuarios
         function renderPublicUsersTable(usersData) {
             const tableBody = document.getElementById('publicUsersTable');
-            const totalSpan = document.getElementById('publicTotalUsers');
+            const totalSpan = document.getElementById('publicTotal');
+            const showingSpan = document.getElementById('publicShowing');
+            const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
             
+            totalSpan.textContent = publicUsers.length;
+            showingSpan.textContent = usersData.length;
+
             if (usersData.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay usuarios registrados aún</td></tr>';
-                totalSpan.textContent = '0';
+                tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No se encontraron usuarios</td></tr>';
                 return;
             }
 
             let tableHTML = '';
             usersData.forEach(user => {
+                // Resaltar coincidencias de búsqueda
+                const nick = searchTerm && user.Nick ? 
+                    highlightText(user.Nick, searchTerm) : user.Nick;
+                const code = searchTerm && user.Codigo ? 
+                    highlightText(user.Codigo, searchTerm) : user.Codigo;
+                const creator = searchTerm && user.CreadoPor ? 
+                    highlightText(user.CreadoPor, searchTerm) : user.CreadoPor;
+
                 tableHTML += `
                     <tr>
                         <td>${user.Numero || '-'}</td>
-                        <td>${user.Nick || '-'}</td>
-                        <td>${user.Codigo || '-'}</td>
-                        <td>${user.CreadoPor || '-'}</td>
+                        <td>${nick || '-'}</td>
+                        <td>${code || '-'}</td>
+                        <td>${creator || '-'}</td>
                         <td><span style="color: #6c757d;">🔒 Solo lectura</span></td>
                     </tr>
                 `;
             });
             
             tableBody.innerHTML = tableHTML;
-            totalSpan.textContent = usersData.length;
         }
 
-        // Cargar usuarios para usuarios logueados
-        async function loadUsers() {
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    users = data.users || [];
-                    renderUsersTable();
-                }
-            } catch (error) {
-                console.error('Error al cargar usuarios:', error);
-                showMessage('Error de conexión', 'error');
-            }
-        }
-
-        // Renderizar tabla para usuarios logueados
-        function renderUsersTable() {
-            const tableBody = document.getElementById('usersTable');
-            const totalUsers = document.getElementById('totalUsers');
+        // Resaltar texto en búsquedas
+        function highlightText(text, searchTerm) {
+            if (!text || !searchTerm) return text;
             
-            if (users.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay usuarios registrados</td></tr>';
-                totalUsers.textContent = '0';
-                return;
-            }
-
-            let tableHTML = '';
-            users.forEach(user => {
-                const canEdit = user.CreadoPor === currentUser;
-                
-                tableHTML += `
-                    <tr>
-                        <td>${user.Numero || '-'}</td>
-                        <td>${user.Nick || '-'}</td>
-                        <td>${user.Codigo || '-'}</td>
-                        <td>${user.CreadoPor || '-'}</td>
-                        <td>
-                            ${canEdit ? 
-                                `<button onclick="editUser('${user.Nick}')" style="background: #28a745; padding: 5px 10px; margin: 2px;">✏️ Editar</button>
-                                 <button onclick="deleteUser('${user.Nick}')" style="background: #dc3545; padding: 5px 10px; margin: 2px;">🗑️ Eliminar</button>` : 
-                                '<span style="color: #6c757d;">Solo lectura</span>'
-                            }
-                        </td>
-                    </tr>
-                `;
-            });
-            
-            tableBody.innerHTML = tableHTML;
-            totalUsers.textContent = users.length;
-        }
-
-        async function addUser() {
-            const nick = document.getElementById('nickInput').value.trim();
-            const code = document.getElementById('codeInput').value.trim();
-            
-            if (!nick || !code) {
-                showMessage('Por favor completa todos los campos', 'error');
-                return;
-            }
-
-            try {
-                const url = `${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(code)}&creator=${encodeURIComponent(currentUser)}`;
-                const response = await fetch(url, { method: 'POST' });
-                const data = await response.json();
-                
-                if (data.success) {
-                    showMessage('✅ Usuario agregado correctamente', 'success');
-                    document.getElementById('nickInput').value = '';
-                    document.getElementById('codeInput').value = '';
-                    loadUsers();
-                    loadPublicUsers(); // Actualizar también la vista pública
-                } else {
-                    showMessage('❌ Error: ' + (data.error || 'Error desconocido'), 'error');
-                }
-            } catch (error) {
-                console.error('Error al agregar usuario:', error);
-                showMessage('❌ Error de conexión', 'error');
-            }
-        }
-
-// Función para eliminar usuario (REAL)
-async function deleteUser(nick) {
-    if (!confirm(`¿Estás seguro de que quieres eliminar a ${nick}?`)) {
-        return;
-    }
-
-    try {
-        const url = `${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(nick)}&creator=${encodeURIComponent(currentUser)}`;
-        const response = await fetch(url, { method: 'POST' });
-        const data = await response.json();
-        
-        if (data.success) {
-            showMessage('✅ Usuario eliminado correctamente', 'success');
-            loadUsers(); // Recargar la tabla
-            loadPublicUsers(); // Actualizar vista pública
-        } else {
-            showMessage('❌ Error: ' + (data.error || 'No tienes permisos para eliminar este usuario'), 'error');
-        }
-    } catch (error) {
-        console.error('Error al eliminar usuario:', error);
-        showMessage('❌ Error de conexión', 'error');
-    }
-}
-
-// Función para editar usuario (REAL)
-async function editUser(nick) {
-    const user = users.find(u => u.Nick === nick);
-    if (!user) return;
-
-    if (user.CreadoPor !== currentUser) {
-        showMessage('❌ Solo puedes editar tus propios usuarios', 'error');
-        return;
-    }
-
-    const newCode = prompt(`Editar código para ${nick}:`, user.Codigo);
-    if (newCode === null) return; // Usuario canceló
-
-    try {
-        // Primero eliminamos el usuario viejo
-        const deleteUrl = `${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(nick)}&creator=${encodeURIComponent(currentUser)}`;
-        const deleteResponse = await fetch(deleteUrl, { method: 'POST' });
-        const deleteData = await deleteResponse.json();
-
-        if (!deleteData.success) {
-            showMessage('❌ Error al editar: ' + deleteData.error, 'error');
-            return;
-        }
-
-        // Luego agregamos el usuario con el nuevo código
-        const addUrl = `${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(newCode)}&creator=${encodeURIComponent(currentUser)}`;
-        const addResponse = await fetch(addUrl, { method: 'POST' });
-        const addData = await addResponse.json();
-
-        if (addData.success) {
-            showMessage('✅ Usuario editado correctamente', 'success');
-            loadUsers(); // Recargar la tabla
-            loadPublicUsers(); // Actualizar vista pública
-        } else {
-            showMessage('❌ Error al guardar cambios: ' + addData.error, 'error');
-        }
-    } catch (error) {
-        console.error('Error al editar usuario:', error);
-        showMessage('❌ Error de conexión', 'error');
-    }
-}
-
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type}`;
-            setTimeout(() => {
-                messageDiv.textContent = '';
-                messageDiv.className = 'message';
-            }, 3000);
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
         }
 
         // Iniciar la aplicación
         window.onload = init;
 
         // Actualizar automáticamente cada 30 segundos
-        setInterval(() => {
-            if (currentUser) {
-                loadUsers();
-            }
-            loadPublicUsers();
-        }, 30000);
+        setInterval(loadPublicUsers, 30000);
     </script>
 </body>
 </html>
