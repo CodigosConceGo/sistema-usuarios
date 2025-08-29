@@ -150,7 +150,7 @@
             <!-- Exportar Datos -->
             <div class="export-section">
                 <h3>📤 Exportar Base de Datos</h3>
-                <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT </button>
+                <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT (Solo nick y código)</button>
                 <span style="margin-left: 10px; color: #6c757d;">Solo exporta nick y código</span>
             </div>
 
@@ -184,7 +184,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbywp3yz2bgOco02tbIaHz1vLHTmSn81PnAr7YYX6bEdpHNWa0W4tX4L-7o0fnuh3LAygg/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         
         let currentUser = '';
         let users = [];
@@ -224,26 +224,28 @@
         function logout() {
             currentUser = '';
             localStorage.removeItem('currentUser');
-            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('loginSection').classlection.remove('hidden');
             document.getElementById('mainSection').classList.add('hidden');
             document.getElementById('userName').value = '';
             loadPublicUsers();
         }
 
-        // Función de búsqueda en tiempo real
+        // Función de búsqueda en tiempo real CON VALIDACIÓN
         function searchPublicUsers() {
             const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase().trim();
             
             if (!searchTerm) {
-                // Si no hay término de búsqueda, mostrar todos los Entrenador@s
                 renderPublicUsersTable(allPublicUsers);
                 return;
             }
 
-            // Buscar en nick y código
+            // Buscar en nick y código - CON VALIDACIÓN
             const filteredUsers = allPublicUsers.filter(user => {
-                const nickMatch = user.Nick && user.Nick.toLowerCase().includes(searchTerm);
-                const codeMatch = user.Codigo && user.Codigo.toLowerCase().includes(searchTerm);
+                const nick = user.Nick ? user.Nick.toString().toLowerCase() : '';
+                const code = user.Codigo ? user.Codigo.toString().toLowerCase() : '';
+                
+                const nickMatch = nick.includes(searchTerm);
+                const codeMatch = code.includes(searchTerm);
                 return nickMatch || codeMatch;
             });
 
@@ -291,25 +293,48 @@
             URL.revokeObjectURL(url);
         }
 
-        // Cargar Entrenador@s para vista pública
+        // Función para limpiar y normalizar datos
+        function cleanUserData(users) {
+            return users.map(user => {
+                return {
+                    Nick: user.Nick ? user.Nick.toString().trim() : 'Sin nombre',
+                    Codigo: user.Codigo ? user.Codigo.toString().trim() : 'Sin código',
+                    CreadoPor: user.CreadoPor || 'Desconocido',
+                    Numero: user.Numero || 0,
+                    Timestamp: user.Timestamp || ''
+                };
+            });
+        }
+
+        // Cargar Entrenador@s para vista pública CON MANEJO DE ERRORES
         async function loadPublicUsers() {
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
+                console.log('🔄 Intentando cargar datos desde:', SCRIPT_URL);
+                const response = await fetch(`${SCRIPT_URL}?action=getUsers&timestamp=${Date.now()}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
+                }
+                
                 const data = await response.json();
+                console.log('✅ Datos recibidos:', data);
                 
                 if (data.success) {
-                    allPublicUsers = data.users || [];
+                    // LIMPIAR Y NORMALIZAR LOS DATOS
+                    allPublicUsers = cleanUserData(data.users || []);
                     publicUsers = allPublicUsers;
                     renderPublicUsersTable(allPublicUsers);
+                } else {
+                    throw new Error('Error en la respuesta: ' + (data.error || 'Desconocido'));
                 }
             } catch (error) {
-                console.error('Error al cargar Entrenador@s públicos:', error);
+                console.error('❌ Error al cargar Entrenador@s:', error);
                 document.getElementById('publicUsersTable').innerHTML = 
-                    '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar Entrenador@s</td></tr>';
+                    '<tr><td colspan="3" style="text-align: center; color: red;">Error al cargar: ' + error.message + '</td></tr>';
             }
         }
 
-        // Renderizar tabla pública de Entrenador@s
+        // Renderizar tabla pública de Entrenador@s CON VALIDACIÓN
         function renderPublicUsersTable(usersData) {
             const tableBody = document.getElementById('publicUsersTable');
             const totalSpan = document.getElementById('publicTotal');
@@ -330,16 +355,20 @@
 
             let tableHTML = '';
             usersData.forEach(user => {
-                let nickDisplay = user.Nick || '-';
-                let codeDisplay = user.Codigo || '-';
+                // CONVERTIR A STRING Y MANEJAR VALORES NULOS
+                let nickDisplay = user.Nick ? user.Nick.toString() : '-';
+                let codeDisplay = user.Codigo ? user.Codigo.toString() : '-';
                 
                 // Resaltar coincidencias de búsqueda si hay término
                 if (searchTerm) {
-                    if (user.Nick && user.Nick.toLowerCase().includes(searchTerm)) {
-                        nickDisplay = highlightText(user.Nick, searchTerm);
+                    const nickLower = nickDisplay.toLowerCase();
+                    const codeLower = codeDisplay.toLowerCase();
+                    
+                    if (nickLower.includes(searchTerm)) {
+                        nickDisplay = highlightText(nickDisplay, searchTerm);
                     }
-                    if (user.Codigo && user.Codigo.toLowerCase().includes(searchTerm)) {
-                        codeDisplay = highlightText(user.Codigo, searchTerm);
+                    if (codeLower.includes(searchTerm)) {
+                        codeDisplay = highlightText(codeDisplay, searchTerm);
                     }
                 }
 
@@ -355,10 +384,16 @@
             tableBody.innerHTML = tableHTML;
         }
 
-        // Resaltar texto en búsquedas
+        // Resaltar texto en búsquedas CON VALIDACIÓN
         function highlightText(text, searchTerm) {
-            const regex = new RegExp(`(${searchTerm})`, 'gi');
-            return text.replace(regex, '<span class="highlight">$1</span>');
+            if (!text || !searchTerm) return text;
+            
+            // Asegurar que sean strings
+            const textStr = text.toString();
+            const searchStr = searchTerm.toString();
+            
+            const regex = new RegExp(`(${searchStr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return textStr.replace(regex, '<span class="highlight">$1</span>');
         }
 
         function showMessage(text, type) {
@@ -371,11 +406,26 @@
             }, 3000);
         }
 
+        // Función para probar la conexión manualmente
+        function testConnection() {
+            console.log('🧪 Probando conexión...');
+            fetch(`${SCRIPT_URL}?action=getUsers&timestamp=${Date.now()}`)
+                .then(response => {
+                    console.log('Status:', response.status, response.statusText);
+                    return response.json();
+                })
+                .then(data => console.log('Datos:', data))
+                .catch(error => console.error('Error:', error));
+        }
+
         // Iniciar la aplicación
         window.onload = init;
 
         // Actualizar automáticamente cada 30 segundos
         setInterval(loadPublicUsers, 30000);
+
+        // Ejecutar prueba de conexión al cargar
+        setTimeout(testConnection, 2000);
     </script>
 </body>
 </html>
