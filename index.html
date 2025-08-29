@@ -37,6 +37,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 极
             box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
         }
         button:hover {
@@ -51,11 +52,13 @@
             box-shadow: 0 6px 20px rgba(59, 76, 202, 0.4);
         }
         .btn-search {
+            background: linear-gradient(135deg, #极
             background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
             color: #333;
             box-shadow: 0 4px 15px rgba(255, 222, 0, 0.3);
         }
         .btn-search:hover {
+            box-shadow: 0 6极
             box-shadow: 0 6px 20px rgba(255, 222, 0, 0.4);
         }
         table { 
@@ -66,6 +69,8 @@
         }
         th, td { 
             border: 1px solid #e0e0e0; 
+            padding: 15px; 
+极
             padding: 15px; 
             text-align: left; 
         }
@@ -88,11 +93,16 @@
         }
         .message {
             padding: 15px;
+            margin: 15极
             margin: 15px 0;
             border-radius: 8px;
             font-weight: bold;
         }
+极
         .success {
+            background: linear-gradient(135deg, #4caf50 0%, #2极
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 极
+            background: linear-gradient(135deg, #4caf50 极
             background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
             color: white;
             border: 2px solid #2e7d32;
@@ -126,22 +136,26 @@
             width: 200%;
             height: 200%;
             background: radial-gradient(circle, rgba(255,222,0,0.1) 1px, transparent 1px);
+            background-size: 30极
             background-size: 30px 30px;
             animation: float 3s infinite linear;
             pointer-events: none;
         }
         @keyframes float {
+            0% { transform: translateY(0极
             0% { transform: translateY(0px) rotate(0deg); }
             100% { transform: translateY(-20px) rotate(360deg); }
         }
         .login-title {
             color: #ffde00;
+            text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3极
             text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1px 0 #3b4cca, -1px 1px 0 #3b4cca;
             font-size: 32px;
             margin-bottom: 20px;
             text-align: center;
             position: relative;
             z-index: 2;
+            font-family: 'Press Start 2极
             font-family: 'Press Start 2P', cursive;
         }
         .login-input {
@@ -166,8 +180,10 @@
             padding: 16px 35px;
             font-size: 18px;
             border-radius: 25px;
+            box-shadow: 0 6px 20px rgba(极
             box-shadow: 0 6px 20px rgba(255, 222, 0, 0.4);
             border: 3px solid #3b4cca;
+            color: #3b4极
             color: #3b4cca;
             font-weight: bold;
             text-transform: uppercase;
@@ -192,6 +208,8 @@
             border-radius: 15px;
             margin: 30px 0;
             box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+极
+            border: 3px solid #极
             border: 3px solid #ffde00;
             text-align: center;
         }
@@ -222,11 +240,14 @@
             font-size: 16px;
             border: 2px solid #3b4cca;
             border-radius: 8px;
+            background: rgba极
             background: rgba(255, 255, 255, 0.95);
         }
         h1 {
             text-align: center;
+            background: linear-gradient(135deg, #cc0000 极
             background: linear-gradient(135deg, #cc0000 0%, #3b4cca 100%);
+            -webkit-background-cl极
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 36px;
@@ -270,11 +291,16 @@
         }
         
         .pokemon-table {
+            background: linear-gradient(135deg, #f8极
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border: 3px solid #cc0000;
             border-radius: 10px;
         }
         .pokemon-table th {
+            background: linear-gradient(135deg极
+            background: linear-gradient(135deg, #cc0000 0%, #ff6b极
+            background: linear-gradient(135deg, #cc000极
+            background: linear-gradient(135deg极
             background: linear-gradient(135deg, #cc0000 0%, #ff6b6b 100%);
             color: #ffde00;
             text-shadow: 1px 1px 0 #000;
@@ -303,12 +329,15 @@
 
         <!-- Sección de Login Pokémon -->
         <div id="loginSection">
+            <div class极
             <div class="login-section-pokemon">
                 <h2 class="login-title">🎮 ¡IDENTIFÍCATE PARA AGREGAR CÓDIGOS! 🎮</h2>
                 <div class="form-group" style="text-align: center;">
                     <input type="text" id="userName" placeholder="🎯 Tu nombre de Entrenador/a Pokémon" class="login-input">
                     <button onclick="login()" class="login-btn">⚡ Ingresar al Sistema</button>
                 </div>
+                <div style="text-align: center; color: #ffde00; margin-top: 15px; font-weight: bold; text-shadow: 1px 1极
+                <div style="text-align: center; color: #ffde00; margin-top: 15极
                 <div style="text-align: center; color: #ffde00; margin-top: 15px; font-weight: bold; text-shadow: 1px 1px 0 #3b4cca;">
                     🚀 Solo Entrenador@s registrados pueden agregar nuevos códigos
                 </div>
@@ -352,6 +381,7 @@
             </div>
 
             <!-- Sección de Exportar Datos Pokémon (AL FINAL) -->
+            <极
             <div class="export-section-pokemon">
                 <h3>📤 Exportar Códigos de Entrenador@s</h3>
                 <div style="margin: 20px 0;">
@@ -359,6 +389,7 @@
                         💾 Descargar TXT Pokémon
                     </button>
                 </div>
+                <div style="color: #极
                 <div style="color: #ffde00; font-weight: bold; text-shadow: 1px 1px 0 #000;">
                     <span class="pokeball"></span> Exporta nombres y códigos de Entrenador@s 
                     <span class="pokeball"></span>
@@ -373,6 +404,9 @@
     </div>
 
     <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t极
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69极
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSee极
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         
         let currentUser = '';
@@ -442,6 +476,7 @@
 
         // Limpiar búsqueda
         function clearSearch() {
+            document.getElementById('publicSearch极
             document.getElementById('publicSearchInput').value = '';
             renderPublicUsersTable(allPublicUsers);
         }
@@ -494,7 +529,7 @@
 
         async function loadPublicUsers() {
             try {
-                const response = await fetch(`${SCRIPT_URL?action=getUsers&timestamp=${Date.now()}`);
+                const response = await fetch(`${SCRIPT_URL}?action=getUsers&timestamp=${Date.now()}`);
                 
                 if (!response.ok) {
                     throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
@@ -519,6 +554,7 @@
         function renderPublicUsersTable(usersData) {
             const tableBody = document.getElementById('publicUsersTable');
             const totalSpan = document.getElementById('publicTotal');
+            const showingSpan = document.getElementById极
             const showingSpan = document.getElementById('publicShowing');
             const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
             
@@ -529,6 +565,7 @@
                 if (searchTerm) {
                     tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No se encontraron Entrenador@s con "' + searchTerm + '"!</td></tr>';
                 } else {
+                    tableBody.innerHTML = '<tr极
                     tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No hay códigos! Sé el primero en registrarse.</td></tr>';
                 }
                 return;
@@ -555,6 +592,7 @@
                     <tr>
                         <td>${nickDisplay}</td>
                         <td>${codeDisplay}</td>
+                        <td><span style="极
                         <td><span style="color: #6c757d;">🔒 Solo lectura</span></td>
                     </tr>
                 `;
@@ -564,6 +602,7 @@
         }
 
         function highlightText(text, searchTerm) {
+            if (!text || !search极
             if (!text || !searchTerm) return text;
             
             const textStr = text.toString();
