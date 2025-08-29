@@ -45,12 +45,9 @@
         }
         .btn-export {
             background: linear-gradient(135deg, #3b4cca 0%, #1d2c8d 100%);
-            box-shadow: 0 4px極端
             box-shadow: 0 4px 15px rgba(59, 76, 202, 0.3);
         }
         .btn-export:hover {
-            box-shadow: 0 極端
-            box-shadow: 0 6px 20px rgba(59, 76, 極端
             box-shadow: 0 6px 20px rgba(59, 76, 202, 0.4);
         }
         .btn-search {
@@ -64,7 +61,6 @@
         table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin: 25px 極端
             margin: 25px 0; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
@@ -97,11 +93,8 @@
             font-weight: bold;
         }
         .success {
-            background: linear-gradient(135極端
             background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
             color: white;
-            border: 2px solid #2e7極端
-            border: 極端
             border: 2px solid #2e7d32;
         }
         .error {
@@ -111,7 +104,6 @@
         }
         .view-only {
             opacity: 0.9;
-            background-color: #f極端
             background-color: #fafafa;
         }
         
@@ -134,7 +126,6 @@
             width: 200%;
             height: 200%;
             background: radial-gradient(circle, rgba(255,222,0,0.1) 1px, transparent 1px);
-            background極端
             background-size: 30px 30px;
             animation: float 3s infinite linear;
             pointer-events: none;
@@ -145,9 +136,6 @@
         }
         .login-title {
             color: #ffde00;
-            text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1極端
-            text-shadow: 3px 3極端
-            text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1px 0 #3b4cca, -1px 1px 極端
             text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1px 0 #3b4cca, -1px 1px 0 #3b4cca;
             font-size: 32px;
             margin-bottom: 20px;
@@ -174,7 +162,6 @@
             transform: scale(1.02);
         }
         .login-btn {
-            background: linear-gradient(135deg, #ffde00 0%, #d5a100 極端
             background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
             padding: 16px 35px;
             font-size: 18px;
@@ -185,7 +172,6 @@
             font-weight: bold;
             text-transform: uppercase;
         }
-        .極端
         .login-btn:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 8px 25px rgba(255, 222, 0, 0.5);
@@ -201,10 +187,7 @@
         }
         
         .export-section-pokemon {
-            background: linear-gradient(135deg極端
-            background: linear-gradient(135deg, #4caf50 0%, #2極端
             background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
-            padding: 25極端
             padding: 25px;
             border-radius: 15px;
             margin: 30px 0;
@@ -230,7 +213,6 @@
             padding: 15px;
             border-radius: 10px;
             border-left: 5px solid #cc0000;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.極端
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             flex: 1;
         }
@@ -259,7 +241,6 @@
         .search-section h3,
         .export-section-pokemon h3 {
             color: white;
-            text-shadow: 2極端
             text-shadow: 2px 2px 0 #000;
             font-family: 'Press Start 2P', cursive;
             font-size: 18px;
@@ -267,7 +248,6 @@
         
         .pokeball {
             display: inline-block;
-            width: 20極端
             width: 20px;
             height: 20px;
             background: linear-gradient(#ff0000 0%, #ff0000 48%, #000 49%, #000 51%, #fff 52%, #fff 100%);
@@ -294,7 +274,6 @@
             border: 3px solid #cc0000;
             border-radius: 10px;
         }
-        .pokemon-table極端
         .pokemon-table th {
             background: linear-gradient(135deg, #cc0000 0%, #ff6b6b 100%);
             color: #ffde00;
@@ -302,10 +281,6 @@
         }
         
         .export-btn-pokemon {
-            background: linear-gradient(135deg, #極端
-            background: linear-gradient(135deg極端
-            background: linear-gradient(135deg, #ffde00 極端
-            background: linear-gradient(135deg, #ff極端
             background: linear-gradient(135deg, #ffde00 0%, #d5a100 100%);
             color: #3b4cca;
             padding: 15px 30px;
@@ -344,14 +319,11 @@
                 <h3>🔍 Buscar Entrenador@s Pokémon</h3>
                 <div class="form-group">
                     <input type="text" id="publicSearchInput" placeholder="🔎 Escribe para buscar por nombre o código..." 
-                           style="padding: 極端
                            style="padding: 15px; width: 450px;" oninput="searchPublicUsers()">
                     <button onclick="clearSearch()" class="btn-search">🔄 Limpiar Búsqueda</button>
                 </div>
-                <極端
                 <div class="stats">
                     <div class="stat-item">
-                        <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">極端
                         <strong>📊 Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> Entrenador@s
                     </div>
                 </div>
@@ -367,7 +339,6 @@
                             <tr>
                                 <th>🎯 Nombre de Entrenador/a</th>
                                 <th>🔢 Código Pokémon</th>
-                                <th>🔐 Estado</極端
                                 <th>🔐 Estado</th>
                             </tr>
                         </thead>
@@ -382,7 +353,6 @@
 
             <!-- Sección de Exportar Datos Pokémon (AL FINAL) -->
             <div class="export-section-pokemon">
-                <h3極端
                 <h3>📤 Exportar Códigos de Entrenador@s</h3>
                 <div style="margin: 20px 0;">
                     <button onclick="exportToTXT()" class="export-btn-pokemon">
@@ -403,7 +373,6 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2b極端
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         
         let currentUser = '';
@@ -433,7 +402,6 @@
             }
         }
 
-        function loginUser(userName極端
         function loginUser(userName) {
             currentUser = userName;
             document.getElementById('currentUser').textContent = currentUser;
@@ -465,7 +433,6 @@
                 const code = user.Codigo ? user.Codigo.toString().toLowerCase() : '';
                 
                 const nickMatch = nick.includes(searchTerm);
-                const code極端
                 const codeMatch = code.includes(searchTerm);
                 return nickMatch || codeMatch;
             });
@@ -505,8 +472,6 @@
             const blob = new Blob([content], { type: contentType });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a極端
-            const a = document.createElement('a');
             a.href = url;
             a.download = fileName;
             document.body.appendChild(a);
@@ -529,7 +494,7 @@
 
         async function loadPublicUsers() {
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getUsers&timestamp=${Date.now()}`);
+                const response = await fetch(`${SCRIPT_URL?action=getUsers&timestamp=${Date.now()}`);
                 
                 if (!response.ok) {
                     throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
@@ -538,7 +503,6 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    allPublicUsers = clean極端
                     allPublicUsers = cleanUserData(data.users || []);
                     publicUsers = allPublicUsers;
                     renderPublicUsersTable(allPublicUsers);
@@ -547,7 +511,6 @@
                 }
             } catch (error) {
                 console.error('❌ Error al cargar Entrenador@s:', error);
-                document.getElementById('publicUsers極端
                 document.getElementById('publicUsersTable').innerHTML = 
                     '<tr><td colspan="3" style="text-align: center; color: red;">¡Error cargando Pokecódigo! ' + error.message + '</td></tr>';
             }
@@ -564,11 +527,8 @@
 
             if (usersData.length === 0) {
                 if (searchTerm) {
-                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡極端
-                    tableBody.innerHTML = '<tr><極端
                     tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No se encontraron Entrenador@s con "' + searchTerm + '"!</td></tr>';
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="3" style極端
                     tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">¡No hay códigos! Sé el primero en registrarse.</td></tr>';
                 }
                 return;
