@@ -3,25 +3,27 @@
 <head>
     <title>⚡ Pokédex Entrenadores ConceGo ⚡</title>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { 
-            font-family: 'Orbitron', 'Press Start 2P', monospace;
+            font-family: 'Press Start 2P', monospace;
             max-width: 1200px; 
             margin: 0 auto; 
             padding: 20px;
             background: 
-                radial-gradient(circle at 20% 20%, #ff3333 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, #ffcc00 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, #3366ff 0%, transparent 50%),
-                linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            background-size: 300px 300px, 250px 250px, 200px 200px, 100% 100%;
-            animation: pokemonGradient 20s ease infinite;
-            color: #ffffff;
+                radial-gradient(circle at 20% 20%, #00ff41 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, #ff0080 0%, transparent 40%),
+                radial-gradient(circle at 40% 40%, #0080ff 0%, transparent 40%),
+                radial-gradient(circle at 60% 10%, #ffff00 0%, transparent 30%),
+                linear-gradient(135deg, #0d1b2a 0%, #1b263b 25%, #415a77 50%, #778da9 75%, #e0e1dd 100%);
+            background-size: 400px 400px, 350px 350px, 300px 300px, 250px 250px, 100% 100%;
+            animation: gameboy 25s ease infinite;
+            color: #00ff41;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+            text-shadow: 0 0 5px #00ff41;
         }
         
         body::before {
@@ -62,12 +64,13 @@
             white-space: nowrap;
         }
         
-        @keyframes pokemonGradient {
-            0% { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 50%; }
-            25% { background-position: 100% 0%, 0% 100%, 100% 50%, 25% 75%; }
-            50% { background-position: 100% 100%, 0% 0%, 0% 50%, 50% 100%; }
-            75% { background-position: 0% 100%, 100% 0%, 50% 100%, 75% 25%; }
-            100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 50%; }
+        @keyframes gameboy {
+            0% { background-position: 0% 0%, 100% 100%, 50% 50%, 25% 25%, 0% 50%; }
+            20% { background-position: 25% 25%, 75% 75%, 75% 25%, 50% 50%, 20% 60%; }
+            40% { background-position: 50% 50%, 50% 50%, 100% 0%, 75% 75%, 40% 70%; }
+            60% { background-position: 75% 75%, 25% 25%, 25% 75%, 100% 100%, 60% 80%; }
+            80% { background-position: 100% 100%, 0% 0%, 0% 100%, 0% 0%, 80% 90%; }
+            100% { background-position: 0% 0%, 100% 100%, 50% 50%, 25% 25%, 0% 50%; }
         }
         
         @keyframes pokemonIcons {
@@ -79,78 +82,90 @@
             }
         }
         .container {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.9));
+            background: 
+                linear-gradient(145deg, rgba(13, 27, 42, 0.95), rgba(27, 38, 59, 0.9)),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 255, 65, 0.03) 2px,
+                    rgba(0, 255, 65, 0.03) 4px
+                );
             padding: 25px;
-            border-radius: 20px;
+            border-radius: 15px;
             box-shadow: 
-                0 8px 32px rgba(0,0,0,0.5),
-                inset 0 2px 4px rgba(255,255,255,0.8),
-                0 0 20px rgba(255, 204, 0, 0.3);
-            border: 4px solid #ffcc00;
+                0 0 30px rgba(0, 255, 65, 0.3),
+                inset 0 0 20px rgba(0, 255, 65, 0.1),
+                0 8px 32px rgba(0,0,0,0.7);
+            border: 3px solid #00ff41;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            color: #1a1a2e;
+            backdrop-filter: blur(5px);
+            color: #00ff41;
         }
         
         .container::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
                 repeating-linear-gradient(
-                    45deg,
+                    90deg,
                     transparent,
-                    transparent 15px,
-                    rgba(255, 51, 51, 0.05) 15px,
-                    rgba(255, 51, 51, 0.05) 30px
-                ),
-                repeating-linear-gradient(
-                    -45deg,
-                    transparent,
-                    transparent 20px,
-                    rgba(51, 102, 255, 0.03) 20px,
-                    rgba(51, 102, 255, 0.03) 40px
+                    transparent 1px,
+                    rgba(0, 255, 65, 0.1) 1px,
+                    rgba(0, 255, 65, 0.1) 2px
                 );
-            animation: pokemonPattern 25s linear infinite;
+            animation: scanlines 0.1s linear infinite;
             pointer-events: none;
+            z-index: 1;
         }
         
-        @keyframes pokemonPattern {
-            0% { transform: translateX(-30px) translateY(-30px) rotate(0deg); }
-            50% { transform: translateX(30px) translateY(30px) rotate(180deg); }
-            100% { transform: translateX(-30px) translateY(-30px) rotate(360deg); }
+        @keyframes scanlines {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(2px); }
         }
         .form-group { 
             margin: 15px 0; 
         }
         input, button, select { 
-            padding: 10px; 
-            margin: 5px; 
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 8px; 
+            margin: 4px; 
+            border: 2px solid #00ff41;
+            border-radius: 3px;
+            background: rgba(13, 27, 42, 0.9);
+            color: #00ff41;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            text-shadow: 0 0 5px #00ff41;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #0080ff;
+            box-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
         }
         button {
-            background: linear-gradient(145deg, #3366ff, #1a4cff);
-            color: #ffffff;
-            border: 3px solid #ffcc00;
+            background: linear-gradient(145deg, #0080ff, #0040cc);
+            color: #00ff41;
+            border: 2px solid #00ff41;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', monospace;
-            font-size: 11px;
-            font-weight: 700;
+            transition: all 0.2s ease;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-radius: 12px;
+            border-radius: 4px;
             box-shadow: 
-                0 6px 12px rgba(0,0,0,0.4),
-                inset 0 2px 4px rgba(255,255,255,0.2),
-                0 0 15px rgba(255, 204, 0, 0.3);
+                0 0 15px rgba(0, 255, 65, 0.5),
+                inset 0 1px 2px rgba(0, 255, 65, 0.3);
             position: relative;
             overflow: hidden;
+            text-shadow: 0 0 5px #00ff41;
+            z-index: 2;
         }
         
         button::before {
@@ -169,12 +184,14 @@
         }
         
         button:hover {
-            background: linear-gradient(145deg, #ff3333, #cc0000);
-            transform: translateY(-3px);
+            background: linear-gradient(145deg, #ff0080, #cc0066);
+            transform: translateY(-2px);
             box-shadow: 
-                0 8px 16px rgba(0,0,0,0.5),
-                0 0 25px rgba(255, 51, 51, 0.5);
-            border-color: #ffffff;
+                0 0 25px rgba(255, 0, 128, 0.7),
+                0 4px 8px rgba(0,0,0,0.5);
+            border-color: #ff0080;
+            color: #ffffff;
+            text-shadow: 0 0 8px #ff0080;
         }
         
         button:active {
@@ -205,36 +222,37 @@
             text-align: left; 
         }
         th { 
-            background: linear-gradient(145deg, #ff3333, #cc0000);
-            color: #ffffff;
-            font-family: 'Orbitron', monospace;
-            font-size: 11px;
-            font-weight: 900;
+            background: linear-gradient(145deg, #ff0080, #cc0066);
+            color: #00ff41;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             text-shadow: 
-                2px 2px 4px rgba(0,0,0,0.7),
-                0 0 10px rgba(255, 204, 0, 0.5);
-            border: 3px solid #ffcc00;
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.2);
+                0 0 8px #00ff41,
+                1px 1px 2px rgba(0,0,0,0.8);
+            border: 2px solid #00ff41;
+            box-shadow: 
+                0 0 15px rgba(255, 0, 128, 0.5),
+                inset 0 1px 2px rgba(0, 255, 65, 0.3);
         }
         tr:nth-child(even) {
-            background: linear-gradient(90deg, rgba(51, 102, 255, 0.1), rgba(255, 204, 0, 0.1));
+            background: linear-gradient(90deg, rgba(0, 128, 255, 0.1), rgba(0, 255, 65, 0.05));
         }
         
         tr:nth-child(odd) {
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.8));
+            background: linear-gradient(90deg, rgba(13, 27, 42, 0.8), rgba(27, 38, 59, 0.6));
         }
         
         tr:hover {
-            background: linear-gradient(90deg, #ffcc00, #ff9900) !important;
-            color: #1a1a2e;
-            font-weight: bold;
-            transform: scale(1.02);
-            transition: all 0.3s ease;
+            background: linear-gradient(90deg, #0080ff, #0040cc) !important;
+            color: #00ff41;
+            text-shadow: 0 0 8px #00ff41;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
             box-shadow: 
-                0 4px 8px rgba(0,0,0,0.3),
-                0 0 15px rgba(255, 204, 0, 0.5);
+                0 0 20px rgba(0, 128, 255, 0.6),
+                0 2px 4px rgba(0,0,0,0.5);
         }
         .hidden {
             display: none;
@@ -257,52 +275,54 @@
             background-color: #f8f9fa;
         }
         .search-section {
-            background: linear-gradient(145deg, #3366ff, #1a4cff);
-            padding: 25px;
-            border-radius: 20px;
-            margin: 25px 0;
-            border: 4px solid #ffcc00;
+            background: linear-gradient(145deg, #0080ff, #0040cc);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #00ff41;
             box-shadow: 
-                0 10px 20px rgba(0,0,0,0.4),
-                inset 0 2px 4px rgba(255,255,255,0.2),
-                0 0 20px rgba(51, 102, 255, 0.3);
-            color: #ffffff;
+                0 0 25px rgba(0, 128, 255, 0.5),
+                inset 0 1px 2px rgba(0, 255, 65, 0.2);
+            color: #00ff41;
+            position: relative;
+            z-index: 2;
         }
         
         .search-section h3 {
-            color: #ffcc00;
-            font-family: 'Orbitron', monospace;
-            font-weight: 900;
+            color: #ffff00;
+            font-family: 'Press Start 2P', monospace;
             text-shadow: 
-                2px 2px 4px rgba(0,0,0,0.8),
-                0 0 15px rgba(255, 204, 0, 0.7);
-            margin-bottom: 20px;
+                0 0 10px #ffff00,
+                1px 1px 2px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            font-size: 12px;
         }
         .export-section {
-            background: linear-gradient(145deg, #ff3333, #cc0000);
-            padding: 25px;
-            border-radius: 20px;
-            margin: 25px 0;
-            border: 4px solid #ffcc00;
+            background: linear-gradient(145deg, #ff0080, #cc0066);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #00ff41;
             box-shadow: 
-                0 10px 20px rgba(0,0,0,0.4),
-                inset 0 2px 4px rgba(255,255,255,0.2),
-                0 0 20px rgba(255, 51, 51, 0.3);
-            color: #ffffff;
+                0 0 25px rgba(255, 0, 128, 0.5),
+                inset 0 1px 2px rgba(0, 255, 65, 0.2);
+            color: #00ff41;
+            position: relative;
+            z-index: 2;
         }
         
         .export-section h3 {
-            color: #ffcc00;
-            font-family: 'Orbitron', monospace;
-            font-weight: 900;
+            color: #ffff00;
+            font-family: 'Press Start 2P', monospace;
             text-shadow: 
-                2px 2px 4px rgba(0,0,0,0.8),
-                0 0 15px rgba(255, 204, 0, 0.7);
-            margin-bottom: 20px;
+                0 0 10px #ffff00,
+                1px 1px 2px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            font-size: 12px;
         }
         .highlight {
             background-color: #fff3cd !important;
@@ -314,18 +334,17 @@
             margin: 10px 0;
         }
         .stat-item {
-            background: linear-gradient(145deg, #ffcc00, #ff9900);
-            padding: 15px;
-            border-radius: 12px;
-            border: 3px solid #3366ff;
-            color: #1a1a2e;
-            font-family: 'Orbitron', monospace;
-            font-weight: 900;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+            background: linear-gradient(145deg, #ffff00, #cccc00);
+            padding: 12px;
+            border-radius: 4px;
+            border: 2px solid #0080ff;
+            color: #0d1b2a;
+            font-family: 'Press Start 2P', monospace;
+            text-shadow: 0 0 3px #ffff00;
             box-shadow: 
-                0 6px 12px rgba(0,0,0,0.3),
-                inset 0 2px 4px rgba(255,255,255,0.3),
-                0 0 15px rgba(255, 204, 0, 0.4);
+                0 0 15px rgba(255, 255, 0, 0.5),
+                0 2px 4px rgba(0,0,0,0.3);
+            font-size: 8px;
         }
         #publicSearchInput {
             width: 400px;
@@ -368,20 +387,20 @@
 </head>
 <body>
     <div class="container">
-        <h1 style="text-align: center; color: #ff3333; font-family: 'Orbitron', monospace; font-weight: 900; text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 20px rgba(255, 204, 0, 0.8); font-size: 28px; margin-bottom: 30px; animation: pokemonTitle 3s ease-in-out infinite alternate; text-transform: uppercase; letter-spacing: 3px;">⚡ POKÉDEX ENTRENADORES CONCEGO ⚡</h1>
+        <h1 style="text-align: center; color: #00ff41; font-family: 'Press Start 2P', monospace; text-shadow: 0 0 15px #00ff41, 0 0 30px #0080ff, 2px 2px 4px rgba(0,0,0,0.8); font-size: 20px; margin-bottom: 30px; animation: gameboyTitle 2s ease-in-out infinite alternate; text-transform: uppercase; letter-spacing: 2px;">⚡ POKÉDEX ENTRENADORES CONCEGO ⚡</h1>
         
         <style>
-            @keyframes pokemonTitle {
+            @keyframes gameboyTitle {
                 0% { 
-                    transform: scale(1) rotate(-1deg);
-                    text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 20px rgba(255, 204, 0, 0.8);
+                    transform: scale(1);
+                    text-shadow: 0 0 15px #00ff41, 0 0 30px #0080ff, 2px 2px 4px rgba(0,0,0,0.8);
                 }
                 50% {
-                    text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 30px rgba(51, 102, 255, 0.8);
+                    text-shadow: 0 0 20px #ffff00, 0 0 35px #ff0080, 2px 2px 4px rgba(0,0,0,0.8);
                 }
                 100% { 
-                    transform: scale(1.05) rotate(1deg);
-                    text-shadow: 3px 3px 6px rgba(0,0,0,0.8), 0 0 20px rgba(255, 51, 51, 0.8);
+                    transform: scale(1.02);
+                    text-shadow: 0 0 15px #00ff41, 0 0 30px #0080ff, 2px 2px 4px rgba(0,0,0,0.8);
                 }
             }
         </style>
@@ -664,7 +683,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_Uk6hTJ8NJqsDhb14mOxxq7v6ZnFFgM_zNnv1Zoxj1-PsnLAZCSeKzGS5LTfLKhzs/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJ9Xk_pHNK0wDXXEbERZulI2yRdE3MDccXIqRU9QGdUWCsi9QbrE2b_GU6JPDBW8gKxA/exec';
         
         let currentUser = '';
         let users = [];
