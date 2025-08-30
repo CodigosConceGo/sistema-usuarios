@@ -244,8 +244,17 @@
             if(!users.length){el.usersTable.innerHTML='<tr><td colspan="6">No hay registros</td></tr>';el.totalUsers.textContent='0';return;}
             users.forEach(u=>{
                 const tr=document.createElement('tr');
-                tr.innerHTML=`<td>${escapeHtml(u.Nick)}</td><td>${escapeHtml(u.Codigo)}</td><td>${escapeHtml(u.Contacto||'-')}</td><td>${escapeHtml(u.Regalos||'-')}</td><td>${escapeHtml(u.CreadoPor||'-')}</td><td>${u.CreadoPor===currentUser?'<button onclick="deleteUser(\\''+u.Nick+'\\')">🗑️ Eliminar</button>':'🔒'}</td>`;
-                el.usersTable.appendChild(tr);
+                tr.innerHTML = `
+  <td>${escapeHtml(u.Nick)}</td>
+  <td>${escapeHtml(u.Codigo)}</td>
+  <td>${escapeHtml(u.Contacto || '-')}</td>
+  <td>${escapeHtml(u.Regalos || '-')}</td>
+  <td>${escapeHtml(u.CreadoPor || '-')}</td>
+  <td>${
+    u.CreadoPor === currentUser
+      ? `<button onclick="deleteUser('${escapeHtml(u.Nick)}')">🗑️ Eliminar</button>`
+      : '🔒'
+  }</td>`;
             });
             el.totalUsers.textContent=users.length;
         }
