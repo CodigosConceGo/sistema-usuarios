@@ -32,15 +32,21 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(circle at 10% 10%, rgba(255, 51, 51, 0.3) 0%, transparent 15%),
-                radial-gradient(circle at 90% 20%, rgba(255, 204, 0, 0.3) 0%, transparent 15%),
-                radial-gradient(circle at 30% 70%, rgba(51, 102, 255, 0.3) 0%, transparent 15%),
-                radial-gradient(circle at 70% 90%, rgba(255, 51, 51, 0.2) 0%, transparent 15%),
-                radial-gradient(circle at 50% 50%, rgba(255, 204, 0, 0.2) 0%, transparent 15%);
-            background-size: 200px 200px;
-            animation: pokeballs 30s linear infinite;
+                /* Pokébola clásica roja */
+                radial-gradient(circle at 10% 10%, #ff3333 0%, #ff3333 40%, #ffffff 40%, #ffffff 45%, #000000 45%, #000000 50%, #ffffff 50%, #ffffff 55%, #000000 55%, #000000 60%, transparent 60%),
+                /* Pokébola amarilla (Ultra Ball) */
+                radial-gradient(circle at 90% 20%, #ffcc00 0%, #ffcc00 40%, #ffffff 40%, #ffffff 45%, #000000 45%, #000000 50%, #ffffff 50%, #ffffff 55%, #000000 55%, #000000 60%, transparent 60%),
+                /* Pokébola azul (Great Ball) */
+                radial-gradient(circle at 30% 70%, #3366ff 0%, #3366ff 40%, #ffffff 40%, #ffffff 45%, #000000 45%, #000000 50%, #ffffff 50%, #ffffff 55%, #000000 55%, #000000 60%, transparent 60%),
+                /* Pokébola morada (Master Ball) */
+                radial-gradient(circle at 70% 90%, #9933ff 0%, #9933ff 40%, #ffffff 40%, #ffffff 45%, #000000 45%, #000000 50%, #ffffff 50%, #ffffff 55%, #000000 55%, #000000 60%, transparent 60%),
+                /* Pokébola verde (Safari Ball) */
+                radial-gradient(circle at 50% 50%, #33cc33 0%, #33cc33 40%, #ffffff 40%, #ffffff 45%, #000000 45%, #000000 50%, #ffffff 50%, #ffffff 55%, #000000 55%, #000000 60%, transparent 60%);
+            background-size: 80px 80px, 90px 90px, 70px 70px, 85px 85px, 75px 75px;
+            animation: pokeballs 40s linear infinite;
             pointer-events: none;
             z-index: -1;
+            opacity: 0.6;
         }
         
         body::after {
@@ -51,11 +57,13 @@
             width: 100%;
             height: 100%;
             background-image: 
-                radial-gradient(circle at 25% 25%, #ff3333 8px, #ffffff 8px, #ffffff 12px, transparent 12px),
-                radial-gradient(circle at 75% 75%, #ffcc00 8px, #ffffff 8px, #ffffff 12px, transparent 12px),
-                radial-gradient(circle at 15% 85%, #3366ff 8px, #ffffff 8px, #ffffff 12px, transparent 12px);
-            background-size: 150px 150px, 180px 180px, 120px 120px;
-            animation: pokeballs 25s linear infinite reverse;
+                /* Pokébolas más pequeñas flotantes */
+                radial-gradient(circle at 25% 25%, #ff3333 0%, #ff3333 35%, #ffffff 35%, #ffffff 40%, #000000 40%, #000000 45%, #ffffff 45%, #ffffff 50%, #000000 50%, #000000 55%, transparent 55%),
+                radial-gradient(circle at 75% 75%, #ffcc00 0%, #ffcc00 35%, #ffffff 35%, #ffffff 40%, #000000 40%, #000000 45%, #ffffff 45%, #ffffff 50%, #000000 50%, #000000 55%, transparent 55%),
+                radial-gradient(circle at 15% 85%, #3366ff 0%, #3366ff 35%, #ffffff 35%, #ffffff 40%, #000000 40%, #000000 45%, #ffffff 45%, #ffffff 50%, #000000 50%, #000000 55%, transparent 55%),
+                radial-gradient(circle at 85% 15%, #9933ff 0%, #9933ff 35%, #ffffff 35%, #ffffff 40%, #000000 40%, #000000 45%, #ffffff 45%, #ffffff 50%, #000000 50%, #000000 55%, transparent 55%);
+            background-size: 60px 60px, 65px 65px, 55px 55px, 70px 70px;
+            animation: pokeballs 35s linear infinite reverse;
             pointer-events: none;
             z-index: -1;
             opacity: 0.4;
@@ -388,7 +396,7 @@
         <div id="loginSection">
             <h2>🔐 Identifícate para agregar código</h2>
             <div class="form-group">
-                <input type="text" id="userName" placeholder="Tu nombre de Entrenador/a" style="padding: 12px; width: 300px;">
+                <input type="text" id="userName" placeholder="Ingresa tu nombre de entrenador" style="padding: 12px; width: 300px; font-family: 'Orbitron', monospace;">
                 <button onclick="login()" style="padding: 12px 20px;">Ingresar al Sistema</button>
             </div>
 
@@ -396,8 +404,8 @@
             <div class="search-section">
                 <h3>🔍 Buscar entrenador@s</h3>
                 <div class="form-group">
-                    <input type="text" id="publicSearchInput" placeholder="Escribe para buscar por nick o código..." 
-                           style="padding: 12px; width: 400px;" oninput="searchPublicUsers()">
+                    <input type="text" id="publicSearchInput" placeholder="Buscar por nick o código..." 
+                           style="padding: 12px; width: 400px; font-family: 'Orbitron', monospace;" oninput="searchPublicUsers()">
                     <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
                 </div>
                 <div class="stats">
@@ -475,9 +483,9 @@
                 <h3>➕ Agregar Nuevo Entrenador/a</h3>
                 <div class="form-group">
                     <div class="form-row">
-                        <input type="text" id="nickInput" placeholder="Nick del entrenador/a" style="width: 200px;">
-                        <input type="text" id="codeInput" placeholder="Código" style="width: 200px;">
-                        <input type="text" id="contactInput" placeholder="Nº de contacto (opcional)" style="width: 200px;">
+                        <input type="text" id="nickInput" placeholder="Nick del entrenador" style="width: 200px; font-family: 'Orbitron', monospace;">
+                        <input type="text" id="codeInput" placeholder="Código de entrenador" style="width: 200px; font-family: 'Orbitron', monospace;">
+                        <input type="text" id="contactInput" placeholder="Número de contacto (opcional)" style="width: 200px; font-family: 'Orbitron', monospace;">
                     </div>
                     <div class="checkbox-container">
                         <input type="checkbox" id="giftsCheckbox">
