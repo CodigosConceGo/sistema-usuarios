@@ -1,174 +1,626 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>⚡ Pokédex Entrenadores ConceGo ⚡</title>
-  <meta charset="UTF-8">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <style>
-    /* estilos iguales a los anteriores, omitidos por brevedad */
-    body {
-      font-family: 'Press Start 2P', cursive;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      background: linear-gradient(180deg,#ff0000 0%,#ffffff 50%,#000000 100%);
-      color:#333;
-    }
-    /* ... (dejo los mismos estilos que ya tenías con tabla-wrapper, botones, etc.) */
-  </style>
+    <title>Codigos entrenadores/as ConceGo</title>
+    <meta charset="UTF-8">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group { 
+            margin: 15px 0; 
+        }
+        input, button, select { 
+            padding: 10px; 
+            margin: 5px; 
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .btn-export {
+            background: #28a745;
+        }
+        .btn-export:hover {
+            background: #218838;
+        }
+        .btn-search {
+            background: #ffc107;
+            color: black;
+        }
+        .btn-search:hover {
+            background: #e0a800;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 12px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #007bff; 
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .hidden {
+            display: none;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .view-only {
+            opacity: 0.8;
+            background-color: #f8f9fa;
+        }
+        .search-section {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .export-section {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .highlight {
+            background-color: #fff3cd !important;
+            border: 2px solid #ffc107;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .stat-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        #publicSearchInput {
+            width: 400px;
+            padding: 12px;
+            font-size: 16px;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+        .gifts-yes {
+            background-color: #28a745 !important;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .gifts-no {
+            background-color: #6c757d;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        .form-row input {
+            flex: 1;
+            min-width: 150px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-  <h1>🎮 Pokédex de Entrenadores ConceGo 🎮</h1>
+    <div class="container">
+        <h1>📊 Codigos entrenadores/as ConceGo</h1>
 
-  <!-- LOGIN -->
-  <div id="loginSection">
-    <h2>🔐 Ingresa tu nombre de Entrenador/a</h2>
-    <div class="form-group" style="text-align:center;">
-      <input id="userName" type="text" placeholder="Ej: Ash Ketchum" style="width:300px;">
-      <button id="loginBtn">⚡ Ingresar</button>
+        <!-- Sección de Login -->
+        <div id="loginSection">
+            <h2>🔐 Identifícate para agregar código</h2>
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="Tu nombre de Entrenador/a" style="padding: 12px; width: 300px;">
+                <button onclick="login()" style="padding: 12px 20px;">Ingresar al Sistema</button>
+            </div>
+
+            <!-- Buscador Público -->
+            <div class="search-section">
+                <h3>🔍 Buscar entrenador@s</h3>
+                <div class="form-group">
+                    <input type="text" id="publicSearchInput" placeholder="Escribe para buscar por nick o código..." 
+                           style="padding: 12px; width: 400px;" oninput="searchPublicUsers()">
+                    <button onclick="clearSearch()" class="btn-search">🔄 Limpiar</button>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span> entrenador@s
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exportar Datos -->
+            <div class="export-section">
+                <h3>📤 Exportar Base de Datos</h3>
+                <button onclick="exportToTXT()" class="btn-export">💾 Descargar TXT</button>
+                <span style="margin-left: 10px; color: #6c757d;">Exporta nick, código, contacto y regalos</span>
+            </div>
+
+            <!-- Tabla de Entrenador@s visible para todos -->
+            <div style="margin-top: 30px;">
+                <h3>👥 Entrenador@s Registrados (Solo lectura)</h3>
+                
+                <div style="overflow-x: auto;">
+                    <table class="view-only">
+                        <thead>
+                            <tr>
+                                <th>Nick</th>
+                                <th>Código</th>
+                                <th>Nº de contacto</th>
+                                <th>Envía regalos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="publicUsersTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center;">Cargando Entrenador@s...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección Principal (solo para usuarios logueados) -->
+        <div id="mainSection" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>👋 Hola, <span id="currentUser" style="color: #007bff;"></span></h2>
+                <button onclick="logout()" style="background: #dc3545;">🚪 Cerrar Sesión</button>
+            </div>
+
+            <!-- Formulario para agregar usuarios -->
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3>➕ Agregar Nuevo Entrenador/a</h3>
+                <div class="form-group">
+                    <div class="form-row">
+                        <input type="text" id="nickInput" placeholder="Nick del entrenador/a" style="width: 200px;">
+                        <input type="text" id="codeInput" placeholder="Código" style="width: 200px;">
+                        <input type="text" id="contactInput" placeholder="Nº de contacto (opcional)" style="width: 200px;">
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="giftsCheckbox">
+                        <label for="giftsCheckbox">🎁 Envía regalos</label>
+                    </div>
+                    <button onclick="addUser()">✅ Agregar Entrenador/a</button>
+                </div>
+                <div id="message" class="message"></div>
+            </div>
+
+            <!-- Tabla de usuarios con acciones -->
+            <h3>📋 Gestión de Entrenador@s</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nick</th>
+                            <th>Código</th>
+                            <th>Nº de contacto</th>
+                            <th>Envía regalos</th>
+                            <th>Creado por</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr>
+                            <td colspan="6" style="text-align: center;">Cargando entrenador@s...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Contador total -->
+            <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 5px;">
+                <h3>📈 Total de entrenador@s registrados: <span id="totalUsers">0</span></h3>
+            </div>
+        </div>
     </div>
 
-    <h3>🔍 Buscar entrenador@s</h3>
-    <div class="form-group" style="text-align:center;">
-      <input id="publicSearchInput" type="text" placeholder="Busca por nick o código..." style="width:300px;">
-      <button id="clearSearchBtn">🔄 Limpiar</button>
-    </div>
-    <p><strong>Mostrando:</strong> <span id="publicShowing">0</span> de <span id="publicTotal">0</span></p>
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxOx3x8NVHdtY74zv1DFAkMyUL2Z9SSXGy1aHcWv39ebrpqLhcZiDOYxL9sCTzK9tHdcA/exec';
+        
+        let currentUser = '';
+        let users = [];
+        let publicUsers = [];
+        let allPublicUsers = [];
 
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr><th>Nick</th><th>Código</th><th>Contacto</th><th>Regalos</th></tr>
-        </thead>
-        <tbody id="publicUsersTable"><tr><td colspan="4">Cargando...</td></tr></tbody>
-      </table>
-    </div>
-  </div>
+        function init() {
+            checkLogin();
+            loadPublicUsers();
+        }
 
-  <!-- MAIN -->
-  <div id="mainSection" class="hidden">
-    <h2>👋 Hola, <span id="currentUser"></span></h2>
-    <button id="logoutBtn">🚪 Cerrar Sesión</button>
+        function checkLogin() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                loginUser(savedUser);
+            }
+        }
 
-    <div class="highlight-card">
-      <h3>➕ Agregar Nuevo Entrenador</h3>
-      <input id="nickInput" type="text" placeholder="Nick">
-      <input id="codeInput" type="text" placeholder="Código">
-      <input id="contactInput" type="text" placeholder="Contacto (opcional)">
-      <label><input type="checkbox" id="giftsCheckbox"> 🎁 Envía regalos</label>
-      <button id="addUserBtn">✅ Agregar</button>
-      <div id="message"></div>
-    </div>
+        function login() {
+            const userName = document.getElementById('userName').value.trim();
+            if (userName) {
+                loginUser(userName);
+                localStorage.setItem('currentUser', userName);
+            } else {
+                showMessage('Por favor ingresa tu nombre de Entrenador/a', 'error');
+            }
+        }
 
-    <h3>📋 Gestión</h3>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr><th>Nick</th><th>Código</th><th>Contacto</th><th>Regalos</th><th>CreadoPor</th><th>Acciones</th></tr>
-        </thead>
-        <tbody id="usersTable"><tr><td colspan="6">Cargando...</td></tr></tbody>
-      </table>
-    </div>
-    <p>Total: <span id="totalUsers">0</span></p>
-  </div>
+        function loginUser(userName) {
+            currentUser = userName;
+            const currentUserElement = document.getElementById('currentUser');
+            if (currentUserElement) {
+                currentUserElement.textContent = currentUser;
+            }
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('mainSection').classList.remove('hidden');
+            loadUsers();
+        }
 
-  <!-- Export -->
-  <h3>📤 Exportar</h3>
-  <button id="exportBtn">💾 Exportar TXT</button>
-</div>
+        function logout() {
+            currentUser = '';
+            localStorage.removeItem('currentUser');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('mainSection').classList.add('hidden');
+            document.getElementById('userName').value = '';
+            loadPublicUsers();
+        }
 
-<script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRJ0S1WWLzeCeefoZYh8eeqt6d6ZWavClhQ3mzm31Yd78hqXLLp6vweIv59JogZWiSHg/exec'; // pega aquí la URL desplegada de Apps Script
-let currentUser = "";
-let users = [];
-let allPublicUsers = [];
+        // Función de búsqueda en tiempo real CON VALIDACIÓN
+        function searchPublicUsers() {
+            const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                renderPublicUsersTable(allPublicUsers);
+                return;
+            }
 
-function escapeHtml(str){return (str??"").toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+            // Buscar en nick y código - CON VALIDACIÓN
+            const filteredUsers = allPublicUsers.filter(user => {
+                const nick = user.Nick ? user.Nick.toString().toLowerCase() : '';
+                const code = user.Codigo ? user.Codigo.toString().toLowerCase() : '';
+                
+                const nickMatch = nick.includes(searchTerm);
+                const codeMatch = code.includes(searchTerm);
+                return nickMatch || codeMatch;
+            });
 
-document.getElementById("loginBtn").onclick = login;
-document.getElementById("logoutBtn").onclick = logout;
-document.getElementById("addUserBtn").onclick = addUser;
-document.getElementById("clearSearchBtn").onclick = ()=>renderPublicUsersTable(allPublicUsers);
-document.getElementById("exportBtn").onclick = exportToTXT;
+            renderPublicUsersTable(filteredUsers);
+        }
 
-function login(){
-  const name = document.getElementById("userName").value.trim();
-  if(!name) return alert("Ingresa tu nombre");
-  currentUser = name;
-  document.getElementById("currentUser").textContent = name;
-  document.getElementById("loginSection").classList.add("hidden");
-  document.getElementById("mainSection").classList.remove("hidden");
-  loadUsers();
-}
-function logout(){
-  currentUser="";
-  document.getElementById("loginSection").classList.remove("hidden");
-  document.getElementById("mainSection").classList.add("hidden");
-}
+        // Limpiar búsqueda
+        function clearSearch() {
+            document.getElementById('publicSearchInput').value = '';
+            renderPublicUsersTable(allPublicUsers);
+        }
 
-async function loadUsers(){
-  const res = await fetch(SCRIPT_URL+"?action=getUsers");
-  const data = await res.json();
-  if(data.success){ users = data.users; renderUsersTable(); }
-}
-async function addUser(){
-  const nick = document.getElementById("nickInput").value.trim();
-  const code = document.getElementById("codeInput").value.trim();
-  const contact = document.getElementById("contactInput").value.trim();
-  const gifts = document.getElementById("giftsCheckbox").checked ? "✅" : "";
-  if(!nick||!code) return alert("Nick y código requeridos");
+        // Exportar a TXT
+        function exportToTXT() {
+            if (allPublicUsers.length === 0) {
+                alert('No hay datos para exportar');
+                return;
+            }
 
-  const url = `${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(code)}&contact=${encodeURIComponent(contact)}&gifts=${encodeURIComponent(gifts)}&creator=${encodeURIComponent(currentUser)}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  if(data.success){ alert("Agregado!"); loadUsers(); loadPublicUsers(); }
-}
-async function deleteUser(nick){
-  if(!confirm("¿Eliminar "+nick+"?")) return;
-  const url = `${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(nick)}&creator=${encodeURIComponent(currentUser)}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  if(data.success){ loadUsers(); loadPublicUsers(); }
-}
+            let txtContent = 'LISTA DE ENTRENADOR@S\n';
+            txtContent += '=================\n\n';
+            txtContent += `Exportado: ${new Date().toLocaleString()}\n`;
+            txtContent += `Total de Entrenador@s: ${allPublicUsers.length}\n\n`;
 
-function renderUsersTable(){
-  const tbody=document.getElementById("usersTable"); tbody.innerHTML="";
-  if(!users.length){tbody.innerHTML="<tr><td colspan=6>Sin registros</td></tr>";return;}
-  users.forEach(u=>{
-    const btn = u.CreadoPor===currentUser ? `<button onclick="deleteUser('${escapeHtml(u.Nick)}')">🗑️</button>` : "🔒";
-    tbody.innerHTML += `<tr><td>${escapeHtml(u.Nick)}</td><td>${escapeHtml(u.Codigo)}</td><td>${escapeHtml(u.Contacto||"-")}</td><td>${escapeHtml(u.Regalos||"-")}</td><td>${escapeHtml(u.CreadoPor||"-")}</td><td>${btn}</td></tr>`;
-  });
-  document.getElementById("totalUsers").textContent=users.length;
-}
+            allPublicUsers.forEach(user => {
+                txtContent += `Nick: ${user.Nick || 'N/A'}\n`;
+                txtContent += `Código: ${user.Codigo || 'N/A'}\n`;
+                txtContent += `Contacto: ${user.Contacto || 'N/A'}\n`;
+                txtContent += `Envía regalos: ${user.Regalos || 'No'}\n`;
+                txtContent += '─'.repeat(30) + '\n';
+            });
 
-async function loadPublicUsers(){
-  const res=await fetch(SCRIPT_URL+"?action=getUsers&ts="+Date.now());
-  const data=await res.json();
-  if(data.success){allPublicUsers=data.users;renderPublicUsersTable(allPublicUsers);}
-}
-function renderPublicUsersTable(arr){
-  const tbody=document.getElementById("publicUsersTable"); tbody.innerHTML="";
-  document.getElementById("publicTotal").textContent=allPublicUsers.length;
-  document.getElementById("publicShowing").textContent=arr.length;
-  if(!arr.length){tbody.innerHTML="<tr><td colspan=4>Sin resultados</td></tr>";return;}
-  arr.forEach(u=>{
-    tbody.innerHTML+=`<tr><td>${escapeHtml(u.Nick)}</td><td>${escapeHtml(u.Codigo)}</td><td>${escapeHtml(u.Contacto||"-")}</td><td>${u.Regalos||"-"}</td></tr>`;
-  });
-}
-function exportToTXT(){
-  if(!allPublicUsers.length){alert("No hay datos");return;}
-  let txt="LISTA ENTRENADORES\n\n";
-  allPublicUsers.forEach(u=>{
-    txt+=`Nick: ${u.Nick}\nCodigo: ${u.Codigo}\nContacto: ${u.Contacto||"-"}\nRegalos: ${u.Regalos||"-"}\n---\n`;
-  });
-  const blob=new Blob([txt],{type:"text/plain"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="Entrenadores.txt";
-  a.click();
-}
-window.onload=()=>{loadPublicUsers();};
-</script>
+            downloadFile(txtContent, 'Entrenador@s.txt', 'text/plain');
+        }
+
+        // Función para descargar archivo
+        function downloadFile(content, fileName, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Función para limpiar y normalizar datos
+        function cleanUserData(users) {
+            return users.map(user => {
+                return {
+                    Nick: user.Nick ? user.Nick.toString().trim() : 'Sin nombre',
+                    Codigo: user.Codigo ? user.Codigo.toString().trim() : 'Sin código',
+                    Contacto: user.Contacto ? user.Contacto.toString().trim() : '',
+                    Regalos: user.Regalos ? user.Regalos.toString().trim() : '',
+                    CreadoPor: user.CreadoPor || 'Desconocido',
+                    Numero: user.Numero || 0,
+                    Timestamp: user.Timestamp || ''
+                };
+            });
+        }
+
+        // Cargar Entrenador@s para vista pública
+        async function loadPublicUsers() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getUsers&timestamp=${Date.now()}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // LIMPIAR Y NORMALIZAR LOS DATOS
+                    allPublicUsers = cleanUserData(data.users || []);
+                    publicUsers = allPublicUsers;
+                    renderPublicUsersTable(allPublicUsers);
+                } else {
+                    throw new Error('Error en la respuesta: ' + (data.error || 'Desconocido'));
+                }
+            } catch (error) {
+                console.error('❌ Error al cargar Entrenador@s:', error);
+                const tableBody = document.getElementById('publicUsersTable');
+                if (tableBody) {
+                    tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: red;">Error al cargar: ' + error.message + '</td></tr>';
+                }
+            }
+        }
+
+        // Cargar usuarios para usuarios logueados
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getUsers`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    users = cleanUserData(data.users || []);
+                    renderUsersTable();
+                }
+            } catch (error) {
+                console.error('Error al cargar usuarios:', error);
+                showMessage('Error de conexión', 'error');
+            }
+        }
+
+        // Renderizar tabla para usuarios logueados
+        function renderUsersTable() {
+            const tableBody = document.getElementById('usersTable');
+            const totalUsers = document.getElementById('totalUsers');
+            
+            if (!tableBody || !totalUsers) return;
+            
+            if (users.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay entrenador@s registrados</td></tr>';
+                totalUsers.textContent = '0';
+                return;
+            }
+
+            let tableHTML = '';
+            users.forEach(user => {
+                const canEdit = user.CreadoPor === currentUser;
+                const giftsDisplay = user.Regalos ? '<span class="gifts-yes">✅ Sí</span>' : '<span class="gifts-no">❌ No</span>';
+                
+                tableHTML += `
+                    <tr>
+                        <td>${user.Nick || '-'}</td>
+                        <td>${user.Codigo || '-'}</td>
+                        <td>${user.Contacto || '-'}</td>
+                        <td>${giftsDisplay}</td>
+                        <td>${user.CreadoPor || '-'}</td>
+                        <td>
+                            ${canEdit ? 
+                                `<button onclick="deleteUser('${user.Nick}')" style="background: #dc3545; padding: 5px 10px; margin: 2px;">🗑️ Eliminar</button>` : 
+                                '<span style="color: #6c757d;">Solo lectura</span>'
+                            }
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = tableHTML;
+            totalUsers.textContent = users.length;
+        }
+
+        // Renderizar tabla pública de Entrenador@s CON VALIDACIÓN
+        function renderPublicUsersTable(usersData) {
+            const tableBody = document.getElementById('publicUsersTable');
+            const totalSpan = document.getElementById('publicTotal');
+            const showingSpan = document.getElementById('publicShowing');
+            const searchTerm = document.getElementById('publicSearchInput').value.toLowerCase();
+            
+            if (!tableBody || !totalSpan || !showingSpan) return;
+            
+            totalSpan.textContent = allPublicUsers.length;
+            showingSpan.textContent = usersData.length;
+
+            if (usersData.length === 0) {
+                if (searchTerm) {
+                    tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No se encontraron Entrenador@s con "' + searchTerm + '"</td></tr>';
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No hay Entrenador@s registrados</td></tr>';
+                }
+                return;
+            }
+
+            let tableHTML = '';
+            usersData.forEach(user => {
+                // CONVERTIR A STRING Y MANEJAR VALORES NULOS
+                let nickDisplay = user.Nick ? user.Nick.toString() : '-';
+                let codeDisplay = user.Codigo ? user.Codigo.toString() : '-';
+                let contactDisplay = user.Contacto ? user.Contacto.toString() : '-';
+                const giftsDisplay = user.Regalos ? '<span class="gifts-yes">✅ Sí</span>' : '<span class="gifts-no">❌ No</span>';
+                
+                // Resaltar coincidencias de búsqueda si hay término
+                if (searchTerm) {
+                    const nickLower = nickDisplay.toLowerCase();
+                    const codeLower = codeDisplay.toLowerCase();
+                    
+                    if (nickLower.includes(searchTerm)) {
+                        nickDisplay = highlightText(nickDisplay, searchTerm);
+                    }
+                    if (codeLower.includes(searchTerm)) {
+                        codeDisplay = highlightText(codeDisplay, searchTerm);
+                    }
+                }
+
+                tableHTML += `
+                    <tr>
+                        <td>${nickDisplay}</td>
+                        <td>${codeDisplay}</td>
+                        <td>${contactDisplay}</td>
+                        <td>${giftsDisplay}</td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = tableHTML;
+        }
+
+        // Resaltar texto en búsquedas CON VALIDACIÓN
+        function highlightText(text, searchTerm) {
+            if (!text || !searchTerm) return text;
+            
+            // Asegurar que sean strings
+            const textStr = text.toString();
+            const searchStr = searchTerm.toString();
+            
+            const regex = new RegExp(`(${searchStr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return textStr.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        async function addUser() {
+            const nick = document.getElementById('nickInput').value.trim();
+            const code = document.getElementById('codeInput').value.trim();
+            const contact = document.getElementById('contactInput').value.trim();
+            const gifts = document.getElementById('giftsCheckbox').checked ? '✅' : '';
+            
+            if (!nick || !code) {
+                showMessage('Por favor completa nick y código (campos obligatorios)', 'error');
+                return;
+            }
+
+            if (!currentUser) {
+                showMessage('Debes iniciar sesión primero', 'error');
+                return;
+            }
+
+            try {
+                const url = `${SCRIPT_URL}?action=addUser&nick=${encodeURIComponent(nick)}&code=${encodeURIComponent(code)}&contact=${encodeURIComponent(contact)}&gifts=${encodeURIComponent(gifts)}&creator=${encodeURIComponent(currentUser)}`;
+                const response = await fetch(url, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('✅ Entrenador/a agregado correctamente', 'success');
+                    document.getElementById('nickInput').value = '';
+                    document.getElementById('codeInput').value = '';
+                    document.getElementById('contactInput').value = '';
+                    document.getElementById('giftsCheckbox').checked = false;
+                    loadUsers();
+                    loadPublicUsers();
+                } else {
+                    showMessage('❌ Error: ' + (data.error || 'Error desconocido'), 'error');
+                }
+            } catch (error) {
+                console.error('Error al agregar entrenador/a:', error);
+                showMessage('❌ Error de conexión', 'error');
+            }
+        }
+
+        async function deleteUser(nick) {
+            if (!confirm(`¿Estás seguro de que quieres eliminar a ${nick}?`)) {
+                return;
+            }
+
+            try {
+                const url = `${SCRIPT_URL}?action=deleteUser&nick=${encodeURIComponent(nick)}&creator=${encodeURIComponent(currentUser)}`;
+                const response = await fetch(url, { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('✅ Entrenador/a eliminado correctamente', 'success');
+                    loadUsers();
+                    loadPublicUsers();
+                } else {
+                    showMessage('❌ Error: ' + (data.error || 'Error desconocido'), 'error');
+                }
+            } catch (error) {
+                console.error('Error al eliminar entrenador/a:', error);
+                showMessage('❌ Error de conexión', 'error');
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            if (messageDiv) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+                setTimeout(() => {
+                    messageDiv.textContent = '';
+                    messageDiv.className = 'message';
+                }, 3000);
+            }
+        }
+
+        // Iniciar la aplicación
+        window.onload = init;
+
+        // Actualizar automáticamente cada 30 segundos
+        setInterval(loadPublicUsers, 30000);
+    </script>
 </body>
 </html>
