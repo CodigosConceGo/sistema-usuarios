@@ -25,45 +25,41 @@
         }
         
         body::before {
-            content: '';
+            content: '🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                /* Pokébola pixel art realista */
-                radial-gradient(circle at 15% 15%, #dc143c 0%, #dc143c 47%, #000000 47%, #000000 50%, #ffffff 50%, #ffffff 53%, #000000 53%, #000000 56%, #ffffff 56%, #ffffff 100%),
-                radial-gradient(circle at 85% 25%, #ffd700 0%, #ffd700 47%, #000000 47%, #000000 50%, #ffffff 50%, #ffffff 53%, #000000 53%, #000000 56%, #ffffff 56%, #ffffff 100%),
-                radial-gradient(circle at 25% 75%, #4169e1 0%, #4169e1 47%, #000000 47%, #000000 50%, #ffffff 50%, #ffffff 53%, #000000 53%, #000000 56%, #ffffff 56%, #ffffff 100%),
-                radial-gradient(circle at 75% 85%, #8a2be2 0%, #8a2be2 47%, #000000 47%, #000000 50%, #ffffff 50%, #ffffff 53%, #000000 53%, #000000 56%, #ffffff 56%, #ffffff 100%),
-                radial-gradient(circle at 50% 40%, #32cd32 0%, #32cd32 47%, #000000 47%, #000000 50%, #ffffff 50%, #ffffff 53%, #000000 53%, #000000 56%, #ffffff 56%, #ffffff 100%);
-            background-size: 60px 60px, 70px 70px, 65px 65px, 55px 55px, 75px 75px;
-            animation: pokeballs 45s linear infinite;
+            font-size: 30px;
+            line-height: 60px;
+            letter-spacing: 40px;
+            word-spacing: 20px;
+            animation: pokemonIcons 50s linear infinite;
             pointer-events: none;
             z-index: -1;
-            opacity: 0.4;
+            opacity: 0.15;
+            overflow: hidden;
+            white-space: nowrap;
         }
         
         body::after {
-            content: '';
+            content: '🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️ 🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️ 🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️ 🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️ 🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️';
             position: fixed;
-            top: 0;
+            top: 50%;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                /* Pokébolas pixel más pequeñas */
-                radial-gradient(circle at 20% 30%, #dc143c 0%, #dc143c 45%, #000000 45%, #000000 48%, #ffffff 48%, #ffffff 52%, #000000 52%, #000000 55%, #ffffff 55%, #ffffff 100%),
-                radial-gradient(circle at 80% 70%, #ffd700 0%, #ffd700 45%, #000000 45%, #000000 48%, #ffffff 48%, #ffffff 52%, #000000 52%, #000000 55%, #ffffff 55%, #ffffff 100%),
-                radial-gradient(circle at 30% 80%, #4169e1 0%, #4169e1 45%, #000000 45%, #000000 48%, #ffffff 48%, #ffffff 52%, #000000 52%, #000000 55%, #ffffff 55%, #ffffff 100%),
-                radial-gradient(circle at 70% 20%, #8a2be2 0%, #8a2be2 45%, #000000 45%, #000000 48%, #ffffff 48%, #ffffff 52%, #000000 52%, #000000 55%, #ffffff 55%, #ffffff 100%),
-                radial-gradient(circle at 60% 60%, #32cd32 0%, #32cd32 45%, #000000 45%, #000000 48%, #ffffff 48%, #ffffff 52%, #000000 52%, #000000 55%, #ffffff 55%, #ffffff 100%);
-            background-size: 40px 40px, 45px 45px, 35px 35px, 50px 50px, 42px 42px;
-            animation: pokeballs 38s linear infinite reverse;
+            font-size: 25px;
+            line-height: 80px;
+            letter-spacing: 60px;
+            word-spacing: 30px;
+            animation: pokemonIcons 45s linear infinite reverse;
             pointer-events: none;
             z-index: -1;
-            opacity: 0.3;
+            opacity: 0.1;
+            overflow: hidden;
+            white-space: nowrap;
         }
         
         @keyframes pokemonGradient {
@@ -74,26 +70,12 @@
             100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 50%; }
         }
         
-        @keyframes pokeballs {
+        @keyframes pokemonIcons {
             0% { 
-                transform: translateX(0) translateY(0) rotate(0deg);
-                background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%;
-            }
-            25% { 
-                transform: translateX(30px) translateY(-20px) rotate(90deg);
-                background-position: 25% 25%, 75% 25%, 25% 75%, 75% 75%, 50% 50%;
-            }
-            50% { 
-                transform: translateX(0) translateY(-40px) rotate(180deg);
-                background-position: 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%;
-            }
-            75% { 
-                transform: translateX(-30px) translateY(-20px) rotate(270deg);
-                background-position: 75% 75%, 25% 75%, 75% 25%, 25% 25%, 50% 50%;
+                transform: translateX(-100%);
             }
             100% { 
-                transform: translateX(0) translateY(0) rotate(360deg);
-                background-position: 100% 100%, 0% 100%, 100% 0%, 0% 0%, 50% 50%;
+                transform: translateX(100%);
             }
         }
         .container {
@@ -548,7 +530,7 @@
             <h3>📞 Información de Contacto</h3>
             <div class="contact-info">
                 <div class="contact-item">
-                    <i class="fab fa-whatsapp whatsapp-icon"></i>
+                    <i class="fas fa-envelope email-icon"></i>
                     <span>telesseoo@gmail.com</span>
                     <a href="https://chat.whatsapp.com/BPnP83aYcnw6ys3HXepTbr?mode=ems_copy_t" target="_blank" class="whatsapp-link">
                         <i class="fab fa-whatsapp"></i> Únete al grupo
@@ -608,13 +590,13 @@
                     inset 0 2px 4px rgba(255,255,255,0.2);
             }
             
-            .whatsapp-icon {
-                color: #25d366;
+            .email-icon {
+                color: #ff3333;
                 font-size: 24px;
-                animation: whatsappPulse 2s ease-in-out infinite;
+                animation: emailPulse 2s ease-in-out infinite;
             }
             
-            @keyframes whatsappPulse {
+            @keyframes emailPulse {
                 0%, 100% { transform: scale(1); }
                 50% { transform: scale(1.1); }
             }
@@ -682,7 +664,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUrMahoOF_bKgT-jy2RMYdGqAqONa1a3kF-z5BEMfzlcjjVi9who4uKHZ7fV2t3lVabA/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         
         let currentUser = '';
         let users = [];
@@ -775,7 +757,9 @@
                 txtContent += `Nick: ${user.Nick || 'N/A'}\n`;
                 txtContent += `Código: ${user.Codigo || 'N/A'}\n`;
                 txtContent += `Contacto: ${user.Contacto || 'N/A'}\n`;
-                txtContent += `Envía regalos: ${user.Regalos || 'No'}\n`;
+                // Corregir el campo de regalos
+                const giftsText = user.Regalos && user.Regalos.includes('✅') ? 'Sí' : 'No';
+                txtContent += `Envía regalos: ${giftsText}\n`;
                 txtContent += '─'.repeat(30) + '\n';
             });
 
