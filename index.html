@@ -19,49 +19,62 @@
                 linear-gradient(135deg, #0d1b2a 0%, #1b263b 25%, #415a77 50%, #778da9 75%, #e0e1dd 100%);
             background-size: 400px 400px, 350px 350px, 300px 300px, 250px 250px, 100% 100%;
             animation: gameboy 25s ease infinite;
-            color: #00ff41;
+            color: #ffffff;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-            text-shadow: 0 0 5px #00ff41;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
         
         body::before {
-            content: '🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐ 🔥 ⚡ 🌊 🍃 ⭐';
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            font-size: 30px;
-            line-height: 60px;
-            letter-spacing: 40px;
-            word-spacing: 20px;
-            animation: pokemonIcons 50s linear infinite;
+            background-image: 
+                radial-gradient(circle at 15% 15%, #ff4444 8px, transparent 8px),
+                radial-gradient(circle at 15% 15%, #ffffff 4px, transparent 4px),
+                radial-gradient(circle at 85% 25%, #ff4444 6px, transparent 6px),
+                radial-gradient(circle at 85% 25%, #ffffff 3px, transparent 3px),
+                radial-gradient(circle at 25% 75%, #ff4444 10px, transparent 10px),
+                radial-gradient(circle at 25% 75%, #ffffff 5px, transparent 5px),
+                radial-gradient(circle at 75% 85%, #ff4444 7px, transparent 7px),
+                radial-gradient(circle at 75% 85%, #ffffff 3px, transparent 3px),
+                radial-gradient(circle at 50% 40%, #ff4444 9px, transparent 9px),
+                radial-gradient(circle at 50% 40%, #ffffff 4px, transparent 4px);
+            background-size: 200px 200px, 200px 200px, 180px 180px, 180px 180px, 220px 220px, 220px 220px, 160px 160px, 160px 160px, 190px 190px, 190px 190px;
+            animation: pokeballs 30s linear infinite;
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.1;
+        }
+        
+        body::after {
+            content: '⚡ 🔥 💧 🍃 ⭐ 🌙 ☀️ ❄️ 👻 🔮 ⚡ 🔥 💧 🍃 ⭐ 🌙 ☀️ ❄️ 👻 🔮 ⚡ 🔥 💧 🍃 ⭐ 🌙 ☀️ ❄️ 👻 🔮';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+            line-height: 100px;
+            letter-spacing: 80px;
+            animation: pokemonTypes 40s linear infinite;
             pointer-events: none;
             z-index: -1;
-            opacity: 0.15;
+            opacity: 0.08;
             overflow: hidden;
             white-space: nowrap;
         }
         
-        body::after {
-            content: '🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️ 🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️ 🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️ 🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️ 🐱 🐸 🐢 🦎 🐭 🦅 🐛 🕷️';
-            position: fixed;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-size: 25px;
-            line-height: 80px;
-            letter-spacing: 60px;
-            word-spacing: 30px;
-            animation: pokemonIcons 45s linear infinite reverse;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.1;
-            overflow: hidden;
-            white-space: nowrap;
+        @keyframes pokeballs {
+            0% { transform: translateX(-50px) translateY(-30px) rotate(0deg); }
+            25% { transform: translateX(30px) translateY(-50px) rotate(90deg); }
+            50% { transform: translateX(50px) translateY(30px) rotate(180deg); }
+            75% { transform: translateX(-30px) translateY(50px) rotate(270deg); }
+            100% { transform: translateX(-50px) translateY(-30px) rotate(360deg); }
         }
         
         @keyframes gameboy {
@@ -73,7 +86,7 @@
             100% { background-position: 0% 0%, 100% 100%, 50% 50%, 25% 25%, 0% 50%; }
         }
         
-        @keyframes pokemonIcons {
+        @keyframes pokemonTypes {
             0% { 
                 transform: translateX(-100%);
             }
@@ -101,7 +114,7 @@
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(5px);
-            color: #00ff41;
+            color: #ffffff;
         }
         
         .container::before {
@@ -137,10 +150,10 @@
             border: 2px solid #00ff41;
             border-radius: 3px;
             background: rgba(13, 27, 42, 0.9);
-            color: #00ff41;
+            color: #ffffff;
             font-family: 'Press Start 2P', monospace;
             font-size: 8px;
-            text-shadow: 0 0 5px #00ff41;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
         
         input:focus {
@@ -150,8 +163,8 @@
         }
         button {
             background: linear-gradient(145deg, #0080ff, #0040cc);
-            color: #00ff41;
-            border: 2px solid #00ff41;
+            color: #ffffff;
+            border: 2px solid #ffdd44;
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: 'Press Start 2P', monospace;
@@ -387,7 +400,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 style="text-align: center; color: #00ff41; font-family: 'Press Start 2P', monospace; text-shadow: 0 0 15px #00ff41, 0 0 30px #0080ff, 2px 2px 4px rgba(0,0,0,0.8); font-size: 20px; margin-bottom: 30px; animation: gameboyTitle 2s ease-in-out infinite alternate; text-transform: uppercase; letter-spacing: 2px;">⚡ POKÉDEX ENTRENADORES CONCEGO ⚡</h1>
+        <h1 style="text-align: center; color: #ffdd44; font-family: 'Press Start 2P', monospace; text-shadow: 0 0 15px #ffdd44, 0 0 30px #ff6600, 2px 2px 4px rgba(0,0,0,0.8); font-size: 20px; margin-bottom: 30px; animation: gameboyTitle 2s ease-in-out infinite alternate; text-transform: uppercase; letter-spacing: 2px;">⚡ POKÉDX ENTRENADORES CONCEGO ⚡</h1>
         
         <style>
             @keyframes gameboyTitle {
@@ -683,7 +696,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJ9Xk_pHNK0wDXXEbERZulI2yRdE3MDccXIqRU9QGdUWCsi9QbrE2b_GU6JPDBW8gKxA/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeAGSSeeW5_Ubam2b-t2bFdSBmLbSB69uF4iCHIBQ4iWIlYjl1XqnhMhrQsPI3w-e45g/exec';
         
         let currentUser = '';
         let users = [];
